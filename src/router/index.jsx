@@ -10,7 +10,7 @@ function Router() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/venues" element={<VenuesPage />} />
-          <Route path="/venues/:venuesId" element={<SpecificVenue />} />
+          <Route path="/venues/:venueId" element={<SpecificVenue />} />
         </Route>
       </Routes>
     </>
