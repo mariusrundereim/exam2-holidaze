@@ -10,10 +10,9 @@ export const venuesEndpoints = (builder) => ({
   getVenueById: builder.query({
     query: ({ id, owner, bookings }) => {
       const queryParams = new URLSearchParams();
-      if (owner !== undefined) queryParams.append("_owner", String(owner));
-      if (bookings !== undefined)
-        queryParams.append("_bookings", String(bookings));
-      return `/venues/${id}?${queryParams}`;
+      if (owner) queryParams.append("_owner", owner);
+      if (bookings) queryParams.append("_bookings", bookings);
+      return `/venues/${id}`;
     },
     transformResponse: (response) => response.data,
   }),

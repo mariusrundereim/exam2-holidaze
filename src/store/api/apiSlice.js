@@ -25,4 +25,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetVenuesQuery, useGetVenuesByIdQuery } = apiSlice;
+export const { useGetVenuesQuery, useGetVenueByIdQuery } = apiSlice;
