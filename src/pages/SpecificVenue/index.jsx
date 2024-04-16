@@ -9,7 +9,11 @@ function SpecificVenue() {
     isSuccess,
   } = useGetVenueByIdQuery(venueId);
 
-  if (isLoading) {
+  if (!venueId) {
+    return null;
+  }
+
+  if (isLoading || !venueId) {
     return <div>Loading...</div>;
   }
 

@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { AppShell, Burger, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import NavLinksBar from "./NavLinksBar";
+// import NavLinksBar from "./NavLinksBar";
 
 function Layout() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure();
@@ -33,7 +35,9 @@ function Layout() {
             <Title order={3}>Holidaze</Title>
           </Group>
         </AppShell.Header>
-        <AppShell.Navbar>Navbar</AppShell.Navbar>
+        <AppShell.Navbar>
+          <NavLinksBar />
+        </AppShell.Navbar>
         <AppShell.Main>
           <Outlet />
         </AppShell.Main>

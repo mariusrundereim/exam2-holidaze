@@ -1,0 +1,51 @@
+import {
+  IconHome,
+  IconUserCircle,
+  IconLogout,
+  IconLayout2,
+} from "@tabler/icons-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Text } from "@mantine/core";
+import classes from "./navbarclass.module.css";
+const navData = [
+  { link: "/", label: "Home", icon: IconHome },
+  { link: "/explore", label: "Explore", icon: IconLayout2 },
+  { link: "/profile", label: "Profile", icon: IconUserCircle },
+];
+
+// Split
+
+function NavLinksBar() {
+  const [active, setActive] = useState("Explore");
+
+  const links = navData.map((item) => (
+    <Link
+      className={classes.link}
+      data-active={item.label === active}
+      to={item.link}
+      key={item.label}
+      onClick={() => {
+        setActive(item.label);
+      }}
+    >
+      <item.icon className={classes.linkIcon} stroke={1.5} /> {item.label}
+    </Link>
+  ));
+
+  return (
+    <>
+      <nav className={classes.navbar}>
+        <div className={classes.navbarMain}>{links}</div>
+        <div className={classes.footer}>
+          <Link>
+            <IconLogout className={classes.linkIcon} stroke={1.5} />
+            <Text>Logout</Text>
+          </Link>
+        </div>
+      </nav>
+    </>
+  );
+}
+
+export default NavLinksBar;
