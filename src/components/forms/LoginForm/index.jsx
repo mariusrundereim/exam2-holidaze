@@ -1,6 +1,8 @@
 import { useForm, Controller } from "react-hook-form";
 import { useAppDispatch } from "../../../store";
 import { login } from "../../../store/auth/authSlice";
+import { Grid, Input, Title, Text, Switch, Button, Group } from "@mantine/core";
+import { IconAt } from "@tabler/icons-react";
 
 function LoginForm() {
   const {
@@ -22,13 +24,13 @@ function LoginForm() {
   };
   return (
     <>
-      <h2>Login form</h2>
+      <Title order={3}>Login</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="email"
           control={control}
           rules={{ required: true }}
-          render={({ field }) => <input {...field} placeholder="Email" />}
+          render={({ field }) => <Input {...field} placeholder="Email" />}
         />
         {errors.email && <span>This field is required</span>}
 
@@ -37,12 +39,11 @@ function LoginForm() {
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <input type="password" {...field} placeholder="Password" />
+            <Input type="password" {...field} placeholder="Password" />
           )}
         />
         {errors.password && <span>This field is required</span>}
-
-        <input type="submit" value="Login" />
+        <Button type="submit">Login</Button>
       </form>
     </>
   );

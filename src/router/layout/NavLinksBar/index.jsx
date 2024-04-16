@@ -3,6 +3,7 @@ import {
   IconUserCircle,
   IconLogout,
   IconLayout2,
+  IconLogin,
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,6 +13,7 @@ const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/explore", label: "Explore", icon: IconLayout2 },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/signup", label: "Sign up", icon: IconLogin },
 ];
 
 // Split

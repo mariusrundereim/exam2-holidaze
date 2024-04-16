@@ -4,7 +4,8 @@ import VenuesPage from "../pages/Venues";
 import SpecificVenue from "../pages/SpecificVenue";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/Profile";
-import Explore from "../pages/Explore";
+import Signup from "../pages/Signup";
+// import Explore from "../pages/Explore";
 function Router() {
   return (
     <>
@@ -12,6 +13,7 @@ function Router() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/venues" element={<VenuesPage />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/venues/:venueId" element={<SpecificVenue />} />
           <Route path="/explore" element={<VenuesPage />} />
           <Route path="/profile" element={<ProfilePage />} />

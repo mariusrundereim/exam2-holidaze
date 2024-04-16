@@ -1,12 +1,8 @@
-import LoginForm from "../../components/forms/LoginForm";
-import RegisterForm from "../../components/forms/RegisterForm";
-
+import { Title } from "@mantine/core";
 function Home() {
   return (
     <>
-      <h4>Homepage Maine</h4>
-      <RegisterForm />
-      <LoginForm />
+      <Title>Home</Title>
     </>
   );
 }
