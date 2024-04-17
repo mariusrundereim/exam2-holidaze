@@ -27,5 +27,6 @@ export const apiSlice = createApi({
 export const {
   useGetVenuesQuery,
   useGetVenueByIdQuery,
+  useGetProfilesQuery,
   useGetProfileByIdQuery,
 } = apiSlice;

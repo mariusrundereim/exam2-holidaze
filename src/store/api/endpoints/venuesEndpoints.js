@@ -1,7 +1,7 @@
 export const venuesEndpoints = (builder) => ({
   // List all venues
   getVenues: builder.query({
-    query: (page) => `venues?page=${page ?? 1}`,
+    query: (page) => `venues?page=${page ?? 1}&sort=created&sortOrder=desc`,
     transformResponse: (response) => response,
   }),
 
