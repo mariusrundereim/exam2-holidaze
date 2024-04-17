@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import Layout from "./layout";
 import VenuesPage from "../pages/Venues";
 import SpecificVenue from "../pages/SpecificVenue";
@@ -14,9 +14,15 @@ function Router() {
           <Route index element={<Home />} />
           <Route path="/venues" element={<VenuesPage />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/venues/:venueId" element={<SpecificVenue />} />
+          <Route
+            path="/venues/:venueId"
+            element={<SpecificVenue />}
+            loader={({ useParams }) => {
+              console.log("test", useParams.venueId);
+            }}
+          />
           <Route path="/explore" element={<VenuesPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:profileId" element={<ProfilePage />} />
         </Route>
       </Routes>
     </>

@@ -4,9 +4,11 @@ import VenuesCard from "../../components/cards/VenuesCard";
 import { Grid, Title, Text } from "@mantine/core";
 function VenuesPage() {
   const [page, setPage] = useState(1);
-  const { data: venues, isFetching } = useGetVenuesQuery(page);
-
+  const { data: response, isFetching } = useGetVenuesQuery(page);
   if (isFetching) return <div>Loading...</div>;
+  console.log("test", response);
+  const venues = response.data;
+  const meta = response.meta;
   return (
     <>
       <h2>List of all venues</h2>

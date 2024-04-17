@@ -6,7 +6,7 @@ import Router from "./router/index.jsx";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "./utils/theme/index.jsx";
 import "@mantine/core/styles.css";
-
+import "@fontsource-variable/albert-sans";
 import { Provider } from "react-redux";
 import store from "./store/index.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(

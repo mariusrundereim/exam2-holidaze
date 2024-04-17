@@ -1,9 +1,8 @@
-import { baseQuery } from "../apiSlice";
 export const venuesEndpoints = (builder) => ({
   // List all venues
   getVenues: builder.query({
     query: (page) => `venues?page=${page ?? 1}`,
-    transformResponse: (response) => response.data,
+    transformResponse: (response) => response,
   }),
 
   // Single venue with ID
@@ -19,7 +18,7 @@ export const venuesEndpoints = (builder) => ({
 
   createVenue: builder.mutation({
     query: (newVenue) => ({
-      url: "/holidaze/venues",
+      url: "/venues",
       method: "POST",
       body: newVenue,
     }),

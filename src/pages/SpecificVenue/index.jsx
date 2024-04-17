@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
 import { useGetVenueByIdQuery } from "../../store/api/apiSlice";
 function SpecificVenue() {
+  let params = useParams();
+  console.log(params.venueId);
   const { venueId } = useParams();
   const {
     data: venue,
     isLoading,
     isError,
     isSuccess,
-  } = useGetVenueByIdQuery(venueId);
+  } = useGetVenueByIdQuery({ id: venueId, owner: true });
 
   if (!venueId) {
     return null;
