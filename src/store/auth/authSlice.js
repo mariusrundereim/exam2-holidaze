@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
+import { setUserProfile } from "./userSlice";
 
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
-  isVenueManager: false,
+  venueManager: false,
   isLoading: false,
   error: null,
 };
@@ -25,7 +26,7 @@ export const login = createAsyncThunk("auth/login", async (loginPayload) => {
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (registerPayload) => {
+  async (registerPayload, { dispatch }) => {
     const response = await fetch(`${AUTH_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,6 +38,7 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
+    dispatch(setUserProfile({ venueManager: data.venueManager }));
     return data;
   }
 );
