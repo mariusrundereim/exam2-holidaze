@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+// import { createSlice } from "@reduxjs/toolkit";
 
-const profileInitialState = {
-  venueManager: false,
-};
+// const profileInitialState = {
+//   venueManager: false,
+// };
 
-export const profileSlice = createSlice({
-  name: "profile",
-  initialState: profileInitialState,
-  reducers: {
-    // reducers
-  },
-});
+// export const profileSlice = createSlice({
+//   name: "profile",
+//   initialState: profileInitialState,
+//   reducers: {
+//     // reducers
+//   },
+// });
 
-export const { actions, reducer } = profileSlice;
+// export const { actions, reducer } = profileSlice;

@@ -1,4 +1,4 @@
-import { useGetProfilesQuery } from "../../store/api/apiSlice";
+// import { useGetProfilesQuery } from "../../store/api/apiSlice";
 function Profiles() {
   return (
     <>

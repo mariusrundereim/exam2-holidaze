@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetProfileByIdQuery } from "../../store/api/apiSlice";
+// import { useGetProfileByIdQuery } from "../../store/api/apiSlice";
 
 function ProfilePage() {
-  const { data: profile, error, isLoading } = useGetProfileByIdQuery();
+  // const { data: profile, error, isLoading } = useGetProfileByIdQuery();
 
   let params = useParams();
   console.log(params.profileId);

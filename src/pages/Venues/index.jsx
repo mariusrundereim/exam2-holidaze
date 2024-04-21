@@ -1,14 +1,28 @@
-import { useState } from "react";
-import { useGetVenuesQuery } from "../../store/api/apiSlice";
+import { useEffect, useState } from "react";
 import VenuesCard from "../../components/cards/VenuesCard";
 import { Grid, Title, Text } from "@mantine/core";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchVenues } from "../../store/venues/venueSlice";
 function VenuesPage() {
-  const [page, setPage] = useState(1);
-  const { data: response, isFetching } = useGetVenuesQuery(page);
-  if (isFetching) return <div>Loading...</div>;
-  console.log("test", response);
-  const venues = response.data;
-  const meta = response.meta;
+  const dispatch = useDispatch();
+  const venues = useSelector((state) => state.venues.venueList);
+  const loading = useSelector((state) => state.venues.loading);
+  const error = useSelector((state) => state.venues.error);
+
+  useEffect(() => {
+    dispatch(fetchVenues());
+  }, [dispatch]); // Add dispatch to the dependency array
+
+  if (loading === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  console.log("Veeenue", venues);
+
   return (
     <>
       <h2>List of all venues</h2>
