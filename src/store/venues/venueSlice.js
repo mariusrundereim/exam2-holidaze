@@ -22,7 +22,7 @@ export const fetchVenues = createAsyncThunk(
   }
 );
 
-// Async thunk
+// Single Venue
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
@@ -30,7 +30,9 @@ export const fetchVenueById = createAsyncThunk(
     const queryParams = new URLSearchParams();
     if (owner) queryParams.append("_owner", owner);
     if (bookings) queryParams.append("_bookings", bookings);
-    const response = await fetch(`/venues/${id}?${queryParams}`);
+    const response = await fetch(`${BASE_URL}/venues/${id}?${queryParams}`, {
+      headers: getAuthHeaders(),
+    });
     const data = await response.json();
     return data;
   }
@@ -41,7 +43,7 @@ export const fetchVenueById = createAsyncThunk(
 export const createVenue = createAsyncThunk(
   "venues/createVenue",
   async (newVenue) => {
-    const response = await fetch("/venues", {
+    const response = await fetch(`${BASE_URL}/venues`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

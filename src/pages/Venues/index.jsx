@@ -21,8 +21,6 @@ function VenuesPage() {
     return <p>Error: {error}</p>;
   }
 
-  console.log("Veeenue", venues);
-
   return (
     <>
       <h2>List of all venues</h2>
