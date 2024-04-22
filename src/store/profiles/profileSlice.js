@@ -29,6 +29,10 @@ export const fetchProfileByName = createAsyncThunk(
     const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
       headers: getAuthHeaders(),
     });
+
+    if (!response.ok) {
+      throw new Error("Profile fetch failed");
+    }
     const data = await response.json();
     console.log("haha", data);
     console.log("haha", data.data);
@@ -43,10 +47,9 @@ export const profileSlice = createSlice({
   initialState: profileInitialState,
   reducers: {
     setProfileData(state, action) {
-      return {
-        ...state,
-        ...action.payload,
-      };
+      Object.keys(action.payload).forEach((key) => {
+        state[key] = action.payload[key];
+      });
     },
     resetProfileData(state) {
       return profileInitialState;
@@ -66,4 +69,4 @@ export const profileSlice = createSlice({
 });
 
 export const { setProfileData, resetProfileData } = profileSlice.actions;
-export default profileSlice.actions;
+export default profileSlice.reducer;
