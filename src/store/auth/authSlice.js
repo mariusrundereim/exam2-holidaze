@@ -4,25 +4,28 @@ import { setUserProfile } from "./userSlice";
 
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
-  venueManager: false,
   isLoading: false,
   error: null,
 };
 
-export const login = createAsyncThunk("auth/login", async (loginPayload) => {
-  const response = await fetch(`${AUTH_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(loginPayload),
-  });
+export const login = createAsyncThunk(
+  "auth/login",
+  async (loginPayload, { dispatch }) => {
+    const response = await fetch(`${AUTH_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginPayload),
+    });
 
-  if (!response.ok) {
-    throw new Error("Login failed");
+    if (!response.ok) {
+      throw new Error("Login failed");
+    }
+
+    const data = await response.json();
+    dispatch(setUserProfile(data.user));
+    return data;
   }
-
-  const data = await response.json();
-  return data;
-});
+);
 
 export const register = createAsyncThunk(
   "auth/register",
@@ -38,8 +41,8 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
-    dispatch(setUserProfile({ venueManager: data.venueManager }));
-    return data;
+    dispatch(setUserProfile(data.data));
+    return data.data;
   }
 );
 

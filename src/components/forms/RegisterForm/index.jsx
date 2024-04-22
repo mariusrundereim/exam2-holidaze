@@ -4,15 +4,10 @@ import { useAppDispatch } from "../../../store";
 import { register } from "../../../store/auth/authSlice";
 import { Grid, Input, Title, Text, Switch, Button, Group } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
-import { useSelector } from "react-redux";
 import { setUserProfile } from "../../../store/auth/userSlice";
 function RegisterForm() {
   const [checked, setChecked] = useState(false);
-  const venueManager = useSelector((state) => state.user.venueManager);
 
-  useEffect(() => {
-    setChecked(venueManager);
-  }, [venueManager]);
   const {
     control,
     handleSubmit,
@@ -31,6 +26,9 @@ function RegisterForm() {
   const onSubmit = (data) => {
     const payload = { ...data, venueManager: checked };
     dispatch(register(payload));
+    console.log("payload", payload);
+    console.log("diispatch", dispatch(register(payload)));
+    console.log("daata", data);
   };
   return (
     <>
@@ -93,13 +91,7 @@ function RegisterForm() {
                   {...field}
                   checked={checked}
                   label="Venue manager?"
-                  onChange={(event) => {
-                    const newIsVenueManager = event.currentTarget.checked;
-                    setChecked(event.currentTarget.checked);
-                    dispatch(
-                      setUserProfile({ venueManager: newIsVenueManager })
-                    );
-                  }}
+                  onChange={(event) => setChecked(event.currentTarget.checked)}
                   size="md"
                   onLabel="Yes"
                   offLabel="No"

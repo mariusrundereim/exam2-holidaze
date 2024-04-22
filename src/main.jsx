@@ -8,13 +8,17 @@ import { theme } from "./utils/theme/index.jsx";
 import "@mantine/core/styles.css";
 import "@fontsource-variable/albert-sans";
 import { Provider } from "react-redux";
-import store from "./store/index.jsx";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./store";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <MantineProvider theme={theme}>
         <Provider store={store}>
-          <Router />
+          <PersistGate loading={null} persistor={persistor}>
+            <Router />
+          </PersistGate>
         </Provider>
       </MantineProvider>
     </BrowserRouter>
