@@ -22,20 +22,41 @@ const navData = [
 
 function NavLinksBar() {
   const [active, setActive] = useState("Explore");
+  const { venueManager, name } = useSelector((state) => state.user);
+  const isLoggedIn = Boolean(name);
 
-  const links = navData.map((item) => (
-    <Link
-      className={classes.link}
-      data-active={item.label === active}
-      to={item.link}
-      key={item.label}
-      onClick={() => {
-        setActive(item.label);
-      }}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} /> {item.label}
-    </Link>
-  ));
+  const links = navData
+    .filter((item) => item.label !== "Profile" || isLoggedIn)
+    .map((item) => {
+      const link = item.label === "Profile" ? `/profiles/${name}` : item.link;
+      return (
+        <Link
+          className={classes.link}
+          data-active={item.label === active}
+          to={link}
+          key={item.label}
+          onClick={() => {
+            setActive(item.label);
+          }}
+        >
+          <item.icon className={classes.linkIcon} stroke={1.5} /> {item.label}
+        </Link>
+      );
+    });
+
+  // const links = navData.map((item) => (
+  //   <Link
+  //     className={classes.link}
+  //     data-active={item.label === active}
+  //     to={item.link}
+  //     key={item.label}
+  //     onClick={() => {
+  //       setActive(item.label);
+  //     }}
+  //   >
+  //     <item.icon className={classes.linkIcon} stroke={1.5} /> {item.label}
+  //   </Link>
+  // ));
 
   return (
     <>

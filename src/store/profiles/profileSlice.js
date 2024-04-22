@@ -22,6 +22,7 @@ const profileInitialState = {
   bookings: [],
 };
 
+// Single profile
 export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
   async (profileName) => {
@@ -29,6 +30,8 @@ export const fetchProfileByName = createAsyncThunk(
       headers: getAuthHeaders(),
     });
     const data = await response.json();
+    console.log("haha", data);
+    console.log("haha", data.data);
     return data.data;
   }
 );

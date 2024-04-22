@@ -5,7 +5,6 @@ import SpecificVenue from "../pages/SpecificVenue";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/Profile";
 import Signup from "../pages/Signup";
-import Profiles from "../pages/Profiles";
 // import Explore from "../pages/Explore";
 function Router() {
   return (
@@ -23,8 +22,7 @@ function Router() {
             }}
           />
           <Route path="/explore" element={<VenuesPage />} />
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/profile/:profileId" element={<ProfilePage />} />
+          <Route path="/profiles/:profileName" element={<ProfilePage />} />
         </Route>
       </Routes>
     </>
