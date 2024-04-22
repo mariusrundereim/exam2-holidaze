@@ -5,19 +5,19 @@ import { persistStore, persistReducer } from "redux-persist";
 import authSlice from "./auth/authSlice";
 import venueReducer from "./venues/venueSlice";
 import userSlice from "./auth/userSlice";
-// import { bookingSlice } from "./bookings/bookingSlice";
-// import { profileSlice } from "./profiles/profileSlice";
+import profileSlice from "./profiles/profileSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user"],
+  whitelist: ["auth", "user", "profile"],
 };
 
 const rootReducer = combineReducers({
   auth: authSlice,
   user: userSlice,
   venues: venueReducer,
+  profile: profileSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

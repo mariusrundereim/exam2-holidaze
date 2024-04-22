@@ -6,13 +6,15 @@ import {
   IconLogin,
 } from "@tabler/icons-react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Text } from "@mantine/core";
 import classes from "./navbarclass.module.css";
+
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/explore", label: "Explore", icon: IconLayout2 },
-  { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profiles", label: "Profile", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
 ];
 

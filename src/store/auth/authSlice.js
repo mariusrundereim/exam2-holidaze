@@ -42,6 +42,7 @@ export const register = createAsyncThunk(
 
     const data = await response.json();
     dispatch(setUserProfile(data.data));
+    console.log(data.data);
     return data.data;
   }
 );
@@ -77,9 +78,12 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.accessToken = action.payload.data.accessToken;
+        if (action.payload && action.payload.data) {
+          state.accessToken = action.payload.data.accessToken;
+        }
         state.error = null;
       })
+
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || "Failed to register";

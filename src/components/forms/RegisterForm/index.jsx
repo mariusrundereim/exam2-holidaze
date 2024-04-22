@@ -26,9 +26,6 @@ function RegisterForm() {
   const onSubmit = (data) => {
     const payload = { ...data, venueManager: checked };
     dispatch(register(payload));
-    console.log("payload", payload);
-    console.log("diispatch", dispatch(register(payload)));
-    console.log("daata", data);
   };
   return (
     <>
