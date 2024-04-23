@@ -1,27 +1,24 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchProfileByName } from "../../store/profiles/profileSlice";
-import ProfileHeader from "./components/ProfileHeader";
-import VenuesByProfile from "../../components/VenuesByProfile";
-function ProfilePage() {
+import { getVenuesByProfile } from "../../store/profiles/profileSlice";
+function VenuesByProfile() {
   const dispatch = useDispatch();
   const { profileName } = useParams();
   const profile = useSelector((state) => state.profile);
+  const venues = useSelector((state) => state.profile.venues);
   console.log("profile", profile);
+  console.log("venues by profile", venues);
 
   useEffect(() => {
-    dispatch(fetchProfileByName(profileName));
+    dispatch(getVenuesByProfile(profileName));
   }, [dispatch, profileName]);
 
   return (
     <>
-      <h1>Profile</h1>
-
-      <ProfileHeader profile={profile} />
-      <VenuesByProfile />
+      <h3>Venues by profile</h3>
     </>
   );
 }
 
-export default ProfilePage;
+export default VenuesByProfile;

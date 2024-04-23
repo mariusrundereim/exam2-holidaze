@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useAppDispatch } from "../../../store";
 import { register } from "../../../store/auth/authSlice";
 import { Grid, Input, Title, Text, Switch, Button, Group } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
+import { setUserProfile } from "../../../store/auth/userSlice";
 function RegisterForm() {
   const [checked, setChecked] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -22,7 +24,7 @@ function RegisterForm() {
   const dispatch = useAppDispatch();
 
   const onSubmit = (data) => {
-    const payload = { ...data };
+    const payload = { ...data, venueManager: checked };
     dispatch(register(payload));
   };
   return (
@@ -87,7 +89,6 @@ function RegisterForm() {
                   checked={checked}
                   label="Venue manager?"
                   onChange={(event) => setChecked(event.currentTarget.checked)}
-                  value={field.value ? "true" : "false"}
                   size="md"
                   onLabel="Yes"
                   offLabel="No"
@@ -98,7 +99,6 @@ function RegisterForm() {
             <Button type="submit" fullWidth>
               Register
             </Button>
-            {/* <input type="submit" value="Register" /> */}
           </Grid.Col>
         </form>
       </Grid>

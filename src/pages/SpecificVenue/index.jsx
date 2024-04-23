@@ -1,38 +1,42 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useGetVenueByIdQuery } from "../../store/api/apiSlice";
+import { fetchVenueById } from "../../store/venues/venueSlice";
+
 function SpecificVenue() {
-  let params = useParams();
-  console.log(params.venueId);
-  const { venueId } = useParams();
-  const {
-    data: venue,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useGetVenueByIdQuery({ id: venueId, owner: true });
+  const dispatch = useDispatch();
+  const params = useParams();
+  const venueId = params.venueId;
+  const venue = useSelector((state) => state.venues.selectedVenue);
+  const loading = useSelector((state) => state.venues.loading);
+  const error = useSelector((state) => state.venues.error);
 
-  if (!venueId) {
-    return null;
+  useEffect(() => {
+    if (venueId) {
+      dispatch(fetchVenueById({ id: venueId }));
+    }
+  }, [dispatch, venueId]);
+
+  if (loading === "loading") {
+    return <p>Loading venue...</p>;
   }
 
-  if (isLoading || !venueId) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <p>Error loading venue: {error}</p>;
   }
 
-  if (isError) {
-    return <div>An error occurred while fetching venue data</div>;
+  if (!venue) {
+    return <p>No venue data!</p>;
   }
 
-  if (isSuccess) {
-    return (
-      <>
-        <h2>Specific Venue</h2>
-        <h3>Venue id: {venueId}</h3>
-        <h1>{venue.name}</h1>
-        <p>{venue.description}</p>
-      </>
-    );
-  }
+  return (
+    <>
+      <h2>Specific Venue</h2>
+      <h3>Venue id: {venueId}</h3>
+      <h1>{venue.name}</h1>
+      <p>{venue.description}</p>
+    </>
+  );
 }
 
 export default SpecificVenue;
