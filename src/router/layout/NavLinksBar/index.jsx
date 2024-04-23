@@ -24,7 +24,7 @@ const navData = [
 function NavLinksBar() {
   const [active, setActive] = useState("Explore");
   const dispatch = useDispatch();
-  const { name } = useSelector((state) => state.user);
+  const { name } = useSelector((state) => state.profile);
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {}, [name]);
@@ -33,6 +33,8 @@ function NavLinksBar() {
     dispatch(logout());
     dispatch(resetProfileData());
   };
+
+  console.log("name", name);
 
   const profileLink = name ? `/profiles/${name}` : `/profiles`;
 

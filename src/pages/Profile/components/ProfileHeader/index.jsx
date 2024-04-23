@@ -8,8 +8,14 @@ import {
   Button,
   Badge,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 function ProfileHeader({ profile }) {
   const { name, email, venueManager, avatar } = profile;
+  const navigate = useNavigate();
+
+  const createVenue = () => {
+    navigate(`/venues`);
+  };
 
   console.log(profile);
   return (
@@ -30,7 +36,7 @@ function ProfileHeader({ profile }) {
           </Stack>
         </Group>
         <Group>
-          <Button>Add new venue</Button>
+          <Button onClick={createVenue}>Add new venue</Button>
           <Button variant="outline">Edit profile</Button>
         </Group>
       </Flex>

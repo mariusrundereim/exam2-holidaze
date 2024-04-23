@@ -45,12 +45,11 @@ export const createVenue = createAsyncThunk(
   async (newVenue) => {
     const response = await fetch(`${BASE_URL}/venues`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(newVenue),
     });
     const data = await response.json();
+    console.log("data::", data);
     return data;
   }
 );
@@ -103,8 +102,6 @@ const venueSlice = createSlice({
         state.loading = "idle";
         state.error = action.error.message;
       });
-    // Add more cases as needed
   },
 });
-
 export default venueSlice.reducer;
