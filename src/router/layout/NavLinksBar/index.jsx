@@ -11,7 +11,9 @@ import { Link } from "react-router-dom";
 import { Text } from "@mantine/core";
 import classes from "./navbarclass.module.css";
 import { logout } from "../../../store/auth/authSlice";
+
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
+import { resetProfileData } from "../../../store/profiles/profileSlice";
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/explore", label: "Explore", icon: IconLayout2 },
@@ -29,6 +31,7 @@ function NavLinksBar() {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(resetProfileData());
   };
 
   const profileLink = name ? `/profiles/${name}` : `/profiles`;

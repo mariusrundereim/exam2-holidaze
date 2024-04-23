@@ -2,9 +2,15 @@ import { useForm, Controller } from "react-hook-form";
 import { useAppDispatch } from "../../../store";
 import { login } from "../../../store/auth/authSlice";
 import { Grid, Input, Title, Text, Switch, Button, Group } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function LoginForm() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const username = useSelector((state) => state.user.name);
+  console.log("username2", username);
   const {
     control,
     handleSubmit,
@@ -16,12 +22,16 @@ function LoginForm() {
     },
   });
 
-  const dispatch = useAppDispatch();
-
   const onSubmit = (data) => {
-    const payload = { ...data };
-    dispatch(login(payload));
+    dispatch(login(data));
   };
+
+  useEffect(() => {
+    if (username) {
+      navigate(`/profiles/${username}`);
+    }
+  }, [username, navigate]);
+
   return (
     <>
       <Title order={3}>Login</Title>

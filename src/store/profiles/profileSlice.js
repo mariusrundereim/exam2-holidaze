@@ -34,8 +34,6 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
-    console.log("haha", data);
-    console.log("haha", data.data);
     return data.data;
   }
 );
@@ -57,7 +55,10 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProfileByName.pending, (state) => {
-      //
+      state.isLoading = true;
+    });
+    builder.addCase(fetchProfileByName.rejected, (state) => {
+      state.isLoading = false;
     });
     builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
       return {

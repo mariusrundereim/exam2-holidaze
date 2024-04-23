@@ -16,6 +16,7 @@ const userSlice = createSlice({
         ...action.payload,
       };
     },
+    resetUserState: () => initialState,
   },
 });
 
