@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProfileByName } from "../../store/profiles/profileSlice";
-import ProfileHeader from "./components/ProfileHeader";
-import VenuesByProfile from "../../components/VenuesByProfile";
+import ProfileHeader from "./ProfileHeader";
+import VenueManagerSection from "./components/VenueManagerSection";
+import CustomerSection from "./components/CustomerSection";
 function ProfilePage() {
   const dispatch = useDispatch();
   const { profileName } = useParams();
@@ -17,9 +18,12 @@ function ProfilePage() {
   return (
     <>
       <h1>Profile</h1>
-
       <ProfileHeader profile={profile} />
-      <VenuesByProfile />
+      {profile.venueManager ? (
+        <VenueManagerSection profile={profile} />
+      ) : (
+        <CustomerSection profile={profile} />
+      )}
     </>
   );
 }
