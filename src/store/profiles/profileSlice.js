@@ -38,6 +38,19 @@ export const fetchProfileByName = createAsyncThunk(
   }
 );
 
+// Venues by Profile
+export const getVenuesByProfile = createAsyncThunk(
+  "profiles/getVenuesByProfile",
+  async (profileName) => {
+    const response = await fetch(`${BASE_URL}/profiles/${profileName}/venues`, {
+      headers: getAuthHeaders(),
+    });
+
+    const data = await response.json();
+    return data;
+  }
+);
+
 // Big profile slicer
 
 export const profileSlice = createSlice({

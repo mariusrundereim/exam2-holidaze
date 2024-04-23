@@ -7,6 +7,7 @@ import { createVenue } from "../../../store/venues/venueSlice";
 import {
   Grid,
   Stack,
+  Flex,
   Input,
   Title,
   Text,
@@ -30,18 +31,33 @@ function VenueForm() {
       description: "",
       price: 0,
       maxGuests: 0,
+      meta: {
+        wifi: false,
+        parking: false,
+        breakfast: false,
+        pets: false,
+      },
+      location: {
+        address: "",
+        city: "",
+        zip: "",
+        country: "",
+        contigent: "",
+        lat: 0,
+        lng: 0,
+      },
     },
   });
 
   const onSubmit = async (data) => {
     try {
+      // console.log("form data:", data);
       const actionResult = await dispatch(createVenue(data));
       const venue = actionResult.payload;
+      console.log("new", venue);
       if (venue.data.id) {
         navigate(`/venues/${venue.data.id}`);
       }
-      console.log("venue", actionResult);
-      console.log("action:", actionResult);
     } catch (error) {
       console.error("Failed to create venue:", error);
     }
@@ -50,69 +66,89 @@ function VenueForm() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Title order={3}>Step 0</Title>
         <Stack>
-          <Controller
-            name="name"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input.Wrapper label="Name" description="Enter name of a venue">
-                <Input {...field} placeholder="Name" />
-              </Input.Wrapper>
-            )}
-          />
-          {errors.name && <span>Name is required</span>}
+          <Stack>
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input.Wrapper label="Name" description="Enter name of a venue">
+                  <Input {...field} placeholder="Name" />
+                </Input.Wrapper>
+              )}
+            />
+            {errors.name && <span>Name is required</span>}
+          </Stack>
+          <Stack>
+            <Controller
+              name="description"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input.Wrapper
+                  label="Description"
+                  description="Describe your venue"
+                  withAsterisk
+                >
+                  <Input {...field} placeholder="Description" />
+                </Input.Wrapper>
+              )}
+            />
+            {errors.description && <span>Description is required</span>}
+          </Stack>
+          <Stack>
+            <Controller
+              name="price"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input.Wrapper
+                  label="Price"
+                  description="Give a price"
+                  withAsterisk
+                >
+                  <NumberInput {...field} />
+                </Input.Wrapper>
+              )}
+            />
+            {errors.price && <span>Price is required</span>}
+          </Stack>
+          <Stack>
+            <Controller
+              name="maxGuests"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input.Wrapper
+                  label="Max guests"
+                  description="How many?"
+                  withAsterisk
+                >
+                  <NumberInput {...field} />
+                </Input.Wrapper>
+              )}
+            />
+            {errors.maxGuests && <span>Guests is required</span>}
+          </Stack>
         </Stack>
+        <Title order={3}>Step 1</Title>
         <Stack>
           <Controller
-            name="description"
+            name="wifi"
             control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input.Wrapper
-                label="Description"
-                description="Describe your venue"
-                withAsterisk
-              >
-                <Input {...field} placeholder="Description" />
-              </Input.Wrapper>
+            render={({ field: { onChange, value } }) => (
+              <Switch
+                label="Wifi"
+                size="lg"
+                onLabel="Yes"
+                offLabel="No"
+                checked={value}
+                onChange={onChange}
+              />
             )}
           />
-          {errors.description && <span>Description is required</span>}
-        </Stack>
-        <Stack>
-          <Controller
-            name="price"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input.Wrapper
-                label="Price"
-                description="Give a price"
-                withAsterisk
-              >
-                <NumberInput {...field} />
-              </Input.Wrapper>
-            )}
-          />
-          {errors.price && <span>Price is required</span>}
-        </Stack>
-        <Stack>
-          <Controller
-            name="maxGuests"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <Input.Wrapper
-                label="Max guests"
-                description="How many?"
-                withAsterisk
-              >
-                <NumberInput {...field} />
-              </Input.Wrapper>
-            )}
-          />
-          {errors.maxGuests && <span>Guests is required</span>}
         </Stack>
         <Button type="submit">Create venue</Button>
       </form>
