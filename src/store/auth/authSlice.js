@@ -29,7 +29,7 @@ export const login = createAsyncThunk(
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (registerPayload, { dispatch }) => {
+  async (registerPayload, { rejectWithValue }) => {
     const response = await fetch(`${AUTH_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,13 +37,15 @@ export const register = createAsyncThunk(
     });
 
     if (!response.ok) {
-      throw new Error("Registration failed");
+      const errorData = await response.json();
+      return rejectWithValue(errorData);
     }
 
     const data = await response.json();
-    dispatch(setUserProfile(data.data));
-    console.log(data.data);
-    return data.data;
+    const userProfile = data.userProfile;
+    console.log("User profile:", userProfile);
+
+    return userProfile;
   }
 );
 
