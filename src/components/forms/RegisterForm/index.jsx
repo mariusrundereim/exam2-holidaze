@@ -36,7 +36,8 @@ function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       const payload = { ...data, venueManager: checked };
-      await dispatch(register(payload));
+      const result = await dispatch(register(payload)).unwrap();
+      console.log("result", result);
       props.onSuccess();
     } catch (error) {}
   };

@@ -9,8 +9,9 @@ import { useEffect } from "react";
 function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  // const { email, password } = useSelector((state) => state.auth.credentials);
   const username = useSelector((state) => state.user.name);
-  console.log("username2", username);
+  console.log("username", username);
   const {
     control,
     handleSubmit,
