@@ -12,7 +12,7 @@ function ProfilePage() {
   console.log("profile", profile);
 
   useEffect(() => {
-    dispatch(fetchProfileByName(profileName));
+    dispatch(fetchProfileByName(profileName, true, true));
   }, [dispatch, profileName]);
 
   return (
