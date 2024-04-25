@@ -5,6 +5,7 @@ import { getAuthHeaders } from "../helper";
 const venuesInitialState = {
   selectedVenue: null,
   venueList: [],
+  filteredVenues: [],
   loading: "idle",
   error: null,
 };
@@ -71,6 +72,9 @@ const venueSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase("venues/filteredVenuesUpdate", (state, action) => {
+        state.filteredVenues = action.payload;
+      })
       .addCase(fetchVenues.pending, (state) => {
         state.loading = "loading";
       })
