@@ -18,6 +18,9 @@ export const login = createAsyncThunk(
       body: JSON.stringify(loginPayload),
     });
 
+    console.log("do i get a response? :");
+    console.log(response);
+
     const { email, password } = loginPayload;
 
     if (!response.ok) {
@@ -25,8 +28,8 @@ export const login = createAsyncThunk(
     }
 
     const data = await response.json();
-    dispatch(login({ email, password }));
-    dispatch(setUserProfile(data.user));
+    console.log(data);
+    dispatch(setUserProfile(data.data));
     return data;
   }
 );
@@ -46,14 +49,6 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
-
-    dispatch(
-      setCredentials({
-        email: registerPayload.email,
-        password: registerPayload.password,
-      })
-    );
-
     dispatch(setUserProfile(data.data));
 
     return data.data;
@@ -69,6 +64,7 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.accessToken = null;
+      state.credentials = {};
       localStorage.removeItem("accessToken");
       return { ...state };
     },
@@ -80,7 +76,6 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.accessToken = action.payload.data.accessToken;
@@ -91,7 +86,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || "Failed to log in";
         state.accessToken = null;
-        state.isVenueManager = false;
       })
       .addCase(register.pending, (state) => {
         state.isLoading = true;
@@ -99,9 +93,6 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
-        if (action.payload && action.payload.data) {
-          state.accessToken = action.payload.data.accessToken;
-        }
         state.error = null;
       })
 
@@ -109,7 +100,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || "Failed to register";
         state.accessToken = null;
-        state.isVenueManager = false;
       });
   },
 });

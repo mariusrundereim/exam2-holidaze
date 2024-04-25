@@ -5,34 +5,39 @@ import LoginForm from "../../components/forms/LoginForm";
 import { useState } from "react";
 function Signup() {
   const iconStyle = { width: rem(20), height: rem(20) };
-  const [activeTab, setActiveTab] = useState("register");
+  const [activeTab, setActiveTab] = useState("login");
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleRegistrationSuccess = () => {
-    setActiveTab("login");
+    setRegistrationSuccess(true);
   };
   return (
     <>
       <Title>Sign up or login for a good holiday!</Title>
       <Tabs
         variant="pills"
-        defaultValue="register"
+        defaultValue="login"
         value={activeTab}
         onChange={setActiveTab}
       >
         <Tabs.List>
+          <Tabs.Tab value="login" leftSection={<IconLogin style={iconStyle} />}>
+            Login
+          </Tabs.Tab>
           <Tabs.Tab
             value="register"
             leftSection={<IconUserPlus style={iconStyle} />}
           >
             Register
           </Tabs.Tab>
-          <Tabs.Tab value="login" leftSection={<IconLogin style={iconStyle} />}>
-            Login
-          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="register">
-          <RegisterForm onSuccess={handleRegistrationSuccess} />
+          {registrationSuccess ? (
+            <p>Success</p>
+          ) : (
+            <RegisterForm onSuccess={handleRegistrationSuccess} />
+          )}
         </Tabs.Panel>
 
         <Tabs.Panel value="login">

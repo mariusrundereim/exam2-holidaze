@@ -10,7 +10,7 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const { email, password } = useSelector((state) => state.auth.credentials);
-  const username = useSelector((state) => state.profile.name);
+  const username = useSelector((state) => state.user.name);
   console.log("username", username);
   const {
     control,
@@ -23,8 +23,14 @@ function LoginForm() {
     },
   });
 
-  const onSubmit = (data) => {
-    dispatch(login(data));
+  const onSubmit = async (data) => {
+    try {
+      console.log("huuuuh");
+      const result = dispatch(await login(data));
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {

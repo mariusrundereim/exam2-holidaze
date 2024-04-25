@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 
-function RegisterForm() {
+function RegisterForm({ onSuccess }) {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,9 +36,9 @@ function RegisterForm() {
   const onSubmit = async (data) => {
     try {
       const payload = { ...data, venueManager: checked };
-      const result = await dispatch(register(payload)).unwrap();
-      console.log("result", result);
-      props.onSuccess();
+      await dispatch(register(payload)).unwrap();
+      setActiveTab("login");
+      onSuccess();
     } catch (error) {}
   };
   return (
