@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
+
+const venuesInitialState = {
+  selectedVenue: null,
+  venueList: [],
+  loading: "idle",
+  error: null,
+};
+
 // Fetch all venues
 
 export const fetchVenues = createAsyncThunk(
@@ -28,12 +36,13 @@ export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
   async ({ id, owner, bookings }) => {
     const queryParams = new URLSearchParams();
-    if (owner) queryParams.append("_owner", owner);
-    if (bookings) queryParams.append("_bookings", bookings);
+    if (owner) queryParams.append("_owner=true", owner);
+    if (bookings) queryParams.append("_bookings=true", bookings);
     const response = await fetch(`${BASE_URL}/venues/${id}?${queryParams}`, {
       headers: getAuthHeaders(),
     });
     const data = await response.json();
+    console.log("venue by id", data);
     return data;
   }
 );
@@ -53,13 +62,6 @@ export const createVenue = createAsyncThunk(
     return data;
   }
 );
-
-const venuesInitialState = {
-  selectedVenue: null,
-  venueList: [],
-  loading: "idle",
-  error: null,
-};
 
 const venueSlice = createSlice({
   name: "venues",

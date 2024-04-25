@@ -6,11 +6,11 @@ import authSlice from "./auth/authSlice";
 import venueReducer from "./venues/venueSlice";
 import userSlice from "./auth/userSlice";
 import profileSlice from "./profiles/profileSlice";
-
+import bookingSlice from "./bookings/bookingSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user", "profile"],
+  whitelist: ["auth", "user", "profile", "booking"],
 };
 
 const rootReducer = combineReducers({
@@ -18,6 +18,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   venues: venueReducer,
   profile: profileSlice,
+  booking: bookingSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

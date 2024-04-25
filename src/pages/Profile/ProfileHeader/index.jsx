@@ -35,10 +35,16 @@ function ProfileHeader({ profile }) {
             </Badge>
           </Stack>
         </Group>
-        <Group>
-          <Button onClick={createVenue}>Add new venue</Button>
-          <Button variant="outline">Edit profile</Button>
-        </Group>
+        {profile.venueManager ? (
+          <Group>
+            <Button onClick={createVenue}>Add new venue</Button>
+            <Button variant="outline">Edit profile</Button>
+          </Group>
+        ) : (
+          <Group>
+            <Button variant="outline">Edit profile</Button>
+          </Group>
+        )}
       </Flex>
     </>
   );

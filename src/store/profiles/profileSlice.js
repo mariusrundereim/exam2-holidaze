@@ -25,15 +25,22 @@ const profileInitialState = {
 // Single profile
 export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
-  async (profileName) => {
-    const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
-      headers: getAuthHeaders(),
-    });
+  async (profileName, bookings, venues) => {
+    const queryParams = new URLSearchParams();
+    if (bookings) queryParams.append("_bookings=true", bookings);
+    if (venues) queryParams.append("_venues=true", venues);
+    const response = await fetch(
+      `${BASE_URL}/profiles/${profileName}?${queryParams}`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
+    console.log("daa", data);
     return data.data;
   }
 );

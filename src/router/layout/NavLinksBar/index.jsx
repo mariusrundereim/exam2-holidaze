@@ -34,8 +34,6 @@ function NavLinksBar() {
     dispatch(resetProfileData());
   };
 
-  console.log("name", name);
-
   const profileLink = name ? `/profiles/${name}` : `/profiles`;
 
   const links = navData
