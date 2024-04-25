@@ -1,11 +1,16 @@
 import { format } from "date-fns";
-import { no } from "date-fns/locale";
+import { nb } from "date-fns/locale";
 
-const dateStr = "2024-04-23T10:37:40.798Z";
-const dateObj = new Date(dateStr);
+export function formattedDateTime(dateStr) {
+  const dateObj = new Date(dateStr);
+  return format(dateObj, "d. MMMM yyyy, HH:mm", { locale: nb });
+}
 
-const formattedDate = format(dateObj, "d. MMMM yyyy", { locale: no });
-const formattedTime = format(dateObj, "h:mm a", { locale: no });
+// const dateStr = "2024-04-23T10:37:40.798Z";
+// const dateObj = new Date(dateStr);
 
-console.log(`Date: ${formattedDate}`);
-console.log(`Time: ${formattedTime}`);
+// export const formattedDate = format(dateObj, "d. MMMM yyyy", { locale: no });
+// export const formattedTime = format(dateObj, "h:mm a", { locale: no });
+// export const formattedDateTime = format(dateObj, "d. MMMM yyyy, h:mm a", {
+//   locale: nb,
+// });

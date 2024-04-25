@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { AppShell, Burger, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import NavLinksBar from "./NavLinksBar";
+import LogoBrand from "../../components/Logo";
 // import NavLinksBar from "./NavLinksBar";
 
 function Layout() {
@@ -32,7 +33,9 @@ function Layout() {
               visibleFrom="sm"
               size="sm"
             />
-            <Title order={3}>Holidaze</Title>
+            <Title order={3}>
+              <LogoBrand />
+            </Title>
           </Group>
         </AppShell.Header>
         <AppShell.Navbar>
