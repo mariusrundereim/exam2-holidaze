@@ -31,12 +31,7 @@ function VenueForm() {
       description: "",
       price: 0,
       maxGuests: 0,
-      meta: {
-        wifi: false,
-        parking: false,
-        breakfast: false,
-        pets: false,
-      },
+
       location: {
         address: "",
         city: "",
@@ -51,13 +46,14 @@ function VenueForm() {
 
   const onSubmit = async (data) => {
     try {
-      // console.log("form data:", data);
-      const actionResult = await dispatch(createVenue(data));
-      const venue = actionResult.payload;
-      console.log("new", venue);
-      if (venue.data.id) {
-        navigate(`/venues/${venue.data.id}`);
-      }
+      console.log("before", data);
+      console.log("Test", await dispatch(createVenue(data)));
+      // const actionResult = await dispatch(createVenue(data));
+      // const venue = actionResult.payload;
+      // console.log("new", venue);
+      // if (venue.data.id) {
+      //   navigate(`/venues/${venue.data.id}`);
+      // }
     } catch (error) {
       console.error("Failed to create venue:", error);
     }
@@ -145,7 +141,10 @@ function VenueForm() {
                 onLabel="Yes"
                 offLabel="No"
                 checked={value}
-                onChange={onChange}
+                onChange={(newValue) => {
+                  console.log("Switch changed - new value:", newValue);
+                  onChange(newValue);
+                }}
               />
             )}
           />
