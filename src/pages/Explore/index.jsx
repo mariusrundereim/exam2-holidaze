@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchVenues } from "../../store/venues/venueSlice";
 function Explore() {
   const dispatch = useDispatch();
+  // const filteredVenues = useSelector((state = state.venues.filteredVenues));
   const venues = useSelector((state) => state.venues.venueList);
   const loading = useSelector((state) => state.venues.loading);
   const error = useSelector((state) => state.venues.error);

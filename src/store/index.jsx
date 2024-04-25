@@ -7,6 +7,7 @@ import venueReducer from "./venues/venueSlice";
 import userSlice from "./auth/userSlice";
 import profileSlice from "./profiles/profileSlice";
 import bookingSlice from "./bookings/bookingSlice";
+import venueFilteringMiddleware from "./middleware/venueFilterMiddleware";
 const persistConfig = {
   key: "root",
   storage,
@@ -36,7 +37,7 @@ const store = configureStore({
           "persist/REGISTER",
         ],
       },
-    }),
+    }).concat(venueFilteringMiddleware),
 });
 
 export const persistor = persistStore(store);
