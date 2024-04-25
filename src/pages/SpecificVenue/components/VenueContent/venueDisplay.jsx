@@ -12,7 +12,7 @@ function VenueDisplay({ venue }) {
       <h2>Venue Information</h2>
       <Text>Description: {description}</Text>
       <Text>Fulltime: {newDate}</Text>
-      <Text>Price: {formattedPrice}</Text>
+      <Text>Price: {formattedPrice} /night</Text>
     </>
   );
 }

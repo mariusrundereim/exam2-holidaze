@@ -1,4 +1,4 @@
-import { Title, Text } from "@mantine/core";
+import { Title, Text, Stack, Space } from "@mantine/core";
 
 import {
   addressMessage,
@@ -10,12 +10,21 @@ import {
 function LocationDisplay({ location }) {
   return (
     <>
-      <Title>Location:</Title>
-      <Text>Address: {addressMessage(location)}</Text>
-      <Text>City: {cityMessage(location)}</Text>
-      <Text>Country: {countryMessage(location)}</Text>
-      <Text>Continent: {continentMessage(location)}</Text>
-      <Text>Zip: {zipMessage(location)}</Text>
+      <Stack>
+        <Title order={4}>Address:</Title>
+        <Text>{addressMessage(location)}</Text>
+      </Stack>
+      <Stack>
+        <Title order={4}>City</Title>
+        <Text>
+          {zipMessage(location)},{cityMessage(location)}
+        </Text>
+      </Stack>
+
+      <Stack>
+        <Title order={4}>Country</Title>
+        Country: {countryMessage(location)}, {continentMessage(location)}
+      </Stack>
     </>
   );
 }
