@@ -1,6 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
+
+const venuesInitialState = {
+  selectedVenue: null,
+  venueList: [],
+  loading: "idle",
+  error: null,
+};
+
 // Fetch all venues
 
 export const fetchVenues = createAsyncThunk(
@@ -54,13 +62,6 @@ export const createVenue = createAsyncThunk(
     return data;
   }
 );
-
-const venuesInitialState = {
-  selectedVenue: null,
-  venueList: [],
-  loading: "idle",
-  error: null,
-};
 
 const venueSlice = createSlice({
   name: "venues",

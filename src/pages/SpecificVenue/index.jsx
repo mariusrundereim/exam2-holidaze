@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchVenueById } from "../../store/venues/venueSlice";
+import VenueHeader from "./components/VenueHeader";
+import VenueContent from "./components/VenueContent";
 
 function SpecificVenue() {
   const dispatch = useDispatch();
@@ -31,10 +33,9 @@ function SpecificVenue() {
 
   return (
     <>
-      <h2>Specific Venue</h2>
       <h3>Venue id: {venueId}</h3>
-      <h1>{venue.name}</h1>
-      <p>{venue.description}</p>
+      <VenueHeader venue={venue} />
+      <VenueContent venue={venue} />
     </>
   );
 }

@@ -10,7 +10,7 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // const { email, password } = useSelector((state) => state.auth.credentials);
-  const username = useSelector((state) => state.user.name);
+  const username = useSelector((state) => state.profile.name);
   console.log("username", username);
   const {
     control,
