@@ -1,5 +1,6 @@
 import { Title, Text } from "@mantine/core";
 import LocationDisplay from "./locationDisplay";
+import AmenitiesDisplay from "./amenitiesDisplay";
 
 function VenueContent({ venue }) {
   const { name, description, created, location, maxGuests, meta } = venue;
@@ -11,6 +12,7 @@ function VenueContent({ venue }) {
       <Text>{created}</Text>
       <Text>{location.address}</Text>
       <LocationDisplay location={location} />
+      <AmenitiesDisplay meta={meta} />
     </>
   );
 }
