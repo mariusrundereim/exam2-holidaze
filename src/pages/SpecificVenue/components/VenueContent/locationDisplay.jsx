@@ -1,3 +1,5 @@
+import { Title, Text } from "@mantine/core";
+
 import {
   addressMessage,
   cityMessage,
@@ -8,12 +10,12 @@ import {
 function LocationDisplay({ location }) {
   return (
     <>
-      <p>Location</p>
-      <p>Address: {addressMessage(location)}</p>
-      <p>City: {cityMessage(location)}</p>
-      <p>Country: {countryMessage(location)}</p>
-      <p>Continent: {continentMessage(location)}</p>
-      <p>Zip: {zipMessage(location)}</p>
+      <Title>Location:</Title>
+      <Text>Address: {addressMessage(location)}</Text>
+      <Text>City: {cityMessage(location)}</Text>
+      <Text>Country: {countryMessage(location)}</Text>
+      <Text>Continent: {continentMessage(location)}</Text>
+      <Text>Zip: {zipMessage(location)}</Text>
     </>
   );
 }

@@ -1,16 +1,11 @@
-import { Title, Text } from "@mantine/core";
 import LocationDisplay from "./locationDisplay";
 import AmenitiesDisplay from "./amenitiesDisplay";
-
+import VenueDisplay from "./venueDisplay";
 function VenueContent({ venue }) {
-  const { name, description, created, location, maxGuests, meta } = venue;
+  const { location, meta } = venue;
   return (
     <>
-      <h2>Venue content</h2>
-      <Title>{name}</Title>
-      <Text>{description}</Text>
-      <Text>{created}</Text>
-      <Text>{location.address}</Text>
+      <VenueDisplay venue={venue} />
       <LocationDisplay location={location} />
       <AmenitiesDisplay meta={meta} />
     </>

@@ -1,3 +1,5 @@
+import { Title, Text } from "@mantine/core";
+
 import {
   wifiMessage,
   parkingMessage,
@@ -8,12 +10,12 @@ import {
 function AmenitiesDisplay({ meta }) {
   return (
     <>
-      <h2>Amenities</h2>
+      <Title>Amenities</Title>
 
-      <p>Breakfast: {breakfastMessage(meta)}</p>
-      <p>Parking: {parkingMessage(meta)}</p>
-      <p>Pets: {petsMessage(meta)}</p>
-      <p>WIFI: {wifiMessage(meta)}</p>
+      <Text>Breakfast: {breakfastMessage(meta)}</Text>
+      <Text>Parking: {parkingMessage(meta)}</Text>
+      <Text>Pets: {petsMessage(meta)}</Text>
+      <Text>WIFI: {wifiMessage(meta)}</Text>
     </>
   );
 }
