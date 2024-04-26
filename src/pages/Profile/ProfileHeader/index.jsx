@@ -17,7 +17,7 @@ function ProfileHeader({ profile }) {
     navigate(`/venues`);
   };
 
-  console.log(profile);
+  // console.log(profile);
   return (
     <>
       <Flex direction={{ base: "column", sm: "row" }}>

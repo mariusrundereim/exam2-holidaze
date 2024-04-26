@@ -48,7 +48,7 @@ export const fetchVenueById = createAsyncThunk(
   }
 );
 
-// Async thunk to create a venue
+// Create a venue
 
 export const createVenue = createAsyncThunk(
   "venues/createVenue",
@@ -61,6 +61,24 @@ export const createVenue = createAsyncThunk(
     const data = await response.json();
     console.log("data::", data);
     return data;
+  }
+);
+
+// Venues by Profile
+export const getVenuesByProfile = createAsyncThunk(
+  "profiles/getVenuesByProfile",
+
+  async (profileName) => {
+    const response = await fetch(
+      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+
+    const data = await response.json();
+    console.log("venues by profile:", data.data);
+    return data.data;
   }
 );
 
@@ -107,6 +125,15 @@ const venueSlice = createSlice({
       .addCase(createVenue.rejected, (state, action) => {
         state.loading = "idle";
         state.error = action.error.message;
+      })
+      .addCase(getVenuesByProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getVenuesByProfile.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getVenuesByProfile.fulfilled, (state, action) => {
+        return { ...state, ...action.payload };
       });
   },
 });

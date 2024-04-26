@@ -2,22 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 const profileInitialState = {
-  name: "",
-  email: "",
-  bio: "",
-  avatar: {
-    url: "",
-    alt: "",
-  },
-  banner: {
-    url: "",
-    alt: "",
-  },
-  venueManager: false,
-  _count: {
-    venues: 0,
-    bookings: 0,
-  },
   venues: [],
   bookings: [],
 };
@@ -39,25 +23,6 @@ export const fetchProfileByName = createAsyncThunk(
     const data = await response.json();
     // console.log("profileData", data);
     // console.log("pDaData", data.data);
-    return data.data;
-  }
-);
-
-// Venues by Profile
-export const getVenuesByProfile = createAsyncThunk(
-  "profiles/getVenuesByProfile",
-
-  async (profileName) => {
-    console.log("to");
-    const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
-      {
-        headers: getAuthHeaders(),
-      }
-    );
-
-    const data = await response.json();
-    console.log("venues by profile:", data);
     return data;
   }
 );
@@ -89,15 +54,6 @@ export const profileSlice = createSlice({
         ...state,
         ...action.payload,
       };
-    });
-    builder.addCase(getVenuesByProfile.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(getVenuesByProfile.rejected, (state) => {
-      state.isLoading = false;
-    });
-    builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
-      return { ...state, ...action.payload };
     });
   },
 });
