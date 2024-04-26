@@ -6,11 +6,10 @@ import {
   petsMessage,
   breakfastMessage,
 } from "../../utils/displayMessages";
-import classes from "./Demo.module.css";
 function AmenitiesDisplay({ meta }) {
   return (
     <>
-      <Title className={classes.box}>Amenities</Title>
+      <Title>Amenities</Title>
 
       <Text>Breakfast: {breakfastMessage(meta)}</Text>
       <Text>Parking: {parkingMessage(meta)}</Text>

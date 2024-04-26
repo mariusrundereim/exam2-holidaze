@@ -25,12 +25,9 @@ const profileInitialState = {
 // Single profile
 export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
-  async (profileName, bookings, venues) => {
-    const queryParams = new URLSearchParams();
-    if (bookings) queryParams.append("_bookings=true", bookings);
-    if (venues) queryParams.append("_venues=true", venues);
+  async (profileName) => {
     const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}?${queryParams}`,
+      `${BASE_URL}/profiles/${profileName}?_customer=true&_bookings=true`,
       {
         headers: getAuthHeaders(),
       }
@@ -40,7 +37,8 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
-    console.log("daa", data);
+    // console.log("profileData", data);
+    // console.log("pDaData", data.data);
     return data.data;
   }
 );
@@ -48,12 +46,18 @@ export const fetchProfileByName = createAsyncThunk(
 // Venues by Profile
 export const getVenuesByProfile = createAsyncThunk(
   "profiles/getVenuesByProfile",
+
   async (profileName) => {
-    const response = await fetch(`${BASE_URL}/profiles/${profileName}/venues`, {
-      headers: getAuthHeaders(),
-    });
+    console.log("to");
+    const response = await fetch(
+      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
 
     const data = await response.json();
+    console.log("venues by profile:", data);
     return data;
   }
 );
@@ -85,6 +89,15 @@ export const profileSlice = createSlice({
         ...state,
         ...action.payload,
       };
+    });
+    builder.addCase(getVenuesByProfile.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getVenuesByProfile.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
+      return { ...state, ...action.payload };
     });
   },
 });

@@ -35,13 +35,13 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id, owner, bookings }) => {
-    const queryParams = new URLSearchParams();
-    if (owner) queryParams.append("_owner", "true");
-    if (bookings) queryParams.append("_bookings", "true");
-    const response = await fetch(`${BASE_URL}/venues/${id}?${queryParams}`, {
-      headers: getAuthHeaders(),
-    });
+  async ({ id }) => {
+    const response = await fetch(
+      `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
     const data = await response.json();
     console.log("venue by id", data);
     return data;

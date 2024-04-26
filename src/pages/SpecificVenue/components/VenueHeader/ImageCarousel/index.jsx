@@ -1,4 +1,4 @@
-import { Container, Flex, Group } from "@mantine/core";
+import { Flex } from "@mantine/core";
 function ImageCarousel({ venue }) {
   const images = venue.media.map((image, index) => {
     return (
