@@ -1,39 +1,49 @@
-import { useDispatch, useSelector } from "react-redux";
-// import { getVenuesByProfile } from "../../../../store/profiles/profileSlice";
-import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// // import { getVenuesByProfile } from "../../../../store/venues/venueSlice"; // Adjust import path if needed
+// import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
+// import { useEffect } from "react";
+// import { useParams } from "react-router-dom";
+// import { useState } from "react"; // Import useState for loading state
 
-function VenueList() {
-  const dispatch = useDispatch();
-  const { profileName } = useParams();
-  const venues = useSelector((state) => state.venues);
+// function VenueList() {
+//   const dispatch = useDispatch();
+//   const { profileName } = useParams();
+//   const venuesById = useSelector((state) => state.venues.venuesById);
+//   const profileVenues = useSelector((state) => state.profile.venues); // Assuming venue IDs are here
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [venues, setVenues] = useState([]); // Array to hold fetched venues
 
-  // Convert venues into an array
-  // const venues = Object.values(profileData).filter(
-  //   (item) => typeof item === "object"
-  // );
+//   useEffect(() => {
+//     const fetchVenues = async () => {
+//       setIsLoading(true);
+//       await dispatch(getVenuesByProfile(profileName));
+//       setIsLoading(false);
+//     };
 
-  console.log("test", venues);
+//     fetchVenues();
+//   }, [dispatch, profileName]);
 
-  useEffect(() => {
-    dispatch(getVenuesByProfile(profileName));
-  }, [dispatch, profileName]);
+//   useEffect(() => {
+//     const fetchedVenues = profileVenues.map((venueId) => venuesById[venueId]);
+//     setVenues(fetchedVenues);
+//   }, [profileVenues, venuesById]);
 
-  return (
-    <>
-      <h3>Venue List</h3>
-      {/* {venues.length > 0 ? (
-        <ul>
-          {venues.map((venue) => (
-            <li key={venue._id}>{venue ? venue.name : "Loading..."}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No venues found for this profile.</p>
-      )} */}
-    </>
-  );
-}
+//   return (
+//     <>
+//       <h3>Venue List</h3>
+//       {isLoading ? (
+//         <p>Loading venues...</p>
+//       ) : venues.length === 0 ? (
+//         <ul>
+//           {venues.map((venue) => (
+//             <li key={venue._id}>{venue.name}</li>
+//           ))}
+//         </ul>
+//       ) : (
+//         <p>No venues found for this profile.</p>
+//       )}
+//     </>
+//   );
+// }
 
-export default VenueList;
+// export default VenueList;

@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const venuesInitialState = {
+  venuesById: {},
   selectedVenue: null,
   venueList: [],
   filteredVenues: [],
@@ -133,7 +134,10 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        return { ...state, ...action.payload };
+        const venues = action.payload.data; // Access the venues array
+        venues.forEach((venue) => {
+          state.venuesById[venue._id] = venue;
+        });
       });
   },
 });
