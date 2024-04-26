@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Text } from "@mantine/core";
 import classes from "./navbarclass.module.css";
+
 import { logout } from "../../../store/auth/authSlice";
 
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
