@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const venuesInitialState = {
+  venuesById: {},
   selectedVenue: null,
   venueList: [],
   filteredVenues: [],
@@ -35,20 +36,20 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id, owner, bookings }) => {
-    const queryParams = new URLSearchParams();
-    if (owner) queryParams.append("_owner=true", owner);
-    if (bookings) queryParams.append("_bookings=true", bookings);
-    const response = await fetch(`${BASE_URL}/venues/${id}?${queryParams}`, {
-      headers: getAuthHeaders(),
-    });
+  async ({ id }) => {
+    const response = await fetch(
+      `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
     const data = await response.json();
     console.log("venue by id", data);
     return data;
   }
 );
 
-// Async thunk to create a venue
+// Create a venue
 
 export const createVenue = createAsyncThunk(
   "venues/createVenue",
@@ -61,6 +62,24 @@ export const createVenue = createAsyncThunk(
     const data = await response.json();
     console.log("data::", data);
     return data;
+  }
+);
+
+// Venues by Profile
+export const getVenuesByProfile = createAsyncThunk(
+  "profiles/getVenuesByProfile",
+
+  async (profileName) => {
+    const response = await fetch(
+      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
+
+    const data = await response.json();
+    console.log("venues by profile:", data.data);
+    return data.data;
   }
 );
 
@@ -107,6 +126,18 @@ const venueSlice = createSlice({
       .addCase(createVenue.rejected, (state, action) => {
         state.loading = "idle";
         state.error = action.error.message;
+      })
+      .addCase(getVenuesByProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getVenuesByProfile.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(getVenuesByProfile.fulfilled, (state, action) => {
+        const venues = action.payload.data; // Access the venues array
+        venues.forEach((venue) => {
+          state.venuesById[venue._id] = venue;
+        });
       });
   },
 });

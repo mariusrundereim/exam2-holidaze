@@ -8,8 +8,9 @@ import {
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Text } from "@mantine/core";
-import classes from "./navbarclass.module.css";
+import { Text, Group } from "@mantine/core";
+import classes from "./Navbarclass.module.css";
+
 import { logout } from "../../../store/auth/authSlice";
 
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";

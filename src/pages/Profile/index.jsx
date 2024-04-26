@@ -9,10 +9,10 @@ function ProfilePage() {
   const dispatch = useDispatch();
   const { profileName } = useParams();
   const profile = useSelector((state) => state.profile);
-  console.log("profile", profile);
+  // console.log("profile", profile);
 
   useEffect(() => {
-    dispatch(fetchProfileByName(profileName, true, true));
+    dispatch(fetchProfileByName(profileName));
   }, [dispatch, profileName]);
 
   return (

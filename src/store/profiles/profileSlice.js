@@ -2,22 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 const profileInitialState = {
-  name: "",
-  email: "",
-  bio: "",
-  avatar: {
-    url: "",
-    alt: "",
-  },
-  banner: {
-    url: "",
-    alt: "",
-  },
-  venueManager: false,
-  _count: {
-    venues: 0,
-    bookings: 0,
-  },
   venues: [],
   bookings: [],
 };
@@ -25,12 +9,9 @@ const profileInitialState = {
 // Single profile
 export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
-  async (profileName, bookings, venues) => {
-    const queryParams = new URLSearchParams();
-    if (bookings) queryParams.append("_bookings=true", bookings);
-    if (venues) queryParams.append("_venues=true", venues);
+  async (profileName) => {
     const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}?${queryParams}`,
+      `${BASE_URL}/profiles/${profileName}?_customer=true&_bookings=true`,
       {
         headers: getAuthHeaders(),
       }
@@ -40,20 +21,8 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
-    console.log("daa", data);
-    return data.data;
-  }
-);
-
-// Venues by Profile
-export const getVenuesByProfile = createAsyncThunk(
-  "profiles/getVenuesByProfile",
-  async (profileName) => {
-    const response = await fetch(`${BASE_URL}/profiles/${profileName}/venues`, {
-      headers: getAuthHeaders(),
-    });
-
-    const data = await response.json();
+    // console.log("profileData", data);
+    // console.log("pDaData", data.data);
     return data;
   }
 );

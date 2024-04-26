@@ -6,7 +6,6 @@ import {
   petsMessage,
   breakfastMessage,
 } from "../../utils/displayMessages";
-
 function AmenitiesDisplay({ meta }) {
   return (
     <>
