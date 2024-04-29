@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 const profileInitialState = {
   venues: [],
+  venueIds: [],
   bookings: [],
 };
 

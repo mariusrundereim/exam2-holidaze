@@ -1,3 +1,21 @@
+import { useSelector } from "react-redux";
+function VenueList() {
+  const selectVenuesForCurrentProfile = (state) => {
+    const venueIds = state.profile.venues;
+    return venueIds.map((id) => state.venues.venuesById[id]);
+  };
+
+  const venues = useSelector(selectVenuesForCurrentProfile);
+  console.log("www", venues);
+  return (
+    <>
+      <h2>Venue List here..</h2>
+    </>
+  );
+}
+
+export default VenueList;
+
 // import { useDispatch, useSelector } from "react-redux";
 // // import { getVenuesByProfile } from "../../../../store/venues/venueSlice"; // Adjust import path if needed
 // import { getVenuesByProfile } from "../../../../store/venues/venueSlice";

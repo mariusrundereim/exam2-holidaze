@@ -67,7 +67,7 @@ export const createVenue = createAsyncThunk(
 
 // Venues by Profile
 export const getVenuesByProfile = createAsyncThunk(
-  "profiles/getVenuesByProfile",
+  "venues/getVenuesByProfile",
 
   async (profileName) => {
     const response = await fetch(
@@ -78,8 +78,13 @@ export const getVenuesByProfile = createAsyncThunk(
     );
 
     const data = await response.json();
-    console.log("venues by profile:", data.data);
-    return data.data;
+    // console.log("venues by profile:", data.data);
+    if (data.data) {
+      dispatch(venueSlice.actions.venuesById(data.data));
+    }
+
+    return data.data.map((venue) => venue._id);
+    // return data.data;
   }
 );
 
@@ -134,10 +139,11 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        const venues = action.payload.data; // Access the venues array
-        venues.forEach((venue) => {
-          state.venuesById[venue._id] = venue;
-        });
+        const venuesByProfile = action.payload; // Assuming payload is the venue data
+        console.log("wgg?", getVenuesByProfile);
+        state.venues = venuesByProfile.map((venue) => venue._id); // Update or insert the venue details by ID
+        state.selectedVenue = venue._id; // Optionally set this venue as selected
+        state.loading = "idle";
       });
   },
 });
