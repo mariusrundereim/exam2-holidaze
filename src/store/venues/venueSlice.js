@@ -60,7 +60,6 @@ export const createVenue = createAsyncThunk(
       body: JSON.stringify(newVenue),
     });
     const data = await response.json();
-    console.log("data::", data);
     return data;
   }
 );
@@ -78,7 +77,7 @@ export const getVenuesByProfile = createAsyncThunk(
     );
 
     const data = await response.json();
-    // console.log("venues by profile:", data.data);
+    console.log("venues by profile:", data.data);
     if (data.data) {
       dispatch(venueSlice.actions.venuesById(data.data));
     }
@@ -92,7 +91,12 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
-    // Synchronous reducers here
+    venuesById(state, action) {
+      const venues = action.payload;
+      venues.forEach((venue) => {
+        state.venuesById[venue._id] = venue;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -139,11 +143,7 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        const venuesByProfile = action.payload; // Assuming payload is the venue data
-        console.log("wgg?", getVenuesByProfile);
-        state.venues = venuesByProfile.map((venue) => venue._id); // Update or insert the venue details by ID
-        state.selectedVenue = venue._id; // Optionally set this venue as selected
-        state.loading = "idle";
+        state.venues = action.payload; // Store the array of venue IDs
       });
   },
 });

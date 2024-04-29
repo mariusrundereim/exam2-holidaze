@@ -6,7 +6,7 @@ function VenueList() {
   };
 
   const venues = useSelector(selectVenuesForCurrentProfile);
-  console.log("www", venues);
+  console.log("Where is list of venues by profile? The list is empty", venues);
   return (
     <>
       <h2>Venue List here..</h2>
