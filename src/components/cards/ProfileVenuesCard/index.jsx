@@ -1,19 +1,18 @@
 import { Card, Image, Text, Badge, Button, Group, Flex } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
-function ProfileVenuesCard() {
+function ProfileVenuesCard({ venue }) {
+  const { name, description, maxGuests, location, media } = venue;
+
+  const firstImage = media[0].url;
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
-        <Image
-          src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-8.png"
-          height={160}
-          alt="Norway"
-        />
+        <Image src={firstImage} height={160} alt="Norway" />
       </Card.Section>
 
       <Group justify="space-between" mt="md" mb="xs">
-        <Text fw={500}>Title</Text>
+        <Text fw={500}>{name}</Text>
 
         <Group>
           <IconMapPin
@@ -24,12 +23,12 @@ function ProfileVenuesCard() {
         </Group>
         <Group>
           <IconUsers style={{ width: rem(22), height: rem(22) }} stroke={1.5} />
-          <Text>5</Text>
+          <Text>{maxGuests}</Text>
         </Group>
       </Group>
 
       <Text size="sm" c="dimmed">
-        Description here..
+        {description}
       </Text>
 
       <Flex gap="md" direction={{ base: "column", sm: "row" }}>

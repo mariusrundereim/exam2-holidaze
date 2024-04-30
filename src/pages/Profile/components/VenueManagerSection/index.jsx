@@ -1,4 +1,4 @@
-import VenuesNewList from "./VenuesNewList";
+import VenuesList from "./VenuesList";
 import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ function VenueManagerSection({ profile }) {
     <>
       <h2>Venue Manager Section</h2>
       {/* <VenueList /> */}
-      <VenuesNewList venues={venues} />
+      <VenuesList venues={venues} />
     </>
   );
 }
