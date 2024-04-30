@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
 import { useSelector, shallowEqual } from "react-redux";
+import ProfileVenuesCard from "../../../../components/cards/ProfileVenuesCard";
 function VenueList() {
   const venueIds = useSelector((state) => state.profile.venueIds, shallowEqual);
   const venuesById = useSelector(
@@ -18,7 +18,13 @@ function VenueList() {
   return (
     <>
       <h2>Your venues</h2>
-      {venues && venues.map((venue) => <div key={venue.id}>{venue.name}</div>)}
+      {venues &&
+        venues.map((venue) => (
+          <div key={venue.id}>
+            <ProfileVenuesCard />
+            {venue.name}
+          </div>
+        ))}
     </>
   );
 }

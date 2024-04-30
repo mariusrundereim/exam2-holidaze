@@ -16,6 +16,10 @@ function ProfileVenuesCard() {
         <Text fw={500}>Title</Text>
 
         <Group>
+          <IconMapPin
+            style={{ width: rem(22), height: rem(22) }}
+            stroke={1.8}
+          />
           <Text>Adresseveien 2, 4545 Gol</Text>
         </Group>
         <Group>
