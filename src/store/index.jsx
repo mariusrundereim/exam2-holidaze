@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
 import authSlice from "./auth/authSlice";
-import venueReducer from "./venues/venueSlice";
+// import venueReducer from "./venues/venueSlice";
 import venueSlice from "./venues/venueSlice";
 import userSlice from "./auth/userSlice";
 import profileSlice from "./profiles/profileSlice";

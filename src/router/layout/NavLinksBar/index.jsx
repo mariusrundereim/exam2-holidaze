@@ -25,7 +25,7 @@ const navData = [
 function NavLinksBar() {
   const [active, setActive] = useState("Explore");
   const dispatch = useDispatch();
-  const { name } = useSelector((state) => state.profile);
+  const { name } = useSelector((state) => state.user);
   const loggedIn = useSelector(isLoggedIn);
 
   useEffect(() => {}, [name]);

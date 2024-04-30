@@ -1,3 +1,4 @@
+import ProfileVenuesCard from "../../../../components/cards/ProfileVenuesCard";
 import VenueList from "./VenueList";
 
 function VenueManagerSection({ profile }) {
@@ -5,6 +6,7 @@ function VenueManagerSection({ profile }) {
   return (
     <>
       <h2>Venue Manager Section</h2>
+      <ProfileVenuesCard />
       <VenueList />
     </>
   );
