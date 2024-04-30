@@ -64,28 +64,53 @@ export const createVenue = createAsyncThunk(
   }
 );
 
-// Venues by Profile
+// // Venues by Profile
+
 export const getVenuesByProfile = createAsyncThunk(
   "venues/getVenuesByProfile",
-
   async (profileName) => {
-    const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
-      {
-        headers: getAuthHeaders(),
+    try {
+      const response = await fetch(
+        `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Request failed: " + response.statusText);
       }
-    );
 
-    const data = await response.json();
-    console.log("venues by profile:", data.data);
-    if (data.data) {
-      dispatch(venueSlice.actions.venuesById(data.data));
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      throw error; // Re-throw to propagate error
     }
-
-    return data.data.map((venue) => venue._id);
-    // return data.data;
   }
 );
+
+// export const getVenuesByProfile = createAsyncThunk(
+//   "venues/getVenuesByProfile",
+
+//   async (profileName) => {
+//     const response = await fetch(
+//       `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+//       {
+//         headers: getAuthHeaders(),
+//       }
+//     );
+
+//     const data = await response.json();
+//     console.log("venues by profile:", data.data);
+//     if (data.data) {
+//       dispatch(venueSlice.actions.venuesById(data.data));
+//     }
+
+//     // return data.data.map((venue) => venue._id);
+//     return data.data;
+//   }
+// );
 
 const venueSlice = createSlice({
   name: "venues",
