@@ -1,5 +1,5 @@
 function VenuesNewList({ venues }) {
-  console.log("Empty Array", venues);
+  console.log("The array is here", venues);
   return (
     <>
       <h2>Your new venues here.</h2>
