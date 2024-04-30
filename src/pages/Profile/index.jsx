@@ -8,7 +8,7 @@ import CustomerSection from "./components/CustomerSection";
 function ProfilePage() {
   const dispatch = useDispatch();
   const { profileName } = useParams();
-  const profile = useSelector((state) => state.profile);
+  const profile = useSelector((state) => state.user);
   // console.log("profile", profile);
 
   useEffect(() => {

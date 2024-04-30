@@ -17,17 +17,17 @@ function VenuesCard({ venue }) {
 
   return (
     <>
-      <Card withBorder>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section>
           <Image
             onClick={handlePageClick}
             src={imageUrl}
             alt={venueName}
-            height={180}
+            height={300}
           />
         </Card.Section>
         <Card.Section>
-          <Group justify="apart">
+          <Group justify="apart" grow>
             <Title order={4}>{venue.name}</Title>
             <Group>
               <IconUsers
@@ -43,9 +43,8 @@ function VenuesCard({ venue }) {
               stroke={1.8}
             />
             <Group>
-              <Text>{address}</Text>
               <Text>
-                {city}, {country}
+                {address},{city}, {country}
               </Text>
             </Group>
           </Group>

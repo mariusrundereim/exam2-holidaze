@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
 import { setUserProfile } from "./userSlice";
-
+import { setProfileData } from "../profiles/profileSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
   error: null,
-  credentials: { email: "", password: "" },
 };
 
 export const login = createAsyncThunk(
@@ -17,11 +16,6 @@ export const login = createAsyncThunk(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginPayload),
     });
-
-    console.log("do i get a response? :");
-    console.log(response);
-
-    const { email, password } = loginPayload;
 
     if (!response.ok) {
       throw new Error("Login failed");

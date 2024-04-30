@@ -60,34 +60,68 @@ export const createVenue = createAsyncThunk(
       body: JSON.stringify(newVenue),
     });
     const data = await response.json();
-    console.log("data::", data);
     return data;
   }
 );
 
-// Venues by Profile
+// // Venues by Profile
+
 export const getVenuesByProfile = createAsyncThunk(
-  "profiles/getVenuesByProfile",
-
+  "venues/getVenuesByProfile",
   async (profileName) => {
-    const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
-      {
-        headers: getAuthHeaders(),
-      }
-    );
+    try {
+      const response = await fetch(
+        `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
 
-    const data = await response.json();
-    console.log("venues by profile:", data.data);
-    return data.data;
+      if (!response.ok) {
+        throw new Error("Request failed: " + response.statusText);
+      }
+
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      throw error; // Re-throw to propagate error
+    }
   }
 );
+
+// export const getVenuesByProfile = createAsyncThunk(
+//   "venues/getVenuesByProfile",
+
+//   async (profileName) => {
+//     const response = await fetch(
+//       `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+//       {
+//         headers: getAuthHeaders(),
+//       }
+//     );
+
+//     const data = await response.json();
+//     console.log("venues by profile:", data.data);
+//     if (data.data) {
+//       dispatch(venueSlice.actions.venuesById(data.data));
+//     }
+
+//     // return data.data.map((venue) => venue._id);
+//     return data.data;
+//   }
+// );
 
 const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
-    // Synchronous reducers here
+    venuesById(state, action) {
+      const venues = action.payload;
+      venues.forEach((venue) => {
+        state.venuesById[venue._id] = venue;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -134,11 +168,13 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        const venues = action.payload.data; // Access the venues array
-        venues.forEach((venue) => {
-          state.venuesById[venue._id] = venue;
-        });
+        state.venues = action.payload; // Store the array of venue IDs
       });
   },
 });
+
+export const { venuesById } = venueSlice.actions;
 export default venueSlice.reducer;
+
+// export const { setProfileData, resetProfileData } = profileSlice.actions;
+// export default profileSlice.reducer;

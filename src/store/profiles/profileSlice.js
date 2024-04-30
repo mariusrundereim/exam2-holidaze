@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
+import { getVenuesByProfile } from "../venues/venueSlice";
+
 const profileInitialState = {
   venues: [],
+  venueIds: [],
   bookings: [],
 };
 
@@ -21,8 +24,6 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
-    // console.log("profileData", data);
-    // console.log("pDaData", data.data);
     return data;
   }
 );
@@ -54,6 +55,10 @@ export const profileSlice = createSlice({
         ...state,
         ...action.payload,
       };
+    });
+    builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
+      console.log("Updating venueid in profileslice", action.payload);
+      state.venueIds = action.payload;
     });
   },
 });

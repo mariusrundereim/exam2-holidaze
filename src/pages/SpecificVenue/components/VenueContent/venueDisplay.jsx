@@ -1,4 +1,4 @@
-import { Title, Text, Stack } from "@mantine/core";
+import { Title, Text, Group, Stack, Flex } from "@mantine/core";
 import formatCurrency from "../../../../utils/format/currencyFormat";
 import { formattedDateTime } from "../../../../utils/format/dateFormat";
 function VenueDisplay({ venue }) {
@@ -8,13 +8,20 @@ function VenueDisplay({ venue }) {
 
   return (
     <>
-      <Title>{name}</Title>
-      <Stack>
-        <Title order={4}>Description</Title>
-        <Text>{description}</Text>
-      </Stack>
-      <Text>Fulltime: {newDate}</Text>
-      <Text>Price: {formattedPrice} /night</Text>
+      <Group justify="center" mih={100}>
+        <Title>{name}</Title>
+      </Group>
+      <Flex direction="row" justify="space-between" wrap="wrap">
+        <Stack>
+          <Title order={4}>Description</Title>
+          <Text>{description}</Text>
+        </Stack>
+        <Flex direction="column" gap={10}>
+          <Text size="xl">{newDate}</Text>
+          <Text size="xl">{formattedPrice} /night</Text>
+          <Text size="xl">Guests: {maxGuests}</Text>
+        </Flex>
+      </Flex>
     </>
   );
 }
