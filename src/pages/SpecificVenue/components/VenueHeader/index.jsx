@@ -6,8 +6,8 @@ function VenueHeader({ venue }) {
   return (
     <>
       <h2>Venue header</h2>
-      <Image radius="md" h={200} src={firstImage} />
-      <ImageCarousel venue={venue} />
+      <Image radius="md" h={600} src={firstImage} />
+      {/* <ImageCarousel venue={venue} /> */}
     </>
   );
 }

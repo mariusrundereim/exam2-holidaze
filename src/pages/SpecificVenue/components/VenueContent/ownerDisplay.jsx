@@ -1,19 +1,15 @@
-import { Avatar, Flex, Title, Text } from "@mantine/core";
+import { Avatar, Flex, Title, Text, Paper } from "@mantine/core";
 function OwnerDisplay({ venue }) {
   const { name, avatar } = venue.owner;
   return (
     <>
-      <Flex
-        mih={50}
-        justify="center"
-        align="center"
-        direction="column"
-        wrap="wrap"
-      >
-        <Title order={4}>Owner</Title>
-        <Avatar src={avatar.url} alt={avatar.alt} />
-        <Text>{name}</Text>
-      </Flex>
+      <Paper shadow="xs" p="xl" withBorder>
+        <Flex mih={50} align="center" direction="column" wrap="wrap">
+          <Avatar src={avatar.url} alt={avatar.alt} />
+          <Text>{name}</Text>
+          <Title order={4}>Owner</Title>
+        </Flex>
+      </Paper>
     </>
   );
 }
