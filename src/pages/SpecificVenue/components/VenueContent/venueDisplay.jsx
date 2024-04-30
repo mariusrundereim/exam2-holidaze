@@ -11,13 +11,16 @@ function VenueDisplay({ venue }) {
       <Group justify="center" mih={100}>
         <Title>{name}</Title>
       </Group>
-      <Flex direction="column">
-        <Title order={4}>Description</Title>
-        <Text>{description}</Text>
-      </Flex>
-      <Flex>
-        <Text size="xl">{newDate}</Text>
-        <Text size="xl">{formattedPrice} /night</Text>
+      <Flex direction="row" justify="space-between" wrap="wrap">
+        <Stack>
+          <Title order={4}>Description</Title>
+          <Text>{description}</Text>
+        </Stack>
+        <Flex direction="column" gap={10}>
+          <Text size="xl">{newDate}</Text>
+          <Text size="xl">{formattedPrice} /night</Text>
+          <Text size="xl">Guests: {maxGuests}</Text>
+        </Flex>
       </Flex>
     </>
   );
