@@ -90,27 +90,26 @@ export const getVenuesByProfile = createAsyncThunk(
   }
 );
 
-// export const getVenuesByProfile = createAsyncThunk(
-//   "venues/getVenuesByProfile",
+// Delete venue
 
-//   async (profileName) => {
-//     const response = await fetch(
-//       `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
-//       {
-//         headers: getAuthHeaders(),
-//       }
-//     );
+export const deleteVenue = createAsyncThunk(
+  "venues/deleteVenue",
+  async ({ id }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/venues/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
 
-//     const data = await response.json();
-//     console.log("venues by profile:", data.data);
-//     if (data.data) {
-//       dispatch(venueSlice.actions.venuesById(data.data));
-//     }
-
-//     // return data.data.map((venue) => venue._id);
-//     return data.data;
-//   }
-// );
+      if (!response.ok) {
+        throw new Error("Venue deletion failed");
+      }
+      return id;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
 
 const venueSlice = createSlice({
   name: "venues",
@@ -168,13 +167,13 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        state.venues = action.payload; // Store the array of venue IDs
+        state.venues = action.payload;
+      })
+      .addCase(deleteVenue.fulfilled, (state, action) => {
+        state.venueIds = state.venueIds.filter((id) => id !== action.payload);
       });
   },
 });
 
 export const { venuesById } = venueSlice.actions;
 export default venueSlice.reducer;
-
-// export const { setProfileData, resetProfileData } = profileSlice.actions;
-// export default profileSlice.reducer;
