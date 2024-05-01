@@ -16,7 +16,7 @@ function CustomerBookingCard({ venue }) {
   return (
     <>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Card.Section p={20}>
+        <Card.Section p={10}>
           <Stack>
             <Title order={4}>Venue information</Title>
             <Text>{name}</Text>
@@ -26,14 +26,13 @@ function CustomerBookingCard({ venue }) {
             <Text>Max guests: {maxGuests}</Text>
           </Stack>
           <Stack>
-            <Title order={4}>Staying date:</Title>
-            <Text>
-              {formattedDateTime(dateFrom)} / {formattedDateTime(dateTo)}
-            </Text>
+            <Title order={4}>Dates:</Title>
+            <Text>{formattedDateTime(dateFrom)}</Text>
+            <Text>{formattedDateTime(dateTo)}</Text>
           </Stack>
           <Text>Created: {formattedDateTime(created)}</Text>
         </Card.Section>
-        <Card.Section p={20}>
+        <Card.Section p={10}>
           <Button fullWidth>View venue</Button>
         </Card.Section>
       </Card>
