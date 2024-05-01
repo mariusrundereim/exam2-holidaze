@@ -8,6 +8,18 @@ const initialState = {
   error: null,
 };
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { dispatch, rejectWithValue, fulfillWithValue }) => {
+    try {
+      localStorage.removeItem("accessToken");
+      return {};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "auth/login",
   async (loginPayload, { dispatch }) => {
@@ -52,17 +64,7 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setCredentials: (state, action) => {
-      state.credentials = action.payload;
-    },
-    logout: (state) => {
-      state.accessToken = null;
-      state.credentials = {};
-      localStorage.removeItem("accessToken");
-      return { ...state };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
 
@@ -94,8 +96,19 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || "Failed to register";
         state.accessToken = null;
+      })
+
+      .addCase(logout.fulfilled, (state) => {
+        state.accessToken = null;
+        state.credentials = {}; // Assuming you want to clear other auth-related data
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.error = action.error.message || "Logout failed";
+        state.isLoading = false;
       });
   },
 });
-export const { setCredentials, logout } = authSlice.actions;
+// export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;

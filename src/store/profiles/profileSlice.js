@@ -64,8 +64,9 @@ export const profileSlice = createSlice({
   name: "profile",
   initialState: profileInitialState,
   reducers: {
-    resetProfileData(state) {
-      return profileInitialState;
+    resetProfileData: (state) => {
+      // Reset profile data to initial state or clear specific fields
+      return initialState;
     },
   },
   extraReducers: (builder) => {
