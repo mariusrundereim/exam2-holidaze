@@ -7,6 +7,7 @@ const venuesInitialState = {
   selectedVenue: null,
   venueList: [],
   filteredVenues: [],
+  searchVenues: [],
   loading: "idle",
   error: null,
 };
@@ -111,6 +112,23 @@ export const deleteVenue = createAsyncThunk(
   }
 );
 
+// Search venues
+
+export const searchVenues = createAsyncThunk(
+  "venues/searchVenues",
+  async ({ query }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/venues/search?q=${query}`);
+
+      if (!response.ok) {
+        throw new Error("Search failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
@@ -171,6 +189,9 @@ const venueSlice = createSlice({
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
         state.venueIds = state.venueIds.filter((id) => id !== action.payload);
+      })
+      .addCase(searchVenues.fulfilled, (state, action) => {
+        state.searchVenues = action.payload;
       });
   },
 });

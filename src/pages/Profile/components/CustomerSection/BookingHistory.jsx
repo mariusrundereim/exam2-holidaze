@@ -10,7 +10,7 @@ function BookingHistory() {
 
   return (
     <>
-      <h2>Your bookings ({bookingsAmount})</h2>
+      <h2>Upcoming bookings ({bookingsAmount})</h2>
       <Grid>
         {bookings.map((booking) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>

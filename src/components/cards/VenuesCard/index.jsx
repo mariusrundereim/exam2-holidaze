@@ -26,7 +26,7 @@ function VenuesCard({ venue }) {
             height={300}
           />
         </Card.Section>
-        <Card.Section>
+        <Card.Section p={14}>
           <Group justify="apart" grow>
             <Title order={4}>{venue.name}</Title>
             <Group>
