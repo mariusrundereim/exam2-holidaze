@@ -4,6 +4,7 @@ import CustomerBookingCard from "../../../../components/cards/CustomerBookingCar
 function BookingHistory() {
   const bookings = useSelector((state) => state.profile.bookings);
   const bookingsLoading = useSelector((state) => state.profile.bookingsLoading);
+  const user = useSelector((state) => state.user);
 
   if (bookingsLoading) {
     return <Loader />; // Show a loader while bookings are loading
@@ -15,7 +16,9 @@ function BookingHistory() {
 
   return (
     <>
-      <h2>Upcoming bookings ({bookingsAmount})</h2>
+      <h2>
+        {user.name}'sUpcoming bookings ({bookingsAmount})
+      </h2>
       <Grid>
         {bookings.map((booking) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>

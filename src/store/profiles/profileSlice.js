@@ -64,11 +64,6 @@ export const profileSlice = createSlice({
   name: "profile",
   initialState: profileInitialState,
   reducers: {
-    setProfileData(state, action) {
-      Object.keys(action.payload).forEach((key) => {
-        state[key] = action.payload[key];
-      });
-    },
     resetProfileData(state) {
       return profileInitialState;
     },
