@@ -5,9 +5,12 @@ import { getVenuesByProfile } from "../venues/venueSlice";
 import { deleteVenue } from "../venues/venueSlice";
 
 const profileInitialState = {
+  bookings: [],
   venues: [],
   venueIds: [],
   bookingsByProfile: [],
+  isLoading: false,
+  bookingsLoading: false,
 };
 
 // Single profile
@@ -50,7 +53,7 @@ export const getBookingsByProfile = createAsyncThunk(
       console.log("BoookingsProfile", data);
       return data;
     } catch (error) {
-      console.log(error);
+      console.log("???", error);
     }
   }
 );
@@ -78,10 +81,11 @@ export const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
-      return {
-        ...state,
-        ...action.payload,
-      };
+      // Assuming the API response is nested under `data`
+      Object.entries(action.payload.data).forEach(([key, value]) => {
+        state[key] = value;
+      });
+      state.isLoading = false;
     });
     builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
       state.venueIds = action.payload;
@@ -89,8 +93,15 @@ export const profileSlice = createSlice({
     builder.addCase(deleteVenue.fulfilled, (state, action) => {
       state.venueIds = state.venueIds.filter((id) => id !== action.payload);
     });
+    builder.addCase(getBookingsByProfile.pending, (state) => {
+      state.bookingsLoading = true;
+    });
     builder.addCase(getBookingsByProfile.fulfilled, (state, action) => {
-      state.bookingsByProfile = action.payload;
+      state.data.bookings = action.payload;
+      state.bookingsLoading = false;
+    });
+    builder.addCase(getBookingsByProfile.rejected, (state) => {
+      state.bookingsLoading = false;
     });
   },
 });
