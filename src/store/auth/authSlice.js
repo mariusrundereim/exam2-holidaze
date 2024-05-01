@@ -55,9 +55,9 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
-    dispatch(setUserProfile(data.data));
+    // dispatch(setUserProfile(data.data));
 
-    return data.data;
+    return data;
   }
 );
 

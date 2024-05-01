@@ -11,6 +11,10 @@ function Signup() {
   const handleRegistrationSuccess = () => {
     setRegistrationSuccess(true);
   };
+
+  const handleTabChange = (newTab) => {
+    setActiveTab(newTab);
+  };
   return (
     <>
       <Title>Sign up or login for a good holiday!</Title>
@@ -18,7 +22,7 @@ function Signup() {
         variant="pills"
         defaultValue="login"
         value={activeTab}
-        onChange={setActiveTab}
+        onChange={handleTabChange}
       >
         <Tabs.List>
           <Tabs.Tab value="login" leftSection={<IconLogin style={iconStyle} />}>
@@ -36,7 +40,10 @@ function Signup() {
           {registrationSuccess ? (
             <p>Success</p>
           ) : (
-            <RegisterForm onSuccess={handleRegistrationSuccess} />
+            <RegisterForm
+              onSuccess={handleRegistrationSuccess}
+              setActiveTab={setActiveTab}
+            />
           )}
         </Tabs.Panel>
 
