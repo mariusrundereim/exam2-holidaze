@@ -1,7 +1,6 @@
 import { Grid, Title } from "@mantine/core";
 import ProfileVenuesCard from "../../../../components/cards/ProfileVenuesCard";
 function VenuesNewList({ venues }) {
-  console.log("The array is here", venues);
   return (
     <>
       <Title order={3}>Your Venues</Title>

@@ -7,7 +7,7 @@ import { deleteVenue } from "../venues/venueSlice";
 const profileInitialState = {
   venues: [],
   venueIds: [],
-  bookings: [],
+  bookingsByProfile: [],
 };
 
 // Single profile
@@ -26,6 +26,32 @@ export const fetchProfileByName = createAsyncThunk(
     }
     const data = await response.json();
     return data;
+  }
+);
+
+// Bookings by profile
+
+export const getBookingsByProfile = createAsyncThunk(
+  "profiles/getBookingsByProfile",
+  async (profileName) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/profiles/${profileName}/bookings?_bookings=true&_venues=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Request failed:" + response.statusText);
+      }
+
+      const data = await response.json();
+      console.log("BoookingsProfile", data);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -58,12 +84,13 @@ export const profileSlice = createSlice({
       };
     });
     builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
-      console.log("Updating venueid in profileslice", action.payload);
       state.venueIds = action.payload;
     });
     builder.addCase(deleteVenue.fulfilled, (state, action) => {
       state.venueIds = state.venueIds.filter((id) => id !== action.payload);
-      // This filters out the deleted venue's id from the venueIds array
+    });
+    builder.addCase(getBookingsByProfile.fulfilled, (state, action) => {
+      state.bookingsByProfile = action.payload;
     });
   },
 });

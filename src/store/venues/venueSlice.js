@@ -64,7 +64,7 @@ export const createVenue = createAsyncThunk(
   }
 );
 
-// // Venues by Profile
+// Venues by Profile
 
 export const getVenuesByProfile = createAsyncThunk(
   "venues/getVenuesByProfile",
