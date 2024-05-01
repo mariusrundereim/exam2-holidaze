@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 import { getVenuesByProfile } from "../venues/venueSlice";
+import { deleteVenue } from "../venues/venueSlice";
 
 const profileInitialState = {
   venues: [],
@@ -59,6 +60,10 @@ export const profileSlice = createSlice({
     builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
       console.log("Updating venueid in profileslice", action.payload);
       state.venueIds = action.payload;
+    });
+    builder.addCase(deleteVenue.fulfilled, (state, action) => {
+      state.venueIds = state.venueIds.filter((id) => id !== action.payload);
+      // This filters out the deleted venue's id from the venueIds array
     });
   },
 });

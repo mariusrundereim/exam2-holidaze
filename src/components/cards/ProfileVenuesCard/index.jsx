@@ -1,7 +1,10 @@
-import { Card, Image, Text, Badge, Button, Group, Flex } from "@mantine/core";
+import { Card, Image, Text, Button, Group, Flex, Popover } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
+import { useDispatch } from "react-redux";
+import { handleConfirmDelete } from "./handleActions";
 function ProfileVenuesCard({ venue }) {
+  const dispatch = useDispatch();
   const { name, description, maxGuests, location, media } = venue;
 
   const firstImage = media[0].url;
@@ -36,9 +39,22 @@ function ProfileVenuesCard({ venue }) {
           Edit
         </Button>
 
-        <Button color="red" fullWidth mt="md" radius="md">
-          Delete
-        </Button>
+        <Popover width={200} position="bottom" withArrow shadow="md">
+          <Popover.Target>
+            <Button color="red" fullWidth mt="md" radius="md">
+              Delete
+            </Button>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <Text ta="center">Are you sure?</Text>
+            <Button
+              color="red"
+              onClick={() => handleConfirmDelete(dispatch, venue.id)}
+            >
+              Delete permanently
+            </Button>
+          </Popover.Dropdown>
+        </Popover>
       </Flex>
     </Card>
   );
