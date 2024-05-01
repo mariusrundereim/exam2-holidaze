@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  venueManager: true,
+  venueManager: false,
   name: "",
   email: "",
 };

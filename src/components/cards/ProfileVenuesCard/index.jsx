@@ -1,13 +1,16 @@
 import { Card, Image, Text, Button, Group, Flex, Popover } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleConfirmDelete } from "./handleActions";
 function ProfileVenuesCard({ venue }) {
   const dispatch = useDispatch();
   const { name, description, maxGuests, location, media } = venue;
-
   const firstImage = media[0].url;
+
+  // User role
+  const isVenueManager = useSelector((state) => state.user.venueManager);
+
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>

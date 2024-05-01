@@ -1,14 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import { allBookings } from "../../../../store/bookings/bookingSlice";
-import { useEffect } from "react";
+import { Grid, Title } from "@mantine/core";
+import { useSelector } from "react-redux";
+import CustomerBookingCard from "../../../../components/cards/CustomerBookingCard";
 function BookingHistory() {
-  const dispatch = useDispatch();
-  const booking = useSelector((state) => state.booking);
-  console.log("booking", booking);
+  const bookings = useSelector((state) => state.profile.data.bookings);
+  console.log("bookings", bookings);
+
+  console.log("bookings length", bookings.length);
+  const bookingsAmount = bookings.length;
 
   return (
     <>
-      <h2>Booking History</h2>
+      <h2>Your bookings ({bookingsAmount})</h2>
+      <Grid>
+        {bookings.map((booking) => (
+          <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>
+            <CustomerBookingCard venue={booking} />
+          </Grid.Col>
+        ))}
+      </Grid>
     </>
   );
 }
