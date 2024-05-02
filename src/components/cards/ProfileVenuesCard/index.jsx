@@ -5,7 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleConfirmDelete } from "./handleActions";
 function ProfileVenuesCard({ venue }) {
   const dispatch = useDispatch();
-  const { name, description, maxGuests, location, media } = venue;
+  const {
+    name,
+    description,
+    maxGuests,
+    location: { address, city, zip, country },
+    media,
+  } = venue;
   const firstImage = media[0].url;
 
   return (
@@ -22,7 +28,9 @@ function ProfileVenuesCard({ venue }) {
             style={{ width: rem(22), height: rem(22) }}
             stroke={1.8}
           />
-          <Text>Adresseveien 2, 4545 Gol</Text>
+          <Text>
+            {address}, {zip} {city}
+          </Text>
         </Group>
         <Group>
           <IconUsers style={{ width: rem(22), height: rem(22) }} stroke={1.5} />
