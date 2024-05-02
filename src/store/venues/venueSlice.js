@@ -94,18 +94,19 @@ export const getVenuesByProfile = createAsyncThunk(
 
 export const updateVenue = createAsyncThunk(
   "venue/updateVenue",
-  async ({ id }) => {
+  async ({ id, data }) => {
     try {
       const response = await fetch(`${BASE_URL}/venues/${id}`, {
         method: "PUT",
         headers: getAuthHeaders(),
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
         throw new Error("Venue not updated");
       }
 
-      return id;
+      return { id, data };
     } catch (error) {
       console.log(error);
     }
@@ -207,9 +208,20 @@ const venueSlice = createSlice({
       })
       .addCase(updateVenue.rejected, (state) => {
         state.loading = false;
+        state.error = action.error.message;
       })
       .addCase(updateVenue.fulfilled, (state, action) => {
-        //
+        const index = state.venue.findIndex(
+          (venue) => venue.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.venues[index] = {
+            ...state.venues[index],
+            ...action.payload.data,
+          };
+        }
+        state.loading = false;
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
         state.myCreatedVenues = state.myCreatedVenues.filter(
