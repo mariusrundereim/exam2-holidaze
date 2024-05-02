@@ -90,6 +90,28 @@ export const getVenuesByProfile = createAsyncThunk(
   }
 );
 
+// Update venue
+
+export const updateVenue = createAsyncThunk(
+  "venue/updateVenue",
+  async ({ id }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/venues/${id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error("Venue not updated");
+      }
+
+      return id;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 // Delete venue
 
 export const deleteVenue = createAsyncThunk(
@@ -179,6 +201,15 @@ const venueSlice = createSlice({
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
         state.myCreatedVenues = action.payload;
+      })
+      .addCase(updateVenue.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateVenue.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateVenue.fulfilled, (state, action) => {
+        //
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
         state.myCreatedVenues = state.myCreatedVenues.filter(
