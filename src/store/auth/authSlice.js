@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
 import { setUserProfile } from "./userSlice";
-import { setProfileData } from "../profile/profileSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
@@ -10,7 +9,7 @@ const initialState = {
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async (_, { dispatch, rejectWithValue, fulfillWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       localStorage.removeItem("accessToken");
       return {};
@@ -55,7 +54,6 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
-    // dispatch(setUserProfile(data.data));
 
     return data;
   }

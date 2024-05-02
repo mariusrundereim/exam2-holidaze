@@ -1,12 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
-import { getVenuesByProfile } from "../venues/venueSlice";
-import { deleteVenue } from "../venues/venueSlice";
 
 const profileInitialState = {
   bookings: [],
-  venuesProfile: [],
   isLoading: false,
   bookingsLoading: false,
 };
@@ -78,14 +75,6 @@ export const profileSlice = createSlice({
         state[key] = value;
       });
       state.isLoading = false;
-    });
-    builder.addCase(getVenuesByProfile.fulfilled, (state, action) => {
-      state.venuesProfile = action.payload;
-    });
-    builder.addCase(deleteVenue.fulfilled, (state, action) => {
-      state.venuesProfile = state.venuesProfile.filter(
-        (id) => id !== action.payload
-      );
     });
     builder.addCase(getBookingsByProfile.pending, (state) => {
       state.bookingsLoading = true;

@@ -5,7 +5,7 @@ import { useEffect } from "react";
 function VenueManagerSection({ profile }) {
   const dispatch = useDispatch();
   const venues = useSelector((state) => {
-    return state.profile.venuesProfile;
+    return state.venues.myCreatedVenues;
   });
 
   useEffect(() => {

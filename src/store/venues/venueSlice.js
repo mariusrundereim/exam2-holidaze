@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const venuesInitialState = {
+  myCreatedVenues: [],
   selectedVenue: null,
   allVenuesList: [],
   filteredVenues: [],
@@ -177,11 +178,13 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        state.venues = action.payload;
+        state.myCreatedVenues = action.payload;
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
         //fiks meg
-        state.venues = state.venues.filter((id) => id !== action.payload);
+        state.myCreatedVenues = state.myCreatedVenues.filter(
+          (venue) => venue.id !== action.payload
+        );
       })
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.searchVenues = action.payload;

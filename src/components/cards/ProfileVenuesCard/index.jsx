@@ -8,9 +8,6 @@ function ProfileVenuesCard({ venue }) {
   const { name, description, maxGuests, location, media } = venue;
   const firstImage = media[0].url;
 
-  // User role
-  const isVenueManager = useSelector((state) => state.user.venueManager);
-
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
