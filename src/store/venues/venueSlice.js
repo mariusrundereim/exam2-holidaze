@@ -3,9 +3,8 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const venuesInitialState = {
-  venuesById: {},
   selectedVenue: null,
-  venueList: [],
+  allVenuesList: [],
   filteredVenues: [],
   searchVenues: [],
   loading: "idle",
@@ -45,7 +44,6 @@ export const fetchVenueById = createAsyncThunk(
       }
     );
     const data = await response.json();
-    console.log("venue by id", data);
     return data;
   }
 );
@@ -133,14 +131,7 @@ export const searchVenues = createAsyncThunk(
 const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
-  reducers: {
-    venuesById(state, action) {
-      const venues = action.payload;
-      venues.forEach((venue) => {
-        state.venuesById[venue._id] = venue;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase("venues/filteredVenuesUpdate", (state, action) => {
@@ -150,7 +141,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        state.venueList = action.payload.data;
+        state.allVenuesList = action.payload.data;
         state.loading = "idle";
       })
       .addCase(fetchVenues.rejected, (state, action) => {
@@ -172,7 +163,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
-        state.venueList.push(action.payload);
+        state.allVenuesList.push(action.payload);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
@@ -198,5 +189,5 @@ const venueSlice = createSlice({
   },
 });
 
-export const { venuesById } = venueSlice.actions;
+// export const { venuesById } = venueSlice.actions;
 export default venueSlice.reducer;

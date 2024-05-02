@@ -5,7 +5,7 @@ import { useEffect } from "react";
 function VenueManagerSection({ profile }) {
   const dispatch = useDispatch();
   const venues = useSelector((state) => {
-    return state.profile.venueIds;
+    return state.profile.venuesProfile;
   });
 
   useEffect(() => {
@@ -16,7 +16,6 @@ function VenueManagerSection({ profile }) {
   return (
     <>
       <h2>Venue Manager Section</h2>
-      {/* <VenueList /> */}
       <VenuesList venues={venues} />
     </>
   );
