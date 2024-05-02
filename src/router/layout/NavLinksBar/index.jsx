@@ -34,17 +34,12 @@ function NavLinksBar() {
   const handleLogout = () => {
     dispatch(logout())
       .then(() => {
-        navigate("/"); // Navigate after the promise resolves
+        navigate("/");
       })
       .catch((error) => {
         console.log("Logout failed:", error);
       });
   };
-
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  //   dispatch(resetProfileData());
-  // };
 
   const profileLink = name ? `/profiles/${name}` : `/profiles`;
 

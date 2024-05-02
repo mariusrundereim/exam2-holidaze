@@ -181,7 +181,6 @@ const venueSlice = createSlice({
         state.myCreatedVenues = action.payload;
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
-        //fiks meg
         state.myCreatedVenues = state.myCreatedVenues.filter(
           (venue) => venue.id !== action.payload
         );

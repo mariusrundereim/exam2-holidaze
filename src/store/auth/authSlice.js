@@ -22,7 +22,7 @@ export const logout = createAsyncThunk(
 export const login = createAsyncThunk(
   "auth/login",
   async (loginPayload, { dispatch }) => {
-    const response = await fetch(`${AUTH_URL}/auth/login`, {
+    const response = await fetch(`${AUTH_URL}/auth/login?_holidaze=true`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginPayload),
@@ -33,7 +33,6 @@ export const login = createAsyncThunk(
     }
 
     const data = await response.json();
-    console.log(data);
     dispatch(setUserProfile(data.data));
     return data;
   }
