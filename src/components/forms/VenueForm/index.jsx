@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { createVenue } from "../../../store/venues/venueSlice";
+import { createVenue, updateVenue } from "../../../store/venues/venueSlice";
 import {
   Grid,
   Stack,
@@ -22,47 +22,59 @@ function VenueForm() {
   const navigate = useNavigate();
 
   const {
+    register,
+    setValue,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      maxGuests: 0,
+      name: venue ? venue.name : "",
+      description: venue ? venue.description : "",
+      price: venue ? venue.price : 0,
+      maxGuests: venue ? venue.maxGuests : 0,
 
-      media: [{ url: "" }],
-      location: {
-        address: "",
-        city: "",
-        zip: "",
-        country: "",
-        contigent: "",
-        lat: 0,
-        lng: 0,
-      },
+      media: venue ? venue.media : [{ url: "" }],
+      location: venue
+        ? venue.location
+        : {
+            address: "",
+            city: "",
+            zip: "",
+            country: "",
+            contigent: "",
+            lat: 0,
+            lng: 0,
+          },
     },
   });
 
   const { fields, append, remove } = useFieldArray({ control, name: "media" });
 
-  const onSubmit = async (data) => {
-    try {
-      console.log("before", data);
-      console.log("after", createVenue(data));
-      console.log("Test", await dispatch(createVenue(data)));
-
-      // const actionResult = await dispatch(createVenue(data));
-      // const venue = actionResult.payload;
-      // console.log("new", venue);
-      // if (venue.data.id) {
-      //   navigate(`/venues/${venue.data.id}`);
-      // }
-    } catch (error) {
-      console.error("Failed to create venue:", error);
+  const onSubmit = (data) => {
+    if (venue) {
+      dispatch(updateVenue({ id: venue.id, data }));
+    } else {
+      dispatch(createVenue.data);
     }
   };
+
+  // const onSubmit = async (data) => {
+  //   try {
+  //     console.log("before", data);
+  //     console.log("after", createVenue(data));
+  //     console.log("Test", await dispatch(createVenue(data)));
+
+  //     // const actionResult = await dispatch(createVenue(data));
+  //     // const venue = actionResult.payload;
+  //     // console.log("new", venue);
+  //     // if (venue.data.id) {
+  //     //   navigate(`/venues/${venue.data.id}`);
+  //     // }
+  //   } catch (error) {
+  //     console.error("Failed to create venue:", error);
+  //   }
+  // };
 
   return (
     <>
@@ -76,7 +88,7 @@ function VenueForm() {
               rules={{ required: true }}
               render={({ field }) => (
                 <Input.Wrapper label="Name" description="Enter name of a venue">
-                  <Input {...field} placeholder="Name" />
+                  <Input {...register("name")} placeholder="Name" />
                 </Input.Wrapper>
               )}
             />
@@ -268,7 +280,7 @@ function VenueForm() {
             <Button onClick={() => append({ url: "" })}>Add media</Button>
           )}
         </Stack>
-        <Button type="submit">Create venue</Button>
+        <Button type="submit">{venue ? "Update venue" : "Create venue"}</Button>
       </form>
     </>
   );

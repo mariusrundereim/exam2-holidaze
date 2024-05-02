@@ -37,15 +37,23 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id }) => {
-    const response = await fetch(
-      `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
-      {
-        headers: getAuthHeaders(),
+  async ({ id, rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch venue");
       }
-    );
-    const data = await response.json();
-    return data;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 

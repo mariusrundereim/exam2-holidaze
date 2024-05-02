@@ -2,8 +2,8 @@ import { Card, Image, Text, Button, Group, Flex, Popover } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleConfirmDelete } from "./handleActions";
-function ProfileVenuesCard({ venue }) {
+import { handleConfirmDelete, handleEditButton } from "./handleActions";
+function ProfileVenuesCard({ venue, venueId }) {
   const dispatch = useDispatch();
   const {
     name,
@@ -43,7 +43,13 @@ function ProfileVenuesCard({ venue }) {
       </Text>
 
       <Flex gap="md" direction={{ base: "column", sm: "row" }}>
-        <Button color="blue" fullWidth mt="md" radius="md">
+        <Button
+          color="blue"
+          fullWidth
+          mt="md"
+          radius="md"
+          onClick={() => dispatch(handleEditButton(venueId))}
+        >
           Edit
         </Button>
 
