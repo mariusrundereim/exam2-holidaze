@@ -41,13 +41,19 @@ function VenueForm() {
         lat: 0,
         lng: 0,
       },
+
+      // meta: {
+      //   wifi: false,
+      // },
     },
   });
 
   const onSubmit = async (data) => {
     try {
       console.log("before", data);
+      // const dispatchData = { ...createVenue };
       console.log("Test", await dispatch(createVenue(data)));
+
       // const actionResult = await dispatch(createVenue(data));
       // const venue = actionResult.payload;
       // console.log("new", venue);
@@ -132,7 +138,7 @@ function VenueForm() {
         <Title order={3}>Step 1</Title>
         <Stack>
           <Controller
-            name="wifi"
+            name="meta.wifi"
             control={control}
             render={({ field: { onChange, value } }) => (
               <Switch
@@ -142,7 +148,7 @@ function VenueForm() {
                 offLabel="No"
                 checked={value}
                 onChange={(newValue) => {
-                  console.log("Switch changed - new value:", newValue);
+                  console.log("tott", newValue);
                   onChange(newValue);
                 }}
               />

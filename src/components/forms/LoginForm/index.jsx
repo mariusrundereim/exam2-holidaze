@@ -10,7 +10,6 @@ function LoginForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const username = useSelector((state) => state.user.name);
-  console.log("username", username);
   const {
     control,
     handleSubmit,
@@ -24,9 +23,7 @@ function LoginForm() {
 
   const onSubmit = async (data) => {
     try {
-      console.log("huuuuh");
       const result = dispatch(await login(data));
-      console.log(result);
     } catch (e) {
       console.log(e);
     }
