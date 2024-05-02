@@ -65,7 +65,6 @@ export const profileSlice = createSlice({
   initialState: profileInitialState,
   reducers: {
     resetProfileData: (state) => {
-      // Reset profile data to initial state or clear specific fields
       return initialState;
     },
   },
@@ -77,7 +76,6 @@ export const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
-      // Assuming the API response is nested under `data`
       Object.entries(action.payload.data).forEach(([key, value]) => {
         state[key] = value;
       });

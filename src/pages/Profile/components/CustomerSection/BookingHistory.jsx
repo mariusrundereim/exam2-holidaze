@@ -7,7 +7,7 @@ function BookingHistory() {
   const user = useSelector((state) => state.user);
 
   if (bookingsLoading) {
-    return <Loader />; // Show a loader while bookings are loading
+    return <Loader />;
   }
 
   console.log("bookings", bookings);

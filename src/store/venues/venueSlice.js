@@ -105,6 +105,7 @@ export const deleteVenue = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Venue deletion failed");
       }
+
       return id;
     } catch (error) {
       console.error(error);
@@ -188,7 +189,8 @@ const venueSlice = createSlice({
         state.venues = action.payload;
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
-        state.venueIds = state.venueIds.filter((id) => id !== action.payload);
+        //fiks meg
+        state.venues = state.venues.filter((id) => id !== action.payload);
       })
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.searchVenues = action.payload;
