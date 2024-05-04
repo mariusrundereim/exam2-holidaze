@@ -1,16 +1,17 @@
+import { Grid } from "@mantine/core";
 import ProfilesCard from "../../components/cards/ProfilesCard";
-
 function ListProfiles({ profiles }) {
   return (
     <>
       <h2>List of profiles:</h2>
-      <ul>
+
+      <Grid>
         {profiles.map((profile) => (
-          <li key={profile.name}>
+          <Grid.Col key={profile.name} span={{ base: 12, md: 6, lg: 3 }}>
             <ProfilesCard profile={profile} />
-          </li>
+          </Grid.Col>
         ))}
-      </ul>
+      </Grid>
     </>
   );
 }
