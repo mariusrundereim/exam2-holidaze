@@ -223,13 +223,13 @@ const venueSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(updateVenue.fulfilled, (state, action) => {
-        const index = state.venue.findIndex(
+        const index = state.allVenuesList.findIndex(
           (venue) => venue.id === action.payload.id
         );
 
         if (index !== -1) {
-          state.venues[index] = {
-            ...state.venues[index],
+          state.allVenuesList[index] = {
+            ...state.allVenuesList[index],
             ...action.payload.data,
           };
         }

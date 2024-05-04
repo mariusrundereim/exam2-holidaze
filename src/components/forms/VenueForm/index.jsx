@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import { createVenue, updateVenue } from "../../../store/venues/venueSlice";
+import {
+  createVenue,
+  updateVenue,
+  fetchVenueById,
+} from "../../../store/venues/venueSlice";
 import {
   Grid,
   Stack,
@@ -18,18 +22,18 @@ import {
 } from "@mantine/core";
 function VenueForm() {
   const { venueId } = useParams();
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const venue = useSelector((state) =>
-    state.venues.allVenuesList.find((v) => v.id === venueId)
-  );
+  const venue = useSelector((state) => state.venues.selectedVenue);
+  // const venue = useSelector((state) =>
+  //   state.venues.allVenuesList.find((v) => v.id === venueId)
+  // );
 
   const {
     register,
     setValue,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -54,6 +58,22 @@ function VenueForm() {
   });
 
   const { fields, append, remove } = useFieldArray({ control, name: "media" });
+
+  // Load and set venue data when venueId changes
+  useEffect(() => {
+    if (venueId && !venue) {
+      dispatch(fetchVenueById({ id: venueId }));
+    } else if (venue) {
+      reset({
+        name: venue.name,
+        description: venue.description,
+        price: venue.price,
+        maxGuests: venue.maxGuests,
+        media: venue.media,
+        location: venue.location,
+      });
+    }
+  }, [venueId, venue, dispatch, reset]);
 
   const onSubmit = (data) => {
     if (venue) {
@@ -267,7 +287,9 @@ function VenueForm() {
             <Button onClick={() => append({ url: "" })}>Add media</Button>
           )}
         </Stack>
-        <Button type="submit">{venue ? "Update venue" : "Create venue"}</Button>
+        <Button type="submit">
+          {venueId ? "Update Venue" : "Create Venue"}
+        </Button>
       </form>
     </>
   );
