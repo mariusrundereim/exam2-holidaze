@@ -3,8 +3,10 @@ import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleConfirmDelete, handleEditButton } from "./handleActions";
+import { useNavigate } from "react-router-dom";
 function ProfileVenuesCard({ venue, venueId }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     name,
     description,
@@ -13,6 +15,15 @@ function ProfileVenuesCard({ venue, venueId }) {
     media,
   } = venue;
   const firstImage = media[0].url;
+
+  const editVenue = async (venueId) => {
+    try {
+      await dispatch(handleEditButton(venueId));
+      navigate(`/venues/edit/${venueId}`);
+    } catch (error) {
+      console.error("Failed to fetch and navigate:", error);
+    }
+  };
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -48,7 +59,7 @@ function ProfileVenuesCard({ venue, venueId }) {
           fullWidth
           mt="md"
           radius="md"
-          onClick={() => dispatch(handleEditButton(venueId))}
+          onClick={() => editVenue(venueId)}
         >
           Edit
         </Button>

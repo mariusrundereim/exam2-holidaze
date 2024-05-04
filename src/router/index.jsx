@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import ProfilePage from "../pages/Profile";
 import Signup from "../pages/Signup";
 import Explore from "../pages/Explore";
+import VenueForm from "../components/forms/VenueForm";
 function Router() {
   return (
     <>
@@ -16,6 +17,7 @@ function Router() {
           <Route path="/venues" element={<VenuesPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/venues/:venueId" element={<SpecificVenue />} />
+          <Route path="/venues/edit/:venueId" element={<VenueForm />} />
           <Route path="/profiles/:profileName" element={<ProfilePage />} />
         </Route>
       </Routes>

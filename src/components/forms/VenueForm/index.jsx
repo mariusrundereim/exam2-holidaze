@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { createVenue, updateVenue } from "../../../store/venues/venueSlice";
 import {
@@ -16,11 +16,14 @@ import {
   Group,
   NumberInput,
 } from "@mantine/core";
-
 function VenueForm() {
+  const { venueId } = useParams();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const venue = useSelector((state) => state.venues.selectedVenue);
+  const venue = useSelector((state) =>
+    state.venues.allVenuesList.find((v) => v.id === venueId)
+  );
 
   const {
     register,

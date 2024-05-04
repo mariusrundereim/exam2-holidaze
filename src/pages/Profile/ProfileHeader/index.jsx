@@ -9,11 +9,16 @@ import {
   Badge,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { clearSelectedVenue } from "../../../store/venues/venueSlice";
+import { useDispatch } from "react-redux";
+
 function ProfileHeader({ profile }) {
   const { name, email, venueManager, avatar } = profile;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const createVenue = () => {
+    dispatch(clearSelectedVenue());
     navigate(`/venues`);
   };
 

@@ -163,7 +163,11 @@ export const searchVenues = createAsyncThunk(
 const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
-  reducers: {},
+  reducers: {
+    clearSelectedVenue(state) {
+      state.selectedVenue = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase("venues/filteredVenuesUpdate", (state, action) => {
@@ -242,5 +246,5 @@ const venueSlice = createSlice({
   },
 });
 
-// export const { venuesById } = venueSlice.actions;
+export const { clearSelectedVenue } = venueSlice.actions;
 export default venueSlice.reducer;
