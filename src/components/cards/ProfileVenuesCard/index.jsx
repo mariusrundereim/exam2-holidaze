@@ -3,11 +3,14 @@ import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { handleConfirmDelete, handleEditButton } from "./handleActions";
+import { formattedDateTime } from "../../../utils/format/dateFormat";
 import { useNavigate } from "react-router-dom";
 function ProfileVenuesCard({ venue, venueId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
+    created,
+    updated,
     name,
     description,
     maxGuests,
@@ -15,6 +18,9 @@ function ProfileVenuesCard({ venue, venueId }) {
     media,
   } = venue;
   const firstImage = media[0].url;
+  console.log("thwe", venue);
+
+  // Edit venue
 
   const editVenue = async (venueId) => {
     try {
@@ -24,6 +30,8 @@ function ProfileVenuesCard({ venue, venueId }) {
       console.error("Failed to fetch and navigate:", error);
     }
   };
+
+  // Created & Update
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -49,8 +57,8 @@ function ProfileVenuesCard({ venue, venueId }) {
         </Group>
       </Group>
 
-      <Text size="sm" c="dimmed">
-        {description}
+      <Text size="sm">
+        {updated ? formattedDateTime(updated) : formattedDateTime(created)}
       </Text>
 
       <Flex gap="md" direction={{ base: "column", sm: "row" }}>

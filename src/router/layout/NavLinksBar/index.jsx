@@ -4,6 +4,7 @@ import {
   IconLogout,
   IconLayout2,
   IconLogin,
+  IconPlus,
 } from "@tabler/icons-react";
 
 import { useEffect, useState } from "react";
@@ -20,6 +21,7 @@ const navData = [
   { link: "/explore", label: "Explore", icon: IconLayout2 },
   { link: "/profiles", label: "Profile", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
+  { link: "/venues", label: "New venue", icon: IconPlus },
 ];
 
 function NavLinksBar() {
