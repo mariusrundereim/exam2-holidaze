@@ -1,17 +1,28 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
 import { setUserProfile } from "./userSlice";
-import { setProfileData } from "../profiles/profileSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
   error: null,
 };
 
+export const logout = createAsyncThunk(
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      localStorage.removeItem("accessToken");
+      return {};
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const login = createAsyncThunk(
   "auth/login",
   async (loginPayload, { dispatch }) => {
-    const response = await fetch(`${AUTH_URL}/auth/login`, {
+    const response = await fetch(`${AUTH_URL}/auth/login?_holidaze=true`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginPayload),
@@ -22,7 +33,6 @@ export const login = createAsyncThunk(
     }
 
     const data = await response.json();
-    console.log(data);
     dispatch(setUserProfile(data.data));
     return data;
   }
@@ -43,26 +53,15 @@ export const register = createAsyncThunk(
     }
 
     const data = await response.json();
-    dispatch(setUserProfile(data.data));
 
-    return data.data;
+    return data;
   }
 );
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    setCredentials: (state, action) => {
-      state.credentials = action.payload;
-    },
-    logout: (state) => {
-      state.accessToken = null;
-      state.credentials = {};
-      localStorage.removeItem("accessToken");
-      return { ...state };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
 
@@ -94,8 +93,19 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || "Failed to register";
         state.accessToken = null;
+      })
+
+      .addCase(logout.fulfilled, (state) => {
+        state.accessToken = null;
+        state.credentials = {}; // Assuming you want to clear other auth-related data
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.error = action.error.message || "Logout failed";
+        state.isLoading = false;
       });
   },
 });
-export const { setCredentials, logout } = authSlice.actions;
+// export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;

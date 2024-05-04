@@ -10,7 +10,7 @@ function Explore() {
   const loading = useSelector((state) => state.venues.loading);
 
   const filteredVenues = useSelector((state) => {
-    const allVenues = state.venues.venueList;
+    const allVenues = state.venues.allVenuesList;
     return filterValidVenues(allVenues);
   });
 

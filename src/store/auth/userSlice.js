@@ -1,20 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  venueManager: false,
-  name: "",
-  email: "",
+  test: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserProfile(state, action) {
-      return {
-        ...state,
-        ...action.payload,
-      };
+    setUserProfile: (state, action) => {
+      Object.assign(state, action.payload);
     },
     resetUserState: () => initialState,
   },

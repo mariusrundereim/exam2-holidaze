@@ -3,9 +3,9 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const venuesInitialState = {
-  venuesById: {},
+  myCreatedVenues: [],
   selectedVenue: null,
-  venueList: [],
+  allVenuesList: [],
   filteredVenues: [],
   searchVenues: [],
   loading: "idle",
@@ -37,16 +37,23 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id }) => {
-    const response = await fetch(
-      `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
-      {
-        headers: getAuthHeaders(),
+  async ({ id, rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch venue");
       }
-    );
-    const data = await response.json();
-    console.log("venue by id", data);
-    return data;
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -91,6 +98,29 @@ export const getVenuesByProfile = createAsyncThunk(
   }
 );
 
+// Update venue
+
+export const updateVenue = createAsyncThunk(
+  "venue/updateVenue",
+  async ({ id, data }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/venues/${id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Venue not updated");
+      }
+
+      return { id, data };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 // Delete venue
 
 export const deleteVenue = createAsyncThunk(
@@ -105,6 +135,7 @@ export const deleteVenue = createAsyncThunk(
       if (!response.ok) {
         throw new Error("Venue deletion failed");
       }
+
       return id;
     } catch (error) {
       console.error(error);
@@ -133,11 +164,8 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
-    venuesById(state, action) {
-      const venues = action.payload;
-      venues.forEach((venue) => {
-        state.venuesById[venue._id] = venue;
-      });
+    clearSelectedVenue(state) {
+      state.selectedVenue = null;
     },
   },
   extraReducers: (builder) => {
@@ -149,7 +177,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        state.venueList = action.payload.data;
+        state.allVenuesList = action.payload.data;
         state.loading = "idle";
       })
       .addCase(fetchVenues.rejected, (state, action) => {
@@ -171,7 +199,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
-        state.venueList.push(action.payload);
+        state.allVenuesList.push(action.payload);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
@@ -185,10 +213,32 @@ const venueSlice = createSlice({
         state.loading = false;
       })
       .addCase(getVenuesByProfile.fulfilled, (state, action) => {
-        state.venues = action.payload;
+        state.myCreatedVenues = action.payload;
+      })
+      .addCase(updateVenue.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateVenue.rejected, (state) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateVenue.fulfilled, (state, action) => {
+        const index = state.allVenuesList.findIndex(
+          (venue) => venue.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.allVenuesList[index] = {
+            ...state.allVenuesList[index],
+            ...action.payload.data,
+          };
+        }
+        state.loading = false;
       })
       .addCase(deleteVenue.fulfilled, (state, action) => {
-        state.venueIds = state.venueIds.filter((id) => id !== action.payload);
+        state.myCreatedVenues = state.myCreatedVenues.filter(
+          (venue) => venue.id !== action.payload
+        );
       })
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.searchVenues = action.payload;
@@ -196,5 +246,5 @@ const venueSlice = createSlice({
   },
 });
 
-export const { venuesById } = venueSlice.actions;
+export const { clearSelectedVenue } = venueSlice.actions;
 export default venueSlice.reducer;

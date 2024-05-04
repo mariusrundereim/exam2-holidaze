@@ -2,14 +2,36 @@ import { Card, Image, Text, Button, Group, Flex, Popover } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
 import { useDispatch, useSelector } from "react-redux";
-import { handleConfirmDelete } from "./handleActions";
-function ProfileVenuesCard({ venue }) {
+import { handleConfirmDelete, handleEditButton } from "./handleActions";
+import { formattedDateTime } from "../../../utils/format/dateFormat";
+import { useNavigate } from "react-router-dom";
+function ProfileVenuesCard({ venue, venueId }) {
   const dispatch = useDispatch();
-  const { name, description, maxGuests, location, media } = venue;
+  const navigate = useNavigate();
+  const {
+    created,
+    updated,
+    name,
+    description,
+    maxGuests,
+    location: { address, city, zip, country },
+    media,
+  } = venue;
   const firstImage = media[0].url;
+  console.log("thwe", venue);
 
-  // User role
-  const isVenueManager = useSelector((state) => state.user.venueManager);
+  // Edit venue
+
+  const editVenue = async (venueId) => {
+    try {
+      await dispatch(handleEditButton(venueId));
+      navigate(`/venues/edit/${venueId}`);
+    } catch (error) {
+      console.error("Failed to fetch and navigate:", error);
+    }
+  };
+
+  // Created & Update
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
@@ -25,7 +47,9 @@ function ProfileVenuesCard({ venue }) {
             style={{ width: rem(22), height: rem(22) }}
             stroke={1.8}
           />
-          <Text>Adresseveien 2, 4545 Gol</Text>
+          <Text>
+            {address}, {zip} {city}
+          </Text>
         </Group>
         <Group>
           <IconUsers style={{ width: rem(22), height: rem(22) }} stroke={1.5} />
@@ -33,12 +57,18 @@ function ProfileVenuesCard({ venue }) {
         </Group>
       </Group>
 
-      <Text size="sm" c="dimmed">
-        {description}
+      <Text size="sm">
+        {updated ? formattedDateTime(updated) : formattedDateTime(created)}
       </Text>
 
       <Flex gap="md" direction={{ base: "column", sm: "row" }}>
-        <Button color="blue" fullWidth mt="md" radius="md">
+        <Button
+          color="blue"
+          fullWidth
+          mt="md"
+          radius="md"
+          onClick={() => editVenue(venueId)}
+        >
           Edit
         </Button>
 

@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 import { IconAt } from "@tabler/icons-react";
 
-function RegisterForm({ onSuccess }) {
+function RegisterForm({ onSuccess, setActiveTab }) {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,7 +39,9 @@ function RegisterForm({ onSuccess }) {
       await dispatch(register(payload)).unwrap();
       setActiveTab("login");
       onSuccess();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Registration error", error);
+    }
   };
   return (
     <>
