@@ -20,6 +20,7 @@ const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/explore", label: "Explore", icon: IconLayout2 },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "New venue", icon: IconPlus },
 ];
