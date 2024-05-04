@@ -7,7 +7,7 @@ function VenuesNewList({ venues }) {
       <Grid>
         {venues.map((venue) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={venue.id}>
-            <ProfileVenuesCard venue={venue} />
+            <ProfileVenuesCard venue={venue} venueId={venue.id} />
           </Grid.Col>
         ))}
       </Grid>

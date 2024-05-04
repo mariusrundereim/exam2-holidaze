@@ -20,6 +20,7 @@ import {
 function VenueForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const venue = useSelector((state) => state.venues.selectedVenue);
 
   const {
     register,
@@ -55,26 +56,9 @@ function VenueForm() {
     if (venue) {
       dispatch(updateVenue({ id: venue.id, data }));
     } else {
-      dispatch(createVenue.data);
+      dispatch(createVenue(data));
     }
   };
-
-  // const onSubmit = async (data) => {
-  //   try {
-  //     console.log("before", data);
-  //     console.log("after", createVenue(data));
-  //     console.log("Test", await dispatch(createVenue(data)));
-
-  //     // const actionResult = await dispatch(createVenue(data));
-  //     // const venue = actionResult.payload;
-  //     // console.log("new", venue);
-  //     // if (venue.data.id) {
-  //     //   navigate(`/venues/${venue.data.id}`);
-  //     // }
-  //   } catch (error) {
-  //     console.error("Failed to create venue:", error);
-  //   }
-  // };
 
   return (
     <>
