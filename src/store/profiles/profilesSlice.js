@@ -33,7 +33,9 @@ export const getAllProfiles = createAsyncThunk(
 export const searchProfiles = createAsyncThunk(
   "profiles/searchProfiles",
   async (query) => {
-    const response = await fetch(`${BASE_URL}/profiles/search?q=${query}`);
+    const response = await fetch(`${BASE_URL}/profiles/search?q=${query}`, {
+      headers: getAuthHeaders(),
+    });
     const data = await response.json();
     console.log("searched profiles", data);
     return data;
