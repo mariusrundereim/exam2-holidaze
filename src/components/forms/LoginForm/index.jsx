@@ -1,4 +1,4 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { useAppDispatch } from "../../../store";
 import { login } from "../../../store/auth/authSlice";
 import { Grid, Input, Title, Text, Switch, Button, Group } from "@mantine/core";
@@ -18,20 +18,33 @@ function LoginForm() {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
+  const watchFields = useWatch({
+    control,
+    name: ["password", "confirmPassword"],
+  });
+
+  const password = watchFields[0];
+  const confirmPassword = watchFields[1];
+
   const onSubmit = async (data) => {
     try {
-      const result = dispatch(await login(data));
+      if (data.password === data.confirmPassword) {
+        const result = await dispatch(login(data));
+      } else {
+        console.error("Passwords do not match.");
+      }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 
   useEffect(() => {
     if (username) {
-      navigate(`/profiles/${username}`);
+      navigate(`/profile/${username}`);
     }
   }, [username, navigate]);
 
@@ -39,24 +52,68 @@ function LoginForm() {
     <>
       <Title order={3}>Login</Title>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="email"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <Input {...field} placeholder="Email" />}
-        />
-        {errors.email && <span>This field is required</span>}
-
-        <Controller
-          name="password"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Input type="password" {...field} placeholder="Password" />
-          )}
-        />
-        {errors.password && <span>This field is required</span>}
-        <Button type="submit">Login</Button>
+        <Grid>
+          <Grid.Col>
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input.Wrapper label="Email">
+                  <Input {...field} placeholder="Email" />
+                </Input.Wrapper>
+              )}
+            />
+            {errors.email && <span>This field is required</span>}
+            <Grid>
+              <Grid.Col span={6}>
+                <Controller
+                  name="password"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Input.Wrapper label="Password">
+                      <Input
+                        type="password"
+                        {...field}
+                        placeholder="Password"
+                      />
+                    </Input.Wrapper>
+                  )}
+                />
+                {errors.password && <span>This field is required</span>}
+              </Grid.Col>
+              <Grid.Col span={6}>
+                <Controller
+                  name="confirmPassword"
+                  control={control}
+                  rules={{
+                    required: true,
+                    validate: (value) =>
+                      value === password || "Passwords don't match.",
+                  }}
+                  render={({ field }) => (
+                    <Input.Wrapper label="Confirm password">
+                      <Input
+                        type="password"
+                        {...field}
+                        placeholder="Password"
+                      />
+                    </Input.Wrapper>
+                  )}
+                />
+                {errors.confirmPassword && (
+                  <span>{errors.confirmPassword.message}</span>
+                )}
+              </Grid.Col>
+            </Grid>
+          </Grid.Col>
+          <Grid.Col>
+            <Button type="submit" fullWidth>
+              Login
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </>
   );
