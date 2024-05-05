@@ -4,6 +4,7 @@ import { getAuthHeaders } from "../helper";
 
 const profilesInitialState = {
   allProfilesList: [],
+  searchResults: [],
   loading: false,
 };
 
@@ -27,6 +28,18 @@ export const getAllProfiles = createAsyncThunk(
   }
 );
 
+// Search profiles
+
+export const searchProfiles = createAsyncThunk(
+  "profiles/searchProfiles",
+  async (query) => {
+    const response = await fetch(`${BASE_URL}/profiles/search?q=${query}`);
+    const data = await response.json();
+    console.log("searched profiles", data);
+    return data;
+  }
+);
+
 export const profilesSlice = createSlice({
   name: "profiles",
   initialState: profilesInitialState,
@@ -41,6 +54,15 @@ export const profilesSlice = createSlice({
     });
     builder.addCase(getAllProfiles.fulfilled, (state, action) => {
       state.allProfilesList = action.payload.data;
+    });
+    builder.addCase(searchProfiles.pending, (state) => {
+      state.loading = "loading";
+    });
+    builder.addCase(searchProfiles.rejected, (state, action) => {
+      state.loading = "idle";
+    });
+    builder.addCase(searchProfiles.fulfilled, (state, action) => {
+      state.searchResults = action.payload.data;
     });
   },
 });

@@ -1,4 +1,12 @@
-import { Avatar, Title, Badge, Group, Stack, Button } from "@mantine/core";
+import {
+  Avatar,
+  Title,
+  Badge,
+  Group,
+  Stack,
+  Button,
+  Grid,
+} from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 function ProfilesCard({ profile }) {
   const { name, venueManager, avatar = { url, alt } } = profile;

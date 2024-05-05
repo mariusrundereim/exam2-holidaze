@@ -7,7 +7,7 @@ function ListProfiles({ profiles }) {
 
       <Grid>
         {profiles.map((profile) => (
-          <Grid.Col key={profile.name} span={{ base: 12, md: 6, lg: 3 }}>
+          <Grid.Col key={profile.name}>
             <ProfilesCard profile={profile} />
           </Grid.Col>
         ))}
