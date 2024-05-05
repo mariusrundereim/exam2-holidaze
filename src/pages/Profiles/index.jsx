@@ -22,8 +22,8 @@ function Profiles() {
     <>
       <h2>All profiles</h2>
       <SearchPanelProfiles />
-      <ListProfiles profiles={allProfiles} />
-      <PaginationProfiles />
+      {/* <ListProfiles profiles={allProfiles} /> */}
+      {/* <PaginationProfiles /> */}
     </>
   );
 }

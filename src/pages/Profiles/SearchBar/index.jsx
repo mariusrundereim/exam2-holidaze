@@ -1,9 +1,11 @@
-import { Input, Grid } from "@mantine/core";
+import { Input, Grid, Stack } from "@mantine/core";
 import { IconUserCircle, IconChevronDown } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "../../../utils/debounce";
 import { searchProfiles } from "../../../store/profiles/profilesSlice";
+import ProfilesCard from "../../../components/cards/ProfilesCard";
+import ItemProfiles from "./itemList";
 function SearchPanelProfiles() {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
@@ -55,11 +57,12 @@ function SearchPanelProfiles() {
           <option value="customer">Customer</option>
         </Input>
       </Grid>
-      <div>
+
+      <Stack gap="xs" m={10}>
         {filteredProfiles.map((profile) => (
-          <div key={profile.name}>{profile && profile.name}</div>
+          <ItemProfiles profile={profile} />
         ))}
-      </div>
+      </Stack>
     </>
   );
 }
