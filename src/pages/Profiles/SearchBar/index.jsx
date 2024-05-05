@@ -3,32 +3,31 @@ import { IconUserCircle, IconChevronDown } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { debounce } from "../../../utils/debounce";
+import { searchProfiles } from "../../../store/profiles/profilesSlice";
 function SearchPanelProfiles() {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [profileType, setProfileType] = useState("all");
 
   const debouncedSearch = useCallback(
-    debounce((searchText, profileType) => {
-      switch (profileType) {
-        case "venuemanager":
-          dispatch(searchVenueManagers(searchText));
-          break;
-        case "customer":
-          dispatch(searchCustomers(searchText));
-          break;
-        default:
-          dispatch(searchAllProfiles(searchText));
-      }
+    debounce((searchText) => {
+      dispatch(searchProfiles(searchText));
     }, 300),
     [dispatch]
   );
 
-  useEffect(() => {
-    if (searchText.trim()) {
-      debouncedSearch(searchText, profileType);
-    }
-  }, [searchText, profileType, debouncedSearch]);
+  const handleSearchChange = (event) => {
+    setSearchText(event.target.value);
+    debouncedSearch(event.target.value);
+  };
+
+  const profiles = useSelector((state) => state.profiles.searchResults);
+  const filteredProfiles = profiles.filter((profile) => {
+    if (profileType === "all") return true;
+    return profileType === "venuemanager"
+      ? profile.isVenueManager
+      : !profile.isVenueManager;
+  });
   return (
     <>
       <Grid align="center">
@@ -36,7 +35,8 @@ function SearchPanelProfiles() {
           size="md"
           leftSection={<IconUserCircle size={24} />}
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={handleSearchChange}
+          placeholder="Search profiles..."
         />
         <Input
           component="select"
@@ -51,6 +51,11 @@ function SearchPanelProfiles() {
           <option value="customer">Customer</option>
         </Input>
       </Grid>
+      <div>
+        {filteredProfiles.map((profile) => (
+          <div key={profile.id}>{profile.name}</div>
+        ))}
+      </div>
     </>
   );
 }

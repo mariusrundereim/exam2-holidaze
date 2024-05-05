@@ -5,19 +5,19 @@ import { getAuthHeaders } from "../helper";
 const profilesInitialState = {
   allProfilesList: [],
   searchResults: [],
+  metaDetails: {},
   loading: false,
+  error: null,
 };
 
 // All profiles
+
 export const getAllProfiles = createAsyncThunk(
   "profiles/getAllProfiles",
-  async () => {
-    const response = await fetch(
-      `${BASE_URL}/profiles/?_venues=true&_bookings=true`,
-      {
-        headers: getAuthHeaders(),
-      }
-    );
+  async (page) => {
+    const response = await fetch(`${BASE_URL}/profiles/?page=${page}`, {
+      headers: getAuthHeaders(),
+    });
 
     if (!response.ok) {
       throw new Error("Profile fetch failed");
@@ -48,14 +48,17 @@ export const profilesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllProfiles.pending, (state) => {
-      state.loading = "loading";
+      state.loading = true;
+      state.error = null;
     });
     builder.addCase(getAllProfiles.rejected, (state, action) => {
-      state.loading = "idle";
-      state.error = action.payload || "Failed to fetch profiles";
+      state.loading = false;
+      state.error = action.error.message;
     });
     builder.addCase(getAllProfiles.fulfilled, (state, action) => {
       state.allProfilesList = action.payload.data;
+      state.metaDetails = action.payload.meta;
+      state.loading = false;
     });
     builder.addCase(searchProfiles.pending, (state) => {
       state.loading = "loading";
