@@ -5,6 +5,7 @@ import { getAuthHeaders } from "../helper";
 const profilesInitialState = {
   allProfilesList: [],
   searchResults: [],
+  selectedProfile: [],
   metaDetails: {},
   loading: false,
   error: null,

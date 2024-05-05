@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { register } from "../../../store/auth/authSlice";
 import {
   Grid,
-  Stack,
   Input,
   Title,
   Text,
   Switch,
   Button,
-  Group,
   Textarea,
-  Box,
 } from "@mantine/core";
 import {
   IconAt,
@@ -21,11 +17,10 @@ import {
   IconLock,
   IconPhoto,
 } from "@tabler/icons-react";
-
+import { validImageFormat } from "../../../utils/format/imageFormat";
 function RegisterForm({ onSuccess, setActiveTab }) {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const {
     control,
@@ -44,15 +39,24 @@ function RegisterForm({ onSuccess, setActiveTab }) {
   });
 
   const onSubmit = async (data) => {
+    // Adjust data to convert empty strings to null or another expected value
+    const processedData = {
+      ...data,
+      avatar: { url: data.avatar.url || null },
+      banner: { url: data.banner.url || null },
+      venueManager: checked,
+    };
+
+    console.log("Processed data for submission:", processedData);
     try {
-      const payload = { ...data, venueManager: checked };
-      await dispatch(register(payload)).unwrap();
+      await dispatch(register(processedData)).unwrap();
       setActiveTab("login");
       onSuccess();
     } catch (error) {
       console.error("Registration error", error);
     }
   };
+
   return (
     <>
       <Title order={3}>Sign up</Title>
@@ -119,8 +123,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="avatar.url"
               control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
+              rules={{ validate: validImageFormat }}
+              render={({ field, fieldState }) => (
                 <Input.Wrapper label="Avatar">
                   <Input
                     {...field}
@@ -128,6 +132,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                     placeholder="Enter url"
                     value={field.value || ""}
                     onChange={field.onChange}
+                    error={fieldState.error?.message}
                     leftSection={<IconPhoto size={18} />}
                   />
                 </Input.Wrapper>
@@ -136,8 +141,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="banner.url"
               control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
+              rules={{ validate: validImageFormat }}
+              render={({ field, fieldState }) => (
                 <Input.Wrapper label="Banner">
                   <Input
                     label="banner.url"
@@ -145,6 +150,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                     placeholder="Enter url"
                     value={field.value}
                     onChange={field.onChange}
+                    error={fieldState.error?.message}
                     leftSection={<IconPhoto size={18} />}
                   />
                 </Input.Wrapper>
