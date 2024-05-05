@@ -15,9 +15,12 @@ const profilesInitialState = {
 export const getAllProfiles = createAsyncThunk(
   "profiles/getAllProfiles",
   async (page) => {
-    const response = await fetch(`${BASE_URL}/profiles/?page=${page}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await fetch(
+      `${BASE_URL}/profiles/?page=${page}&sortOrder=asc`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Profile fetch failed");

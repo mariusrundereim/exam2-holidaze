@@ -17,16 +17,20 @@ function SearchPanelProfiles() {
   );
 
   const handleSearchChange = (event) => {
-    setSearchText(event.target.value);
-    debouncedSearch(event.target.value);
+    const value = event.target.value || "";
+    setSearchText(value);
+    if (value.trim()) {
+      debouncedSearch(value);
+    }
   };
 
-  const profiles = useSelector((state) => state.profiles.searchResults);
+  // Profile
+  const profiles = useSelector((state) => state.profiles.searchResults) || [];
   const filteredProfiles = profiles.filter((profile) => {
     if (profileType === "all") return true;
     return profileType === "venuemanager"
-      ? profile.isVenueManager
-      : !profile.isVenueManager;
+      ? profile.venueManager
+      : !profile.venueManager;
   });
   return (
     <>
@@ -53,7 +57,7 @@ function SearchPanelProfiles() {
       </Grid>
       <div>
         {filteredProfiles.map((profile) => (
-          <div key={profile.id}>{profile.name}</div>
+          <div key={profile.name}>{profile && profile.name}</div>
         ))}
       </div>
     </>
