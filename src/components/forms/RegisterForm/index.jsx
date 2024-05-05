@@ -13,8 +13,14 @@ import {
   Button,
   Group,
   Textarea,
+  Box,
 } from "@mantine/core";
-import { IconAt } from "@tabler/icons-react";
+import {
+  IconAt,
+  IconUserCircle,
+  IconLock,
+  IconPhoto,
+} from "@tabler/icons-react";
 
 function RegisterForm({ onSuccess, setActiveTab }) {
   const [checked, setChecked] = useState(false);
@@ -31,7 +37,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
       email: "",
       password: "",
       bio: "",
-      banner: "",
+      avatar: { url: "" },
+      banner: { url: "" },
       venueManager: false,
     },
   });
@@ -51,52 +58,113 @@ function RegisterForm({ onSuccess, setActiveTab }) {
       <Title order={3}>Sign up</Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid>
-          <Grid.Col>
+        <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
+          <Grid.Col span={{ base: 12, md: 6 }}>
             <Controller
               name="name"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input
-                  {...field}
-                  label="Name"
-                  description="Text descrition"
-                  placeholder="Name"
-                  value={field.value}
-                  onChange={field.onChange}
-                />
+                <Input.Wrapper label="Name" withAsterisk>
+                  <Input
+                    {...field}
+                    label="name"
+                    placeholder="Name"
+                    value={field.value}
+                    onChange={field.onChange}
+                    leftSection={<IconUserCircle size={18} />}
+                  />
+                </Input.Wrapper>
               )}
             />
             {errors.name && <Text>This field is required</Text>}
-          </Grid.Col>
-          <Grid.Col>
             <Controller
               name="email"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: true, pattern: /^[^@]+@stud\.noroff\.no$/i }}
               render={({ field }) => (
-                <Input
-                  {...field}
-                  placeholder="Email"
-                  value={field.value}
-                  onChange={field.onChange}
-                  leftSection={<IconAt size={16} />}
-                />
+                <Input.Wrapper label="Email" withAsterisk>
+                  <Input
+                    {...field}
+                    placeholder="Email"
+                    value={field.value}
+                    onChange={field.onChange}
+                    leftSection={<IconAt size={18} />}
+                  />
+                </Input.Wrapper>
               )}
             />
-            {errors.email && <span>This field is required</span>}
-          </Grid.Col>
-          <Grid.Col>
+            {errors.email && (
+              <span>Field supports only @stud.noroff.no email</span>
+            )}
             <Controller
               name="password"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input type="password" {...field} placeholder="Password" />
+                <Input.Wrapper label="Password" withAsterisk>
+                  <Input
+                    type="password"
+                    {...field}
+                    placeholder="Password"
+                    leftSection={<IconLock size={18} />}
+                  />
+                </Input.Wrapper>
               )}
             />
             {errors.password && <span>This field is required</span>}
+          </Grid.Col>
+
+          <Grid.Col span={6}>
+            <Controller
+              name="avatar.url"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="Avatar">
+                  <Input
+                    {...field}
+                    label="avatar.url"
+                    placeholder="Enter url"
+                    value={field.value || ""}
+                    onChange={field.onChange}
+                    leftSection={<IconPhoto size={18} />}
+                  />
+                </Input.Wrapper>
+              )}
+            />
+            <Controller
+              name="banner.url"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="Banner">
+                  <Input
+                    label="banner.url"
+                    {...field}
+                    placeholder="Enter url"
+                    value={field.value}
+                    onChange={field.onChange}
+                    leftSection={<IconPhoto size={18} />}
+                  />
+                </Input.Wrapper>
+              )}
+            />
+            <Controller
+              name="venueManager"
+              control={control}
+              render={({ field }) => (
+                <Switch
+                  {...field}
+                  checked={checked}
+                  label="Venue manager?"
+                  onChange={(event) => setChecked(event.currentTarget.checked)}
+                  size="md"
+                  onLabel="Yes"
+                  offLabel="No"
+                />
+              )}
+            />
           </Grid.Col>
 
           <Grid.Col>
@@ -115,39 +183,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
               )}
             />
           </Grid.Col>
-
-          <Grid.Col>
-            <Controller
-              name="avatar.url"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input
-                  label="avatar.url"
-                  {...field}
-                  placeholder="Enter url"
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              )}
-            />
-          </Grid.Col>
-
-          <Controller
-            name="venueManager"
-            control={control}
-            render={({ field }) => (
-              <Switch
-                {...field}
-                checked={checked}
-                label="Venue manager?"
-                onChange={(event) => setChecked(event.currentTarget.checked)}
-                size="md"
-                onLabel="Yes"
-                offLabel="No"
-              />
-            )}
-          />
 
           <Button type="submit" fullWidth>
             Register
