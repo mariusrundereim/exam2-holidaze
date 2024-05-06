@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
-
+import { fetchProfileByName } from "../profile/profileSlice";
 const profilesInitialState = {
   allProfilesList: [],
   searchResults: [],
-  selectedProfile: [],
+  selectedProfile: {},
   metaDetails: {},
   loading: false,
   error: null,
@@ -72,6 +72,14 @@ export const profilesSlice = createSlice({
     });
     builder.addCase(searchProfiles.fulfilled, (state, action) => {
       state.searchResults = action.payload.data;
+    });
+    builder.addCase(fetchProfileByName.pending, (state) => {
+      state.selectedProfile = {};
+      state.loading = false;
+    });
+    builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
+      state.selectedProfile = action.payload.data;
+      state.loading = false;
     });
   },
 });
