@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProfileByName } from "../../store/profile/profileSlice";
-
+import { resetProfileData } from "../../store/profile/profileSlice";
 import ProfileHeader from "./ProfileHeader";
 import VenueManagerSection from "./components/VenueManagerSection";
 import CustomerSection from "./components/CustomerSection";
