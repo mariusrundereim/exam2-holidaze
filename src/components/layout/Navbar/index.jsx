@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Text, Group } from "@mantine/core";
-import classes from "./navbarclass.module.css";
+import classes from "./navbar.module.css";
 
 import { logout } from "../../../store/auth/authSlice";
 

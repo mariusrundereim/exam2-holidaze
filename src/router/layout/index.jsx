@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { AppShell, Burger, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import NavLinksBar from "./NavLinksBar";
+import NavLinksBar from "../../components/layout/Navbar";
 import LogoBrand from "../../components/Logo";
 // import NavLinksBar from "./NavLinksBar";
 
