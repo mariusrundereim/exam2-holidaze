@@ -1,3 +1,4 @@
+import { Grid } from "@mantine/core";
 import LocationDisplay from "./locationDisplay";
 import AmenitiesDisplay from "./amenitiesDisplay";
 import VenueDisplay from "./venueDisplay";

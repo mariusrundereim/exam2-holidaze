@@ -9,13 +9,19 @@ import CustomerSection from "./components/CustomerSection";
 function ProfilePage() {
   const dispatch = useDispatch();
   const { profileName } = useParams();
-  const profile = useSelector(
-    (state) => state[profileName === "user" ? "user" : "profile"]
+  const profile = useSelector((state) =>
+    profileName === "user" ? state.user : state.profile[profileName]
   );
 
   useEffect(() => {
-    dispatch(fetchProfileByName(profileName));
-  }, [dispatch, profileName]);
+    if (!profile) {
+      dispatch(fetchProfileByName(profileName));
+    }
+  }, [dispatch, profileName, profile]);
+
+  if (!profile) {
+    return <div>Loading profile...</div>;
+  }
 
   return (
     <>

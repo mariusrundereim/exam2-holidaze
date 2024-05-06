@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const profileInitialState = {
+  profiles: {},
   bookings: [],
   isLoading: false,
   bookingsLoading: false,
@@ -71,9 +72,7 @@ export const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
-      Object.entries(action.payload.data).forEach(([key, value]) => {
-        state[key] = value;
-      });
+      state.profiles[action.meta.arg] = action.payload.data;
       state.isLoading = false;
     });
     builder.addCase(getBookingsByProfile.pending, (state) => {

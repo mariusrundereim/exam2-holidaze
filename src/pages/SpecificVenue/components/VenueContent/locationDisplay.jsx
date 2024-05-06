@@ -1,4 +1,4 @@
-import { Title, Text, Stack, Space, Flex } from "@mantine/core";
+import { Grid, Title, Text, Stack, Space, Flex } from "@mantine/core";
 
 import {
   addressMessage,
@@ -10,23 +10,24 @@ import {
 function LocationDisplay({ location }) {
   return (
     <>
-      <Flex gap="xl" direction="row" wrap="wrap">
-        <Stack>
+      <Grid>
+        <Grid.Col>
           <Title order={4}>Address:</Title>
           <Text>{addressMessage(location)}</Text>
-        </Stack>
-        <Stack>
+        </Grid.Col>
+        <Grid.Col>
           <Title order={4}>City</Title>
           <Text>
             {zipMessage(location)},{cityMessage(location)}
           </Text>
-        </Stack>
-
-        <Stack>
+        </Grid.Col>
+        <Grid.Col>
           <Title order={4}>Country</Title>
-          Country: {countryMessage(location)}, {continentMessage(location)}
-        </Stack>
-      </Flex>
+          <Text>
+            {countryMessage(location)}, {continentMessage(location)}
+          </Text>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

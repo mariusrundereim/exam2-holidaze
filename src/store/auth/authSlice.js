@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
-import { setUserProfile } from "./userSlice";
+import { setUserProfile } from "../user/userSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,

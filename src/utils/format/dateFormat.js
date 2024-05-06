@@ -6,6 +6,11 @@ export function formattedDateTime(dateStr) {
   return format(dateObj, "d. MMMM yyyy, HH:mm", { locale: nb });
 }
 
+export function formattedDate(dateStr) {
+  const dateObj = new Date(dateStr);
+  return format(dateObj, "d. MMMM yyyy", { locale: nb });
+}
+
 // const dateStr = "2024-04-23T10:37:40.798Z";
 // const dateObj = new Date(dateStr);
 
