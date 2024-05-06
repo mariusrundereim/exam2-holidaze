@@ -18,7 +18,6 @@ function ProfileVenuesCard({ venue, venueId }) {
     media,
   } = venue;
   const firstImage = media[0].url;
-  console.log("thwe", venue);
 
   // Edit venue
 

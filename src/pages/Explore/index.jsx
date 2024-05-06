@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import ListVenues from "./ListVenues";
 import { useDispatch, useSelector } from "react-redux";
+import ListVenues from "./ListVenues";
 import { fetchVenues } from "../../store/venues/venueSlice";
 import filterValidVenues from "../../utils/venues/filterVenues";
-import VenueSearchBar from "./SearchBar";
 
 function Explore() {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ function Explore() {
 
   return (
     <>
-      <VenueSearchBar />
       <ListVenues venues={filteredVenues} />
     </>
   );

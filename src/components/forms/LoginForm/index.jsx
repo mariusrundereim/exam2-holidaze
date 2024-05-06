@@ -44,7 +44,7 @@ function LoginForm() {
 
   useEffect(() => {
     if (username) {
-      navigate(`/profile/${username}`);
+      navigate(`/user/${username}`);
     }
   }, [username, navigate]);
 
