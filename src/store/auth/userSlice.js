@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userInitialState = {
+const initialState = {
   test: null,
 };
 
 const userSlice = createSlice({
   name: "user",
-  initialState: userInitialState,
+  initialState,
   reducers: {
     setUserProfile: (state, action) => {
       Object.assign(state, action.payload);
     },
-    resetUserState: () => userInitialState,
+    resetUserState: () => initialState,
   },
 });
 

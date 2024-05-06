@@ -9,13 +9,24 @@ import {
   Badge,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { clearSelectedVenue } from "../../../store/venues/venueSlice";
-import { useDispatch } from "react-redux";
-
-function ProfileHeader({ profile }) {
-  const { name, email, venueManager, avatar } = profile;
+import { clearSelectedVenue } from "../../store/venues/venueSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileByName } from "../../store/profile/profileSlice";
+import { useEffect } from "react";
+function ProfileHeader() {
   const dispatch = useDispatch();
+
+  // const profile = useSelector((state) => state.profile);
+  const { name, email, venueManager, avatar } = profile;
+
+  //   const profile = useSelector((state) =>
+  //     profileName === "user" ? state.user : state.profile[profileName]
+  //   );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchProfileByName());
+  }, [dispatch]);
 
   const createVenue = () => {
     dispatch(clearSelectedVenue());

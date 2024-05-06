@@ -20,7 +20,6 @@ function Router() {
             <Route path="edit/:venueId" element={<VenueForm />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
-          <Route path="/user/:profileName" element={<ProfilePage />} />
           <Route path="/profile/:profileName" element={<ProfilePage />} />
           <Route path="/profiles" element={<Profiles />} />
         </Route>

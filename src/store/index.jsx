@@ -5,7 +5,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import authSlice from "./auth/authSlice";
 // import venueReducer from "./venues/venueSlice";
 import venueSlice from "./venues/venueSlice";
-import userSlice from "./user/userSlice";
+import userSlice from "./auth/userSlice";
 import profileSlice from "./profile/profileSlice";
 import bookingSlice from "./bookings/bookingSlice";
 import venueFilteringMiddleware from "./middleware/venueFilterMiddleware";

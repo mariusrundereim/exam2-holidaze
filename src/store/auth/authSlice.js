@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
-import { setUserProfile } from "../user/userSlice";
+import { setUserProfile } from "./userSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
@@ -97,7 +97,7 @@ const authSlice = createSlice({
 
       .addCase(logout.fulfilled, (state) => {
         state.accessToken = null;
-        state.credentials = {}; // Assuming you want to clear other auth-related data
+        state.credentials = {};
         state.isLoading = false;
         state.error = null;
       })
