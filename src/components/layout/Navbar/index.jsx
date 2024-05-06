@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Text, Group } from "@mantine/core";
-import classes from "./navbarclass.module.css";
+import classes from "./navbar.module.css";
 
 import { logout } from "../../../store/auth/authSlice";
 
@@ -19,7 +19,7 @@ import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/explore", label: "Explore", icon: IconLayout2 },
-  { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/user", label: "Profile", icon: IconUserCircle },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "New venue", icon: IconPlus },
@@ -44,7 +44,7 @@ function NavLinksBar() {
       });
   };
 
-  const profileLink = name ? `/profile/${name}` : `/profile`;
+  const profileLink = name ? `/user/${name}` : `/user`;
 
   const links = navData
     .filter((item) => {
