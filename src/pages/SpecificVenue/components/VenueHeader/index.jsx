@@ -5,7 +5,6 @@ function VenueHeader({ venue }) {
   const firstImage = venue.media[0].url;
   return (
     <>
-      <h2>Venue header</h2>
       <Image radius="md" h={600} src={firstImage} />
       {/* <ImageCarousel venue={venue} /> */}
     </>

@@ -5,6 +5,8 @@ import {
   IconLayout2,
   IconLogin,
   IconPlus,
+  IconArticle,
+  IconSettings,
 } from "@tabler/icons-react";
 
 import { useEffect, useState } from "react";
@@ -18,15 +20,17 @@ import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
-  { link: "/explore", label: "Explore", icon: IconLayout2 },
-  { link: "/user", label: "Profile", icon: IconUserCircle },
+  { link: "/venues", label: "Venues", icon: IconLayout2 },
+  { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profile", label: "Settings", icon: IconSettings },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "New venue", icon: IconPlus },
+  { link: "/venues", label: "Bookings", icon: IconArticle },
 ];
 
 function NavLinksBar() {
-  const [active, setActive] = useState("Explore");
+  const [active, setActive] = useState("Venues");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { name } = useSelector((state) => state.user);
@@ -44,7 +48,7 @@ function NavLinksBar() {
       });
   };
 
-  const profileLink = name ? `/user/${name}` : `/user`;
+  const profileLink = name ? `/profile/${name}` : `/profile`;
 
   const links = navData
     .filter((item) => {

@@ -97,7 +97,7 @@ const authSlice = createSlice({
 
       .addCase(logout.fulfilled, (state) => {
         state.accessToken = null;
-        state.credentials = {}; // Assuming you want to clear other auth-related data
+        state.credentials = {};
         state.isLoading = false;
         state.error = null;
       })

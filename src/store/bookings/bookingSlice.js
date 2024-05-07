@@ -12,10 +12,14 @@ export const allBookings = createAsyncThunk(
   "bookings/allBookings",
   async () => {
     try {
-      const response = await fetch(`${BASE_URL}/bookings`, {
-        headers: getAuthHeaders(),
-      });
+      const response = await fetch(
+        `${BASE_URL}/bookings?_customer=true&_venue=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
       const data = await response.json();
+      console.log("all bookings", data);
       return data;
     } catch (error) {
       console.log(error);
@@ -25,17 +29,17 @@ export const allBookings = createAsyncThunk(
 
 // Single booking
 
-export const bookingById = createAsyncThunk(
-  "bookings/bookingById",
-  async ({ id, dateFrom, dateTo, customer, venue }) => {
-    const queryParams = new URLSearchParams();
-    if (customer) queryParams.append("_customer", customer);
-    if (venue) queryParams.append("_venue", venue);
-
-    const response = await fetch(`${BASE_URL}/bookings/${id}?${queryParams}`, {
-      headers: getAuthHeaders(),
-    });
+export const singleBooking = createAsyncThunk(
+  "booking/singleBooking",
+  async ({ id }) => {
+    const response = await fetch(
+      `${BASE_URL}/bookings${id}?_customer=true&_venue=true`,
+      {
+        headers: getAuthHeaders(),
+      }
+    );
     const data = await response.json();
+    console.log("bookingIds", data);
     return data;
   }
 );

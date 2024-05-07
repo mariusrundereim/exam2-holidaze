@@ -1,6 +1,6 @@
 import BookingHistory from "./BookingHistory";
 
-function CustomerSection({ profile }) {
+function CustomerSection() {
   return (
     <>
       <BookingHistory />

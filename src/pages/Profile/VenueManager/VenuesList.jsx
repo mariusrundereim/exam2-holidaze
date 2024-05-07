@@ -1,5 +1,5 @@
 import { Grid, Title, Text } from "@mantine/core";
-import ProfileVenuesCard from "../../../../components/cards/ProfileVenuesCard";
+import ProfileVenuesCard from "../../../components/cards/ProfileVenuesCard";
 function VenuesNewList({ venues }) {
   return (
     <>

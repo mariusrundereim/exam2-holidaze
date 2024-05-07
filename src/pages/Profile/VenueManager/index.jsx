@@ -1,17 +1,15 @@
 import VenuesList from "./VenuesList";
-import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
+import { getVenuesByProfile } from "../../../store/venues/venueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-function VenueManagerSection({ profile }) {
+function VenueManagerSection() {
   const dispatch = useDispatch();
   const venues = useSelector((state) => {
     return state.venues.myCreatedVenues;
   });
 
   useEffect(() => {
-    if (profile) {
-      dispatch(getVenuesByProfile(profile.name));
-    }
+    dispatch(getVenuesByProfile(profile.name));
   }, [dispatch, profile]);
   return (
     <>
