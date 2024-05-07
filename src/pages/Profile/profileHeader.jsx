@@ -18,7 +18,6 @@ import { useEffect } from "react";
 function ProfileHeader() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
-  console.log("ha", profile);
 
   const { name, email, bio, venueManager, avatar, banner } = profile;
   useEffect(() => {

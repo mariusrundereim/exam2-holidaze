@@ -18,7 +18,8 @@ import {
   IconPhoto,
 } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
-function RegisterForm({ onSuccess, setActiveTab }) {
+
+function ProfileUpdateForm() {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
 
@@ -28,9 +29,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
       bio: "",
       avatar: { url: "" },
       banner: { url: "" },
@@ -49,8 +47,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
     console.log("Processed data for submission:", processedData);
     try {
       await dispatch(register(processedData)).unwrap();
-      setActiveTab("login");
-      onSuccess();
     } catch (error) {
       console.error("Registration error", error);
     }
@@ -58,67 +54,26 @@ function RegisterForm({ onSuccess, setActiveTab }) {
 
   return (
     <>
-      <Title order={3}>Sign up</Title>
-
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
-          <Grid.Col span={{ base: 12, md: 6 }}>
+        <Grid>
+          <Grid.Col>
             <Controller
-              name="name"
+              name="bio"
               control={control}
-              rules={{ required: true }}
+              rules={{ required: false }}
               render={({ field }) => (
-                <Input.Wrapper label="Name" withAsterisk>
-                  <Input
-                    {...field}
-                    label="name"
-                    placeholder="Name"
-                    value={field.value}
-                    onChange={field.onChange}
-                    leftSection={<IconUserCircle size={18} />}
-                  />
-                </Input.Wrapper>
+                <Textarea
+                  label="Bio"
+                  {...field}
+                  autosize
+                  minRows={4}
+                  maxRows={6}
+                />
               )}
             />
-            {errors.name && <Text>This field is required</Text>}
-            <Controller
-              name="email"
-              control={control}
-              rules={{ required: true, pattern: /^[^@]+@stud\.noroff\.no$/i }}
-              render={({ field }) => (
-                <Input.Wrapper label="Email" withAsterisk>
-                  <Input
-                    {...field}
-                    placeholder="Email"
-                    value={field.value}
-                    onChange={field.onChange}
-                    leftSection={<IconAt size={18} />}
-                  />
-                </Input.Wrapper>
-              )}
-            />
-            {errors.email && (
-              <span>Field supports only @stud.noroff.no email</span>
-            )}
-            <Controller
-              name="password"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input.Wrapper label="Password" withAsterisk>
-                  <Input
-                    type="password"
-                    {...field}
-                    placeholder="Password"
-                    leftSection={<IconLock size={18} />}
-                  />
-                </Input.Wrapper>
-              )}
-            />
-            {errors.password && <span>This field is required</span>}
+            {errors.bio && <Text>This field is required</Text>}
           </Grid.Col>
-
-          <Grid.Col span={6}>
+          <Grid.Col>
             <Controller
               name="avatar.url"
               control={control}
@@ -137,6 +92,9 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 </Input.Wrapper>
               )}
             />
+            {errors.avatar && <Text>This field is required</Text>}
+          </Grid.Col>
+          <Grid.Col span={6}>
             <Controller
               name="banner.url"
               control={control}
@@ -155,6 +113,9 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 </Input.Wrapper>
               )}
             />
+          </Grid.Col>
+
+          <Grid.Col>
             <Controller
               name="venueManager"
               control={control}
@@ -162,7 +123,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 <Switch
                   {...field}
                   checked={checked}
-                  label="Venue manager?"
+                  label="Venue manager"
                   onChange={(event) => setChecked(event.currentTarget.checked)}
                   size="md"
                   onLabel="Yes"
@@ -171,28 +132,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
               )}
             />
           </Grid.Col>
-
           <Grid.Col>
-            <Controller
-              name="bio"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Textarea
-                  label="Bio"
-                  {...field}
-                  autosize
-                  minRows={2}
-                  maxRows={4}
-                />
-              )}
-            />
-          </Grid.Col>
-
-          <Grid.Col>
-            <Button type="submit" fullWidth>
-              Register
-            </Button>
+            <Button>Update profile</Button>
           </Grid.Col>
         </Grid>
       </form>
@@ -200,4 +141,4 @@ function RegisterForm({ onSuccess, setActiveTab }) {
   );
 }
 
-export default RegisterForm;
+export default ProfileUpdateForm;

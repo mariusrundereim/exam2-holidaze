@@ -31,7 +31,7 @@ const navData = [
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "Bookings", icon: IconArticle },
-  { link: "/profile", label: "Settings", icon: IconSettings },
+  { link: "profile/settings", label: "Settings", icon: IconSettings },
 ];
 
 function NavLinksBar() {

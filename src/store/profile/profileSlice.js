@@ -23,7 +23,6 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
-    console.log("Profile data", data);
     return data;
   }
 );
@@ -51,6 +50,25 @@ export const getBookingsByProfile = createAsyncThunk(
     } catch (error) {
       console.log("???", error);
     }
+  }
+);
+
+// Update profile
+export const updateProfile = createAsyncThunk(
+  "profile/updateProfile",
+  async ({ profileName, data }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Profile not updated");
+      }
+      return { data };
+    } catch (error) {}
   }
 );
 
@@ -86,6 +104,16 @@ export const profileSlice = createSlice({
     });
     builder.addCase(getBookingsByProfile.rejected, (state) => {
       state.bookingsLoading = false;
+    });
+    builder.addCase(updateProfile.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateProfile.rejected, (state) => {
+      state.isLoading = false;
+    });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.data = action.payload;
+      state.isLoading = false;
     });
   },
 });
