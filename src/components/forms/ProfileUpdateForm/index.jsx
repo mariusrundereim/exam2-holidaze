@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import { register } from "../../../store/auth/authSlice";
+// import { register } from "../../../store/auth/authSlice";
 import {
   Grid,
   Input,
@@ -22,6 +22,7 @@ import { validImageFormat } from "../../../utils/format/imageFormat";
 function ProfileUpdateForm() {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
+  const { data: profileData } = useSelector((state) => state.profile);
 
   const {
     control,
@@ -46,9 +47,12 @@ function ProfileUpdateForm() {
 
     console.log("Processed data for submission:", processedData);
     try {
-      await dispatch(register(processedData)).unwrap();
+      const result = await dispatch(
+        updateProfile({ profileName: "yourProfileName", data: processedData })
+      ).unwrap();
+      console.log("update successful", result);
     } catch (error) {
-      console.error("Registration error", error);
+      console.error("Update failed", error);
     }
   };
 
