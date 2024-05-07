@@ -18,15 +18,16 @@ import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
-  { link: "/venues", label: "Explore", icon: IconLayout2 },
+  { link: "/venues", label: "Venues", icon: IconLayout2 },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "New venue", icon: IconPlus },
+  { link: "/venues", label: "Bookings", icon: IconPlus },
 ];
 
 function NavLinksBar() {
-  const [active, setActive] = useState("Explore");
+  const [active, setActive] = useState("Venues");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { name } = useSelector((state) => state.user);

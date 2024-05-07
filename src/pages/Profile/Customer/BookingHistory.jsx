@@ -1,6 +1,6 @@
 import { Grid, Title, Loader } from "@mantine/core";
 import { useSelector } from "react-redux";
-import CustomerBookingCard from "../../../../components/cards/CustomerBookingCard";
+import CustomerBookingCard from "../../../components/cards/CustomerBookingCard";
 function BookingHistory() {
   const bookings = useSelector((state) => state.profile.bookings);
   const bookingsLoading = useSelector((state) => state.profile.bookingsLoading);
