@@ -28,7 +28,10 @@ function Router() {
             <Route index element={<ProfilePage />} />
             <Route path=":profileName" element={<ProfilePage />} />
             <Route path="venues" element={<VenueManagerSection />} />
-            <Route path="settings" element={<ProfileInfoUpdate />} />
+            <Route
+              path=":profileName/settings"
+              element={<ProfileInfoUpdate />}
+            />
           </Route>
           <Route path="/signup" element={<Signup />} />
           {/* <Route path="/profile/:profileName" element={<ProfilePage />} /> */}

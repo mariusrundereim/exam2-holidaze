@@ -18,6 +18,7 @@ import classes from "./navbar.module.css";
 
 import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
+
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues/create", label: "New venue", icon: IconPlus },
@@ -31,7 +32,7 @@ const navData = [
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "Bookings", icon: IconArticle },
-  { link: "profile/settings", label: "Settings", icon: IconSettings },
+  { link: "profile/Simonsen/settings", label: "Settings", icon: IconSettings },
 ];
 
 function NavLinksBar() {

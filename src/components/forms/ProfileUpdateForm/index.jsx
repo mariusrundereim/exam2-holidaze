@@ -18,43 +18,77 @@ import {
   IconPhoto,
 } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
+import { fetchProfileByName } from "../../../store/profile/profileSlice";
 
 function ProfileUpdateForm() {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
-  const { data: profileData } = useSelector((state) => state.profile);
-
+  const profileData = useSelector((state) => state.profile.data);
+  console.log("faaf", profileData);
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      bio: "",
-      avatar: { url: "" },
-      banner: { url: "" },
-      venueManager: false,
+      bio: profileData ? profileData.bio : "",
+      avatar: { url: profileData ? profileData.avatar.url : "" },
+      banner: { url: profileData ? profileData.banner.url : "" },
+      venueManager: profileData ? profileData.venueManager : false,
     },
   });
+
+  useEffect(() => {
+    async function fetchAndSetProfile() {
+      const profileName = "Simonsen";
+      try {
+        const response = await dispatch(
+          fetchProfileByName(profileName)
+        ).unwrap();
+        reset({
+          bio: response.bio,
+          avatar: { url: response.avatar.url },
+          banner: { url: response.banner.url },
+          venueManager: response.venueManager,
+        });
+      } catch (error) {
+        console.error("Failed to fetch profile data", error);
+      }
+    }
+    fetchAndSetProfile();
+  }, [dispatch, reset]);
 
   const onSubmit = async (data) => {
     const processedData = {
       ...data,
       avatar: { url: data.avatar.url || null },
       banner: { url: data.banner.url || null },
-      venueManager: checked,
+      venueManager: data.venueManager,
     };
 
     console.log("Processed data for submission:", processedData);
     try {
       const result = await dispatch(
-        updateProfile({ profileName: "yourProfileName", data: processedData })
+        updateProfile({ profileName: profileData.name, data: processedData })
       ).unwrap();
       console.log("update successful", result);
     } catch (error) {
       console.error("Update failed", error);
     }
   };
+
+  // useEffect(() => {
+  //   dispatch(fetchProfileByName()).then((response) => {
+  //     // Assume `response` contains the fetched profile data
+  //     reset({
+  //       bio: response.bio,
+  //       avatar: { url: response.avatar.url },
+  //       banner: { url: response.banner.url },
+  //       venueManager: response.venueManager,
+  //     });
+  //   });
+  // }, [dispatch, reset]);
 
   return (
     <>
