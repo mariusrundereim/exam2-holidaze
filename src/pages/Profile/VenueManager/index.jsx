@@ -1,5 +1,5 @@
 import VenuesList from "./VenuesList";
-import { getVenuesByProfile } from "../../../../store/venues/venueSlice";
+import { getVenuesByProfile } from "../../../store/venues/venueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 function VenueManagerSection() {

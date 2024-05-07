@@ -5,6 +5,8 @@ import {
   IconLayout2,
   IconLogin,
   IconPlus,
+  IconArticle,
+  IconSettings,
 } from "@tabler/icons-react";
 
 import { useEffect, useState } from "react";
@@ -20,10 +22,11 @@ const navData = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profile", label: "Settings", icon: IconSettings },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "New venue", icon: IconPlus },
-  { link: "/venues", label: "Bookings", icon: IconPlus },
+  { link: "/venues", label: "Bookings", icon: IconArticle },
 ];
 
 function NavLinksBar() {
