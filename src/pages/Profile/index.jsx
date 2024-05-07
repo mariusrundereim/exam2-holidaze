@@ -18,7 +18,6 @@ function ProfilePage() {
   return (
     <>
       <ProfileHeader />
-      <VenueManagerSection />
     </>
   );
 }

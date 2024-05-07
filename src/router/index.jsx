@@ -10,6 +10,7 @@ import VenuesListPage from "../pages/Venues";
 import VenueLayout from "./layout/venueLayout";
 import CreateVenue from "../pages/create/venue";
 import ProfileLayout from "./layout/profileLayout";
+import VenueManagerSection from "../pages/Profile/VenueManager";
 function Router() {
   return (
     <>
@@ -25,6 +26,7 @@ function Router() {
           <Route path="profile" element={<ProfileLayout />}>
             <Route index element={<ProfilePage />} />
             <Route path=":profileName" element={<ProfilePage />} />
+            <Route path="venues" element={<VenueManagerSection />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
           {/* <Route path="/profile/:profileName" element={<ProfilePage />} /> */}

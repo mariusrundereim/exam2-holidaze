@@ -14,7 +14,7 @@ function VenueManagerSection() {
   }, [dispatch, profile]);
   return (
     <>
-      <h2>Venue Manager Section</h2>
+      <h2>Your venues</h2>
       <VenuesList venues={venues} />
     </>
   );

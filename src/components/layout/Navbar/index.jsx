@@ -27,7 +27,7 @@ const navData = [
     icon: IconLayout2,
   },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
-  { link: "/profile", label: "Your venues", icon: IconBox },
+  { link: "/profile/venues", label: "Your venues", icon: IconBox },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
   { link: "/venues", label: "Bookings", icon: IconArticle },
