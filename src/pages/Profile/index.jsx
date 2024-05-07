@@ -17,8 +17,7 @@ function ProfilePage() {
 
   return (
     <>
-      <h1>Your user</h1>
-      {/* <ProfileHeader /> */}
+      <ProfileHeader />
     </>
   );
 }

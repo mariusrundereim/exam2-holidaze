@@ -8,6 +8,7 @@ import VenueForm from "../components/forms/VenueForm";
 import Profiles from "../pages/Profiles";
 import VenuesListPage from "../pages/Venues";
 import VenueLayout from "./layout/venueLayout";
+import CreateVenue from "../pages/create/venue";
 function Router() {
   return (
     <>
@@ -18,6 +19,7 @@ function Router() {
             <Route index element={<VenuesListPage />} />
             <Route path=":venueId" element={<SpecificVenue />} />
             <Route path="edit/:venueId" element={<VenueForm />} />
+            <Route path="create" element={<CreateVenue />} />
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile/:profileName" element={<ProfilePage />} />

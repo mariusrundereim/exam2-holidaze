@@ -16,17 +16,16 @@ import { Text, Group } from "@mantine/core";
 import classes from "./navbar.module.css";
 
 import { logout } from "../../../store/auth/authSlice";
-
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 const navData = [
   { link: "/", label: "Home", icon: IconHome },
+  { link: "/venues/create", label: "New venue", icon: IconPlus },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
   { link: "/profile", label: "Profile", icon: IconUserCircle },
-  { link: "/profile", label: "Settings", icon: IconSettings },
   { link: "/profiles", label: "All profiles", icon: IconUserCircle },
   { link: "/signup", label: "Sign up", icon: IconLogin },
-  { link: "/venues", label: "New venue", icon: IconPlus },
   { link: "/venues", label: "Bookings", icon: IconArticle },
+  { link: "/profile", label: "Settings", icon: IconSettings },
 ];
 
 function NavLinksBar() {

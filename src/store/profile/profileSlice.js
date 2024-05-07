@@ -23,6 +23,7 @@ export const fetchProfileByName = createAsyncThunk(
       throw new Error("Profile fetch failed");
     }
     const data = await response.json();
+    console.log("Profile data", data);
     return data;
   }
 );
