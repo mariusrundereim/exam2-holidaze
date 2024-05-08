@@ -33,7 +33,6 @@ function SpecificVenue() {
 
   return (
     <>
-      <h3>Venue id: {venueId}</h3>
       <VenueHeader venue={venue} />
       <VenueContent venue={venue} />
     </>

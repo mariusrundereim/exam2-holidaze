@@ -9,15 +9,17 @@ function VenueDisplay({ venue }) {
   return (
     <>
       <Grid>
-        <Grid.Col>
+        <Grid.Col my={30}>
           <Title>{name}</Title>
         </Grid.Col>
-        <Grid.Col span={6}>
-          <Title order={4}>Description</Title>
+        <Grid.Col span={{ base: 12, md: 6 }}>
+          <Title order={4} mb={10}>
+            Description
+          </Title>
           <Text>{description}</Text>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Text size="xl">{newDate}</Text>
+          <Text size="xl">Created: {newDate}</Text>
           <Text size="xl">{formattedPrice} /night</Text>
           <Text size="xl">{maxGuests} guests</Text>
           <Button>Book</Button>

@@ -1,4 +1,4 @@
-import { Avatar, Flex, Title, Text, Paper } from "@mantine/core";
+import { Avatar, Flex, Title, Text, Paper, Grid } from "@mantine/core";
 function OwnerDisplay({ venue }) {
   const { name, avatar } = venue.owner;
   return (

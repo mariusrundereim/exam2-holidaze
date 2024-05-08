@@ -44,9 +44,8 @@ function VenuesCard({ venue }) {
               <Text>{venue.maxGuests} guests</Text>
             </Grid.Col>
             <Grid.Col>
-              <Text>
-                {city} ({country})
-              </Text>
+              <Text>{city}</Text>
+              <Text>{country}</Text>
             </Grid.Col>
           </Grid>
         </Card.Section>
