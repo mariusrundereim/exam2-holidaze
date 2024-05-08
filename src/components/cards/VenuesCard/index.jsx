@@ -5,17 +5,18 @@ function VenuesCard({ venue }) {
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
 
-  console.log("Vello Heniue", venue.created);
+  console.log("This venue!", venue);
 
   const navigate = useNavigate();
   const handlePageClick = () => {
     navigate(`/venues/${venue.id}`);
   };
 
-  const address = venue.location.address;
-  const city = venue.location.city;
-  const country = venue.location.country;
-  const created = venue.created;
+  const {
+    price,
+    location: { address, city, zip, country },
+    created,
+  } = venue;
 
   return (
     <>
@@ -38,11 +39,11 @@ function VenuesCard({ venue }) {
         <Card.Section p={14}>
           <Grid>
             <Grid.Col>
-              <Text size="sm">{formattedDate(created)}</Text>
-            </Grid.Col>
-            <Grid.Col>
+              <Text>{formattedDate(created)}</Text>
               <Text>{venue.maxGuests} guests</Text>
+              <Text> {price} NOK</Text>
             </Grid.Col>
+            <Grid.Col></Grid.Col>
             <Grid.Col>
               <Text>{city}</Text>
               <Text>{country}</Text>
