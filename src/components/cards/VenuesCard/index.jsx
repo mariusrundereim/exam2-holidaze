@@ -1,8 +1,6 @@
-import { Card, Image, Title, Text, Group } from "@mantine/core";
-import { rem } from "@mantine/core";
-import { IconUsers, IconMapPin } from "@tabler/icons-react";
+import { Card, Image, Title, Text, Group, Grid } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { formattedDateTime } from "../../../utils/format/dateFormat";
+import { formattedDate } from "../../../utils/format/dateFormat";
 function VenuesCard({ venue }) {
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
@@ -31,30 +29,26 @@ function VenuesCard({ venue }) {
           />
         </Card.Section>
         <Card.Section p={14}>
-          <Group justify="apart" grow>
-            <Title order={4}>{venue.name}</Title>
-            <Group>
-              <IconUsers
-                style={{ width: rem(22), height: rem(22) }}
-                stroke={1.5}
-              />
-              <Text>{venue.maxGuests}</Text>
-            </Group>
-            <Group>
-              <Text>{formattedDateTime(created)}</Text>
-            </Group>
-          </Group>
-          <Group>
-            <IconMapPin
-              style={{ width: rem(22), height: rem(22) }}
-              stroke={1.8}
-            />
-            <Group>
+          <Grid>
+            <Grid.Col>
+              <Title order={4}>{venue.name}</Title>
+            </Grid.Col>
+          </Grid>
+        </Card.Section>
+        <Card.Section p={14}>
+          <Grid>
+            <Grid.Col>
+              <Text size="sm">{formattedDate(created)}</Text>
+            </Grid.Col>
+            <Grid.Col>
+              <Text>{venue.maxGuests} guests</Text>
+            </Grid.Col>
+            <Grid.Col>
               <Text>
-                {address},{city}, {country}
+                {city} ({country})
               </Text>
-            </Group>
-          </Group>
+            </Grid.Col>
+          </Grid>
         </Card.Section>
       </Card>
     </>

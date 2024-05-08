@@ -41,15 +41,9 @@ function ProfileVenuesCard({ venue, venueId }) {
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>{name}</Text>
 
-        <Group>
-          <IconMapPin
-            style={{ width: rem(22), height: rem(22) }}
-            stroke={1.8}
-          />
-          <Text>
-            {address}, {zip} {city}
-          </Text>
-        </Group>
+        <Text>
+          {address}, {zip} {city}
+        </Text>
         <Group>
           <IconUsers style={{ width: rem(22), height: rem(22) }} stroke={1.5} />
           <Text>{maxGuests}</Text>
@@ -62,7 +56,7 @@ function ProfileVenuesCard({ venue, venueId }) {
 
       <Flex gap="md" direction={{ base: "column", sm: "row" }}>
         <Button
-          color="blue"
+          variant="outline"
           fullWidth
           mt="md"
           radius="md"
@@ -73,7 +67,7 @@ function ProfileVenuesCard({ venue, venueId }) {
 
         <Popover width={200} position="bottom" withArrow shadow="md">
           <Popover.Target>
-            <Button color="red" fullWidth mt="md" radius="md">
+            <Button variant="outline" color="red" fullWidth mt="md" radius="md">
               Delete
             </Button>
           </Popover.Target>
