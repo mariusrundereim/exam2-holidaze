@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
-import { setUserProfile } from "./userSlice";
+import { setProfileData } from "./userSlice";
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
@@ -33,7 +33,7 @@ export const login = createAsyncThunk(
     }
 
     const data = await response.json();
-    dispatch(setUserProfile(data.data));
+    dispatch(setProfileData(data.data));
     return data;
   }
 );

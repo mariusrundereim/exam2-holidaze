@@ -19,7 +19,7 @@ function ProfileHeader() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
 
-  const { name, email, bio, venueManager, avatar, banner } = profile;
+  const { name, email, bio, venueManager, avatar = {}, banner = {} } = profile;
   useEffect(() => {
     dispatch(fetchProfileByName());
   }, [dispatch]);

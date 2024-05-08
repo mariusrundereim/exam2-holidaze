@@ -2,9 +2,12 @@ import { Card, Image, Title, Text, Group } from "@mantine/core";
 import { rem } from "@mantine/core";
 import { IconUsers, IconMapPin } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
+import { formattedDateTime } from "../../../utils/format/dateFormat";
 function VenuesCard({ venue }) {
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
+
+  console.log("Vello Heniue", venue.created);
 
   const navigate = useNavigate();
   const handlePageClick = () => {
@@ -14,6 +17,7 @@ function VenuesCard({ venue }) {
   const address = venue.location.address;
   const city = venue.location.city;
   const country = venue.location.country;
+  const created = venue.created;
 
   return (
     <>
@@ -35,6 +39,9 @@ function VenuesCard({ venue }) {
                 stroke={1.5}
               />
               <Text>{venue.maxGuests}</Text>
+            </Group>
+            <Group>
+              <Text>{formattedDateTime(created)}</Text>
             </Group>
           </Group>
           <Group>
