@@ -9,6 +9,7 @@ import {
   Button,
   Badge,
   Image,
+  Center,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { clearSelectedVenue } from "../../store/venues/venueSlice";
@@ -28,11 +29,28 @@ function ProfileHeader() {
 
   return (
     <>
-      <Image src={banner.url} radius="md" h={200} />
-      <Avatar src={avatar.url} size="xl" />
-      <Title order={3}>{name}</Title>
-      <Badge>{role}</Badge>
-      <Text>{bio}</Text>
+      <Grid>
+        <Grid.Col>
+          <Image src={banner.url} radius="md" h={200} />
+        </Grid.Col>
+        <Grid.Col mt={-50}>
+          <Center>
+            <Avatar src={avatar.url} size="xl" />
+          </Center>
+        </Grid.Col>
+        <Grid.Col>
+          <Center>
+            <Stack align="center">
+              <Title order={3}>{name}</Title>
+              <Badge>{role}</Badge>
+            </Stack>
+          </Center>
+        </Grid.Col>
+        <Grid.Col>
+          <Title order={4}>Biography</Title>
+          <Text>{bio}</Text>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }
