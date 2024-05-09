@@ -13,7 +13,7 @@ export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
   async (profileName) => {
     const response = await fetch(
-      `${BASE_URL}/profiles/${profileName}?_customer=true&_bookings=true`,
+      `${BASE_URL}/profiles/${profileName}?_bookings=true&_venues=true`,
       {
         headers: getAuthHeaders(),
       }

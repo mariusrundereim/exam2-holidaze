@@ -11,8 +11,10 @@ function ProfilePage() {
   const { profileName } = useParams();
 
   useEffect(() => {
-    dispatch(fetchProfileByName(profileName));
-  }, [dispatch]);
+    if (profileName) {
+      dispatch(fetchProfileByName(profileName));
+    }
+  }, [dispatch, profileName]);
 
   return (
     <>
