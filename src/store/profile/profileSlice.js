@@ -48,7 +48,7 @@ export const getBookingsByProfile = createAsyncThunk(
       }
 
       const data = await response.json();
-      return data;
+      return data.data;
     } catch (error) {
       console.error("Error fetching bookings:", error);
     }
@@ -104,7 +104,7 @@ export const profileSlice = createSlice({
       state.bookingsLoading = true;
     });
     builder.addCase(getBookingsByProfile.fulfilled, (state, action) => {
-      state.bookings = Array.isArray(action.payload) ? action.payload : [];
+      state.bookings = action.payload;
       state.bookingsLoading = false;
     });
     builder.addCase(getBookingsByProfile.rejected, (state) => {

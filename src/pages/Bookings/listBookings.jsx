@@ -1,8 +1,6 @@
 import { Grid, Title } from "@mantine/core";
 import VenuesCard from "../../components/cards/VenuesCard";
 function ListBookings({ bookings }) {
-  console.log("aa", bookings.data);
-
   return (
     <>
       <Title>Bookings</Title>
