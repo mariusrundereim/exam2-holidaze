@@ -32,23 +32,25 @@ export const fetchProfileByName = createAsyncThunk(
 export const getBookingsByProfile = createAsyncThunk(
   "profiles/getBookingsByProfile",
   async (profileName) => {
+    console.log("Profilename", profileName);
     try {
       const response = await fetch(
-        `${BASE_URL}/profiles/${profileName}/bookings?_bookings=true&_venues=true`,
+        `${BASE_URL}/profiles/${profileName}/bookings?_bookings=true&_venue=true`,
         {
           headers: getAuthHeaders(),
         }
       );
 
       if (!response.ok) {
-        throw new Error("Request failed:" + response.statusText);
+        throw new Error(
+          `Request failed: ${response.status} ${response.statusText}`
+        );
       }
 
       const data = await response.json();
-      console.log("BoookingsProfile", data);
       return data;
     } catch (error) {
-      console.log("???", error);
+      console.error("Error fetching bookings:", error);
     }
   }
 );
@@ -81,9 +83,9 @@ export const profileSlice = createSlice({
     setProfileData: (state, action) => {
       Object.assign(state, action.payload);
     },
-    resetProfileData: (state) => {
-      return initialState;
-    },
+    // resetProfileData: (state) => {
+    //   return profileInitialState;
+    // },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProfileByName.pending, (state) => {
@@ -102,11 +104,12 @@ export const profileSlice = createSlice({
       state.bookingsLoading = true;
     });
     builder.addCase(getBookingsByProfile.fulfilled, (state, action) => {
-      state.data.bookings = action.payload;
+      state.bookings = Array.isArray(action.payload) ? action.payload : [];
       state.bookingsLoading = false;
     });
     builder.addCase(getBookingsByProfile.rejected, (state) => {
       state.bookingsLoading = false;
+      state.error = action.payload;
     });
     builder.addCase(updateProfile.pending, (state) => {
       state.isLoading = true;

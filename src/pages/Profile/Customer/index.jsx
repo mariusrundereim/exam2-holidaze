@@ -1,11 +1,7 @@
-import BookingHistory from "./BookingHistory";
+// import BookingHistory from "./BookingHistory";
 
 function CustomerSection() {
-  return (
-    <>
-      <BookingHistory />
-    </>
-  );
+  return <>{/* <BookingHistory /> */}</>;
 }
 
 export default CustomerSection;
