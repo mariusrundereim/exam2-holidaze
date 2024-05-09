@@ -41,7 +41,7 @@ function VenuesCard({ venue }) {
             <Grid.Col>
               <Text>{formattedDate(created)}</Text>
               <Text>{venue.maxGuests} guests</Text>
-              <Text> {price} NOK</Text>
+              <Text> {price} NOK /night</Text>
             </Grid.Col>
             <Grid.Col></Grid.Col>
             <Grid.Col>
