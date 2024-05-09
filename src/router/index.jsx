@@ -13,12 +13,17 @@ import ProfileLayout from "./layout/profileLayout";
 import VenueManagerSection from "../pages/Profile/VenueManager";
 import ProfileInfoUpdate from "../pages/update/profile";
 import BookingPage from "../pages/Bookings";
+import BookingForm from "../components/forms/BookingForm";
 function Router() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="bookings" element={<BookingPage />}>
+            <Route index element={<BookingForm />} />
+            <Route path="bookings" element={<BookingForm />} />
+          </Route>
           <Route path="venues" element={<VenueLayout />}>
             <Route index element={<VenuesListPage />} />
             <Route path=":venueId" element={<SpecificVenue />} />
@@ -39,7 +44,6 @@ function Router() {
             />
           </Route>
           <Route path="/signup" element={<Signup />} />
-          {/* <Route path="/profile/:profileName" element={<ProfilePage />} /> */}
           <Route path="/profiles" element={<Profiles />} />
         </Route>
       </Routes>

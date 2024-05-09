@@ -1,6 +1,7 @@
 import { Grid, Title, Text, Button } from "@mantine/core";
 import formatCurrency from "../../../../utils/format/currencyFormat";
 import { formattedDate } from "../../../../utils/format/dateFormat";
+import BookingButton from "../../../../components/venues/BookingButton";
 function VenueDisplay({ venue }) {
   const { name, description, created, maxGuests, price } = venue;
   const formattedPrice = formatCurrency(price);
@@ -22,7 +23,9 @@ function VenueDisplay({ venue }) {
           <Text size="xl">Created: {newDate}</Text>
           <Text size="xl">{formattedPrice} /night</Text>
           <Text size="xl">{maxGuests} guests</Text>
-          <Button>Book</Button>
+        </Grid.Col>
+        <Grid.Col>
+          <BookingButton />
         </Grid.Col>
       </Grid>
     </>
