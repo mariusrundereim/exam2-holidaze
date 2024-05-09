@@ -5,7 +5,7 @@ function VenuesCard({ venue }) {
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
 
-  console.log("This venue!", venue);
+  // console.log("This venue!", venue);
 
   const navigate = useNavigate();
   const handlePageClick = () => {
