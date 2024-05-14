@@ -1,10 +1,10 @@
 import { Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-function BookingButton() {
+function BookingButton({ venueId }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/bookings`);
+    navigate(`/${venueId}/bookings`);
   };
   return (
     <>

@@ -11,13 +11,9 @@ import {
 import {
   Grid,
   Stack,
-  Flex,
   Input,
-  Title,
-  Text,
   Switch,
   Button,
-  Group,
   Textarea,
   NumberInput,
 } from "@mantine/core";

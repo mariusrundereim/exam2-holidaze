@@ -2,10 +2,13 @@ import { Grid, Title, Text, Button } from "@mantine/core";
 import formatCurrency from "../../../../utils/format/currencyFormat";
 import { formattedDate } from "../../../../utils/format/dateFormat";
 import BookingButton from "../../../../components/venues/BookingButton";
+import { useParams } from "react-router-dom";
 function VenueDisplay({ venue }) {
   const { name, description, created, maxGuests, price } = venue;
   const formattedPrice = formatCurrency(price);
   const newDate = formattedDate(created);
+
+  const { venueId } = useParams();
 
   return (
     <>
@@ -25,7 +28,7 @@ function VenueDisplay({ venue }) {
           <Text size="xl">{maxGuests} guests</Text>
         </Grid.Col>
         <Grid.Col>
-          <BookingButton />
+          <BookingButton venueId={venueId} />
         </Grid.Col>
       </Grid>
     </>

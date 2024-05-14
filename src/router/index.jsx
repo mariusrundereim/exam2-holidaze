@@ -14,15 +14,15 @@ import VenueManagerSection from "../pages/Profile/VenueManager";
 import ProfileInfoUpdate from "../pages/update/profile";
 import BookingPage from "../pages/Bookings";
 import BookingForm from "../components/forms/BookingForm";
+import BookingLayout from "./layout/bookingLayout";
 function Router() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="bookings" element={<BookingPage />}>
+          <Route path=":venueId/bookings" element={<BookingLayout />}>
             <Route index element={<BookingForm />} />
-            <Route path="bookings" element={<BookingForm />} />
           </Route>
           <Route path="venues" element={<VenueLayout />}>
             <Route index element={<VenuesListPage />} />

@@ -5,6 +5,8 @@ import { getAuthHeaders } from "../helper";
 const bookingInitialState = {
   selectedBooking: null,
   bookingList: [],
+  loading: "idle",
+  error: null,
 };
 
 // All bookings
@@ -44,6 +46,21 @@ export const singleBooking = createAsyncThunk(
   }
 );
 
+// Create booking
+
+export const createBooking = createAsyncThunk(
+  "booking/createBooking",
+  async (newBooking) => {
+    const response = await fetch(`${BASE_URL}/bookings`, {
+      method: "POST",
+      headers: getAuthHeaders(),
+      body: JSON.stringify(newBooking),
+    });
+    const data = await response.json();
+    return data;
+  }
+);
+
 // Slice
 const bookingSlice = createSlice({
   name: "bookings",
@@ -62,6 +79,17 @@ const bookingSlice = createSlice({
       })
       .addCase(allBookings.fulfilled, (state, action) => {
         state.bookingList = action.payload.data;
+      })
+      .addCase(createBooking.pending, (state) => {
+        state.loading = "loading";
+      })
+      .addCase(createBooking.rejected, (state, action) => {
+        state.loading = "idle";
+        state.error = action.error.message;
+      })
+      .addCase(createBooking.fulfilled, (state, action) => {
+        state.bookingList.push(action.payload);
+        state.loading = "idle";
       });
   },
 });
