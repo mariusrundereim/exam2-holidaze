@@ -61,6 +61,49 @@ export const createBooking = createAsyncThunk(
   }
 );
 
+// Update booking
+
+export const updateBooking = createAsyncThunk(
+  "booking/updateBooking",
+  async ({ id, data }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/bookings/${id}`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Booking not updated!");
+      }
+      return { id, data };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+// Delete booking
+
+export const deleteBooking = createAsyncThunk(
+  "booking/deleteVenue",
+  async ({ id }) => {
+    try {
+      const response = await fetch(`${BASE_URL}/bookings/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+
+      if (!response.ok) {
+        throw new Error("Booking failed");
+      }
+      return id;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
 // Slice
 const bookingSlice = createSlice({
   name: "bookings",
@@ -90,6 +133,31 @@ const bookingSlice = createSlice({
       .addCase(createBooking.fulfilled, (state, action) => {
         state.bookingList.push(action.payload);
         state.loading = "idle";
+      })
+      .addCase(updateBooking.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBooking.rejected, (state) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateBooking.fulfilled, (state, action) => {
+        const index = state.bookingList.findIndex(
+          (booking) => booking.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          state.bookingList[index] = {
+            ...state.bookingList[index],
+            ...action.payload.data,
+          };
+        }
+        state.loading = false;
+      })
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.bookingList = state.bookingList.filter(
+          (booking) => booking.id !== action.payload
+        );
       });
   },
 });

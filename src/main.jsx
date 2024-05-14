@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import Router from "./router/index.jsx";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { BrowserRouter } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
+import { theme } from "./utils/theme/index.jsx";
+import store, { persistor } from "./store";
 import "@fontsource-variable/albert-sans";
 import "@mantine/core/styles.css";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
-import Router from "./router/index.jsx";
-import { MantineProvider } from "@mantine/core";
-import { theme } from "./utils/theme/index.jsx";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import store, { persistor } from "./store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

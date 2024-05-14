@@ -37,7 +37,7 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id, rejectWithValue }) => {
+  async ({ id }) => {
     try {
       const response = await fetch(
         `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
@@ -52,7 +52,8 @@ export const fetchVenueById = createAsyncThunk(
       const data = await response.json();
       return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      console.log(error);
+      throw error;
     }
   }
 );
@@ -188,7 +189,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenueById.fulfilled, (state, action) => {
-        state.selectedVenue = action.payload.data;
+        state.selectedVenue = action.payload.venues;
         state.loading = "idle";
       })
       .addCase(fetchVenueById.rejected, (state, action) => {

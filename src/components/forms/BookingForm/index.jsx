@@ -3,12 +3,21 @@ import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createBooking } from "../../../store/bookings/bookingSlice";
-import { Grid, Text, Title, Button, Input, NumberInput } from "@mantine/core";
-import { DatePicker } from "@mantine/dates";
+import {
+  Grid,
+  Text,
+  Title,
+  Button,
+  Input,
+  NumberInput,
+  Group,
+} from "@mantine/core";
+import { DatePicker, DatePickerInput } from "@mantine/dates";
 function BookingForm() {
   const { venueId } = useParams();
   const dispatch = useDispatch();
-  // const venue = useSelector((state) => state.venues.selectedVenue);
+  const venue = useSelector((state) => state.venues.selectedVenue);
+  console.log("This is venue", venue);
 
   const [value, setValue] = useState([null, null]);
 
@@ -49,8 +58,9 @@ function BookingForm() {
               rules={{ required: true }}
               render={({ field }) => (
                 <>
-                  <DatePicker
+                  <DatePickerInput
                     type="range"
+                    label="Pick date"
                     value={value}
                     onChange={(val) => {
                       setValue(val);
