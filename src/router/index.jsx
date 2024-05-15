@@ -15,6 +15,7 @@ import ProfileInfoUpdate from "../pages/update/profile";
 import BookingPage from "../pages/Bookings";
 import BookingForm from "../components/forms/BookingForm";
 import BookingLayout from "./layout/bookingLayout";
+import BookingConfirmed from "../pages/success/booking";
 function Router() {
   return (
     <>
@@ -23,6 +24,7 @@ function Router() {
           <Route index element={<Home />} />
           <Route path=":venueId/bookings" element={<BookingLayout />}>
             <Route index element={<BookingForm />} />
+            <Route path="confirmed" element={<BookingConfirmed />} />
           </Route>
           <Route path="venues" element={<VenueLayout />}>
             <Route index element={<VenuesListPage />} />
