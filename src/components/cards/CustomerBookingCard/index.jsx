@@ -2,7 +2,6 @@ import { Card, Title, Text, Button, Grid, Popover } from "@mantine/core";
 import { formattedDateTime } from "../../../utils/format/dateFormat";
 import { useNavigate } from "react-router-dom";
 function CustomerBookingCard({ venue }) {
-  console.log("Bookingsvenue", venue);
   const navigate = useNavigate();
 
   const {

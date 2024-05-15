@@ -32,7 +32,6 @@ export const fetchProfileByName = createAsyncThunk(
 export const getBookingsByProfile = createAsyncThunk(
   "profiles/getBookingsByProfile",
   async (profileName) => {
-    console.log("Profilename", profileName);
     try {
       const response = await fetch(
         `${BASE_URL}/profiles/${profileName}/bookings?_bookings=true&_venue=true`,

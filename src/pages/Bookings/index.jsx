@@ -8,7 +8,6 @@ function BookingPage() {
 
   const profileName = useSelector((state) => state.profile.name);
   const yourBookings = useSelector((state) => state.profile.bookings);
-  console.log("your bookings", yourBookings);
 
   useEffect(() => {
     if (profileName) {

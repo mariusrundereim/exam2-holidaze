@@ -26,6 +26,8 @@ export const fetchVenues = createAsyncThunk(
         throw new Error("Server responded with an error");
       }
       const data = await response.json();
+      console.log("data", data);
+      console.log("meta", data.meta);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -94,7 +96,7 @@ export const getVenuesByProfile = createAsyncThunk(
       return data.data;
     } catch (error) {
       console.error("Error fetching venues:", error);
-      throw error; // Re-throw to propagate error
+      throw error;
     }
   }
 );
@@ -189,7 +191,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenueById.fulfilled, (state, action) => {
-        state.selectedVenue = action.payload.venues;
+        state.selectedVenue = action.payload.data;
         state.loading = "idle";
       })
       .addCase(fetchVenueById.rejected, (state, action) => {
