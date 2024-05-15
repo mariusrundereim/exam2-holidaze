@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 function VenueManagerSection() {
   const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile);
   const venues = useSelector((state) => {
     return state.venues.myCreatedVenues;
   });
@@ -13,7 +14,7 @@ function VenueManagerSection() {
   }, [dispatch, profile]);
   return (
     <>
-      <h2>Venue Manager Section</h2>
+      <h2>Your venues</h2>
       <VenuesList venues={venues} />
     </>
   );

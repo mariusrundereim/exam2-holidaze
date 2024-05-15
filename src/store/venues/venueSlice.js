@@ -26,6 +26,8 @@ export const fetchVenues = createAsyncThunk(
         throw new Error("Server responded with an error");
       }
       const data = await response.json();
+      console.log("data", data);
+      console.log("meta", data.meta);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -37,7 +39,7 @@ export const fetchVenues = createAsyncThunk(
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
-  async ({ id, rejectWithValue }) => {
+  async ({ id }) => {
     try {
       const response = await fetch(
         `${BASE_URL}/venues/${id}?_owner=true&_bookings=true`,
@@ -52,7 +54,8 @@ export const fetchVenueById = createAsyncThunk(
       const data = await response.json();
       return data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      console.log(error);
+      throw error;
     }
   }
 );
@@ -93,7 +96,7 @@ export const getVenuesByProfile = createAsyncThunk(
       return data.data;
     } catch (error) {
       console.error("Error fetching venues:", error);
-      throw error; // Re-throw to propagate error
+      throw error;
     }
   }
 );
@@ -167,6 +170,9 @@ const venueSlice = createSlice({
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
+    appendVenues(state, action) {
+      state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -177,7 +183,8 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        state.allVenuesList = action.payload.data;
+        state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
+        // state.allVenuesList = action.payload.data;
         state.loading = "idle";
       })
       .addCase(fetchVenues.rejected, (state, action) => {
@@ -246,5 +253,5 @@ const venueSlice = createSlice({
   },
 });
 
-export const { clearSelectedVenue } = venueSlice.actions;
+export const { appendVenues, clearSelectedVenue } = venueSlice.actions;
 export default venueSlice.reducer;

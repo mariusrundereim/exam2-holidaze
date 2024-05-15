@@ -1,4 +1,5 @@
 import {
+  Grid,
   Flex,
   Group,
   Stack,
@@ -7,6 +8,8 @@ import {
   Text,
   Button,
   Badge,
+  Image,
+  Center,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { clearSelectedVenue } from "../../store/venues/venueSlice";
@@ -15,53 +18,39 @@ import { fetchProfileByName } from "../../store/profile/profileSlice";
 import { useEffect } from "react";
 function ProfileHeader() {
   const dispatch = useDispatch();
+  const profile = useSelector((state) => state.profile);
 
-  // const profile = useSelector((state) => state.profile);
-  const { name, email, venueManager, avatar } = profile;
-
-  //   const profile = useSelector((state) =>
-  //     profileName === "user" ? state.user : state.profile[profileName]
-  //   );
-  const navigate = useNavigate();
-
+  const { name, email, bio, venueManager, avatar = {}, banner = {} } = profile;
   useEffect(() => {
     dispatch(fetchProfileByName());
   }, [dispatch]);
 
-  const createVenue = () => {
-    dispatch(clearSelectedVenue());
-    navigate(`/venues`);
-  };
+  const role = venueManager ? "Venue Manager" : "Customer";
 
-  // console.log(profile);
   return (
     <>
-      <Flex direction={{ base: "column", sm: "row" }}>
-        <Group>
-          <Avatar src={avatar.url} alt={avatar.alt} size={"xl"} />
-          <Stack>
-            <Title order={3}>{name}</Title>
-            <Text>{email}</Text>
-            <Badge
-              size="lg"
-              variant="gradient"
-              gradient={{ from: "blue", to: "cyan", deg: 90 }}
-            >
-              {venueManager ? "Venue manager" : "Customer"}
-            </Badge>
-          </Stack>
-        </Group>
-        {profile.venueManager ? (
-          <Group>
-            <Button onClick={createVenue}>Add new venue</Button>
-            <Button variant="outline">Edit profile</Button>
-          </Group>
-        ) : (
-          <Group>
-            <Button variant="outline">Edit profile</Button>
-          </Group>
-        )}
-      </Flex>
+      <Grid>
+        <Grid.Col>
+          <Image src={banner.url} radius="md" h={200} />
+        </Grid.Col>
+        <Grid.Col mt={-50}>
+          <Center>
+            <Avatar src={avatar.url} size="xl" />
+          </Center>
+        </Grid.Col>
+        <Grid.Col>
+          <Center>
+            <Stack align="center">
+              <Title order={3}>{name}</Title>
+              <Badge>{role}</Badge>
+            </Stack>
+          </Center>
+        </Grid.Col>
+        <Grid.Col>
+          <Title order={4}>Biography</Title>
+          <Text>{bio}</Text>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

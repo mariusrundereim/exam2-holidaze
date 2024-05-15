@@ -11,13 +11,10 @@ import {
 import {
   Grid,
   Stack,
-  Flex,
   Input,
-  Title,
-  Text,
   Switch,
   Button,
-  Group,
+  Textarea,
   NumberInput,
 } from "@mantine/core";
 function VenueForm() {
@@ -86,9 +83,8 @@ function VenueForm() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Title order={3}>Step 0</Title>
-        <Stack>
-          <Stack>
+        <Grid>
+          <Grid.Col span={{ base: 12, md: 6 }}>
             <Controller
               name="name"
               control={control}
@@ -100,25 +96,6 @@ function VenueForm() {
               )}
             />
             {errors.name && <span>Name is required</span>}
-          </Stack>
-          <Stack>
-            <Controller
-              name="description"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input.Wrapper
-                  label="Description"
-                  description="Describe your venue"
-                  withAsterisk
-                >
-                  <Input {...field} placeholder="Description" />
-                </Input.Wrapper>
-              )}
-            />
-            {errors.description && <span>Description is required</span>}
-          </Stack>
-          <Stack>
             <Controller
               name="price"
               control={control}
@@ -134,8 +111,6 @@ function VenueForm() {
               )}
             />
             {errors.price && <span>Price is required</span>}
-          </Stack>
-          <Stack>
             <Controller
               name="maxGuests"
               control={control}
@@ -151,145 +126,179 @@ function VenueForm() {
               )}
             />
             {errors.maxGuests && <span>Guests is required</span>}
-          </Stack>
-        </Stack>
-        <Title order={3}>Step 1</Title>
-        <Stack>
-          <Controller
-            name="meta.wifi"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Switch
-                label="Wifi"
-                size="lg"
-                onLabel="Yes"
-                offLabel="No"
-                checked={value}
-                onChange={(newValue) => {
-                  onChange(newValue);
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="meta.parking"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Switch
-                label="Parking"
-                size="lg"
-                onLabel="Yes"
-                offLabel="No"
-                checked={value}
-                onChange={(newValue) => {
-                  onChange(newValue);
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="meta.breakfast"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Switch
-                label="Breakfast"
-                size="lg"
-                onLabel="Yes"
-                offLabel="No"
-                checked={value}
-                onChange={(newValue) => {
-                  onChange(newValue);
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="meta.pets"
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Switch
-                label="Pets"
-                size="lg"
-                onLabel="Yes"
-                offLabel="No"
-                checked={value}
-                onChange={(newValue) => {
-                  onChange(newValue);
-                }}
-              />
-            )}
-          />
-        </Stack>
-        <Title order={3}>Step 2</Title>
-        <Stack>
-          <Controller
-            name="location.address"
-            control={control}
-            rules={{ required: false }}
-            render={({ field }) => (
-              <Input.Wrapper label="Address" description="Fill inn address">
-                <Input {...field} placeholder="Address" />
-              </Input.Wrapper>
-            )}
-          />
-          <Controller
-            name="location.city"
-            control={control}
-            rules={{ required: false }}
-            render={({ field }) => (
-              <Input.Wrapper label="City" description="Fill inn city">
-                <Input {...field} placeholder="City" />
-              </Input.Wrapper>
-            )}
-          />
-          <Controller
-            name="location.zip"
-            control={control}
-            rules={{ required: false }}
-            render={({ field }) => (
-              <Input.Wrapper label="Zip" description="Fill inn zip">
-                <Input {...field} placeholder="Zip" />
-              </Input.Wrapper>
-            )}
-          />
-          <Controller
-            name="location.country"
-            control={control}
-            rules={{ required: false }}
-            render={({ field }) => (
-              <Input.Wrapper label="Country" description="Fill inn country">
-                <Input {...field} placeholder="Country" />
-              </Input.Wrapper>
-            )}
-          />
-        </Stack>
-        <Title order={3}>Step 3</Title>
-        <Stack>
-          {fields.map((field, index) => (
-            <Grid key={field.id}>
-              <Grid.Col span={10}>
-                <Controller
-                  name={`media[${index}].url`}
-                  control={control}
-                  render={({ field }) => (
-                    <Input.Wrapper label={`Media URL ${index + 1}`}>
-                      <Input {...field} />
-                    </Input.Wrapper>
-                  )}
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <Controller
+              name="description"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  label="Description"
+                  description="Describe your venue"
+                  autosize
+                  minRows={8}
+                  maxRows={10}
+                  withAsterisk
                 />
-              </Grid.Col>
-              <Grid.Col span={2}>
-                <Button onClick={() => remove(index)}>Remove</Button>
-              </Grid.Col>
-            </Grid>
-          ))}
-          {fields.length < 6 && (
-            <Button onClick={() => append({ url: "" })}>Add media</Button>
-          )}
-        </Stack>
-        <Button type="submit">
-          {venueId ? "Update Venue" : "Create Venue"}
-        </Button>
+              )}
+            />
+            {errors.description && <span>Description is required</span>}
+          </Grid.Col>
+          <Grid.Col>
+            <Controller
+              name="meta.wifi"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch
+                  label="Wifi"
+                  size="lg"
+                  onLabel="Yes"
+                  offLabel="No"
+                  checked={value}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name="meta.parking"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch
+                  label="Parking"
+                  size="lg"
+                  onLabel="Yes"
+                  offLabel="No"
+                  checked={value}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name="meta.breakfast"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch
+                  label="Breakfast"
+                  size="lg"
+                  onLabel="Yes"
+                  offLabel="No"
+                  checked={value}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name="meta.pets"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <Switch
+                  label="Pets"
+                  size="lg"
+                  onLabel="Yes"
+                  offLabel="No"
+                  checked={value}
+                  onChange={(newValue) => {
+                    onChange(newValue);
+                  }}
+                />
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col>
+            <Controller
+              name="location.address"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="Address">
+                  <Input {...field} placeholder="Address" />
+                </Input.Wrapper>
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Controller
+              name="location.city"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="City">
+                  <Input {...field} placeholder="City" />
+                </Input.Wrapper>
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Controller
+              name="location.zip"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="Zip">
+                  <Input {...field} placeholder="Zip" />
+                </Input.Wrapper>
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col span={4}>
+            <Controller
+              name="location.country"
+              control={control}
+              rules={{ required: false }}
+              render={({ field }) => (
+                <Input.Wrapper label="Country">
+                  <Input {...field} placeholder="Country" />
+                </Input.Wrapper>
+              )}
+            />
+          </Grid.Col>
+          <Grid.Col>
+            {fields.map((field, index) => (
+              <Grid key={field.id} gutter={10}>
+                <Grid.Col>
+                  <Controller
+                    name={`media[${index}].url`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input.Wrapper label={`Media URL ${index + 1}`}>
+                        <Input {...field} />
+                      </Input.Wrapper>
+                    )}
+                  />
+                  <Button
+                    variant="outline"
+                    color="red"
+                    onClick={() => remove(index)}
+                  >
+                    Remove
+                  </Button>
+                </Grid.Col>
+                <Grid.Col>
+                  {fields.length < 6 && (
+                    <Button onClick={() => append({ url: "" })}>
+                      Add media
+                    </Button>
+                  )}
+                </Grid.Col>
+              </Grid>
+            ))}
+          </Grid.Col>
+
+          <Stack></Stack>
+          <Grid.Col>
+            <Button type="submit">
+              {venueId ? "Update Venue" : "Create Venue"}
+            </Button>
+          </Grid.Col>
+        </Grid>
       </form>
     </>
   );

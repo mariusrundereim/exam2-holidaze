@@ -3,7 +3,6 @@ import ProfileVenuesCard from "../../../components/cards/ProfileVenuesCard";
 function VenuesNewList({ venues }) {
   return (
     <>
-      <Title order={3}>Your Venues</Title>
       {venues.length === 0 ? (
         <Text>No venues</Text>
       ) : (

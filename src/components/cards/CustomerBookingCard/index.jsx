@@ -1,39 +1,81 @@
-import { Card, Title, Text, Button, Group, Stack, Flex } from "@mantine/core";
+import { Card, Title, Text, Button, Grid, Popover } from "@mantine/core";
 import { formattedDateTime } from "../../../utils/format/dateFormat";
+import { useNavigate } from "react-router-dom";
 function CustomerBookingCard({ venue }) {
-  console.log("Bookingsvenue", venue);
+  const navigate = useNavigate();
+
   const {
-    created,
     dateFrom,
     dateTo,
-    guests,
+    id,
     venue: {
       name,
-      maxGuests,
       location: { address, city },
     },
   } = venue;
+
+  const handleButtonClick = () => {
+    navigate(`/venues/${venue.id}`);
+  };
   return (
     <>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Card.Section p={10}>
-          <Stack>
-            <Title order={4}>Venue information</Title>
-            <Text>{name}</Text>
-            <Text>
-              {address} - {city}
-            </Text>
-            <Text>Max guests: {maxGuests}</Text>
-          </Stack>
-          <Stack>
-            <Title order={4}>Dates:</Title>
-            <Text>{formattedDateTime(dateFrom)}</Text>
-            <Text>{formattedDateTime(dateTo)}</Text>
-          </Stack>
-          <Text>Created: {formattedDateTime(created)}</Text>
+          <Grid>
+            <Grid.Col>
+              <Title onClick={handleButtonClick} order={3}>
+                {name}
+              </Title>
+
+              <Text>
+                {address}, {city}
+              </Text>
+            </Grid.Col>
+            <Grid.Col>
+              <Text>{formattedDateTime(dateFrom)}</Text>
+              <Text>{formattedDateTime(dateTo)}</Text>
+            </Grid.Col>
+            <Grid.Col>ID: {id}</Grid.Col>
+          </Grid>
         </Card.Section>
         <Card.Section p={10}>
-          <Button fullWidth>View venue</Button>
+          <Grid>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Button
+                variant="outline"
+                fullWidth
+                mt="md"
+                radius="md"
+                onClick={() => editVenue(venueId)}
+              >
+                Edit
+              </Button>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Popover width={200} position="bottom" withArrow shadow="md">
+                <Popover.Target>
+                  <Button
+                    variant="outline"
+                    color="red"
+                    fullWidth
+                    mt="md"
+                    radius="md"
+                  >
+                    Delete
+                  </Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <Text ta="center">Are you sure?</Text>
+                  <Button
+                    color="red"
+                    onClick={() => handleConfirmDelete(dispatch, venue.id)}
+                  >
+                    Delete permanently
+                  </Button>
+                </Popover.Dropdown>
+              </Popover>
+            </Grid.Col>
+          </Grid>
         </Card.Section>
       </Card>
     </>

@@ -39,7 +39,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
   });
 
   const onSubmit = async (data) => {
-    // Adjust data to convert empty strings to null or another expected value
     const processedData = {
       ...data,
       avatar: { url: data.avatar.url || null },
@@ -190,9 +189,11 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             />
           </Grid.Col>
 
-          <Button type="submit" fullWidth>
-            Register
-          </Button>
+          <Grid.Col>
+            <Button type="submit" fullWidth>
+              Register
+            </Button>
+          </Grid.Col>
         </Grid>
       </form>
     </>
