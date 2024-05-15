@@ -12,6 +12,7 @@ const profileInitialState = {
 export const fetchProfileByName = createAsyncThunk(
   "profiles/fetchProfileByName",
   async (profileName) => {
+    console.log(profileName);
     const response = await fetch(
       `${BASE_URL}/profiles/${profileName}?_bookings=true&_venues=true`,
       {
@@ -32,6 +33,7 @@ export const fetchProfileByName = createAsyncThunk(
 export const getBookingsByProfile = createAsyncThunk(
   "profiles/getBookingsByProfile",
   async (profileName) => {
+    console.log(profileName);
     try {
       const response = await fetch(
         `${BASE_URL}/profiles/${profileName}/bookings?_bookings=true&_venue=true`,

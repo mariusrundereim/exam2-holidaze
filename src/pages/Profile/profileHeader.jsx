@@ -22,7 +22,7 @@ function ProfileHeader() {
 
   const { name, email, bio, venueManager, avatar = {}, banner = {} } = profile;
   useEffect(() => {
-    dispatch(fetchProfileByName());
+    dispatch(fetchProfileByName(name));
   }, [dispatch]);
 
   const role = venueManager ? "Venue Manager" : "Customer";

@@ -41,7 +41,7 @@ function ProfileUpdateForm() {
 
   useEffect(() => {
     async function fetchAndSetProfile() {
-      const profileName = "Simonsen";
+      // const profileName = "Simonsen";
       try {
         const response = await dispatch(
           fetchProfileByName(profileName)
@@ -77,18 +77,6 @@ function ProfileUpdateForm() {
       console.error("Update failed", error);
     }
   };
-
-  // useEffect(() => {
-  //   dispatch(fetchProfileByName()).then((response) => {
-  //     // Assume `response` contains the fetched profile data
-  //     reset({
-  //       bio: response.bio,
-  //       avatar: { url: response.avatar.url },
-  //       banner: { url: response.banner.url },
-  //       venueManager: response.venueManager,
-  //     });
-  //   });
-  // }, [dispatch, reset]);
 
   return (
     <>
