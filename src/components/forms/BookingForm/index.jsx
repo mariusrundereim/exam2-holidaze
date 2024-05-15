@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createBooking } from "../../../store/bookings/bookingSlice";
 import {
   Grid,
@@ -10,14 +10,17 @@ import {
   Button,
   Input,
   NumberInput,
+  Container,
   Group,
 } from "@mantine/core";
 import { DatePicker, DatePickerInput } from "@mantine/dates";
+import BookingVenueCard from "../../cards/BookingVenueCard";
 function BookingForm() {
   const { venueId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const venue = useSelector((state) => state.venues.selectedVenue);
-  console.log("This is venue", venue);
+  // console.log("This is venue", venue);
 
   const [value, setValue] = useState([null, null]);
 
@@ -34,7 +37,7 @@ function BookingForm() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const newBooking = {
       ...data,
       dateFrom: value[0] ? value[0].toISOString() : null,
@@ -43,54 +46,64 @@ function BookingForm() {
     };
     console.log("Newbooking", newBooking);
     dispatch(createBooking(newBooking));
+    navigate("confirmed");
   };
   return (
     <>
-      <Title>Booking</Title>
-      <Text>{venueId}</Text>
-
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Container size="xl">
         <Grid>
           <Grid.Col>
-            <Controller
-              name="dateFrom"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <>
-                  <DatePickerInput
-                    type="range"
-                    label="Pick date"
-                    value={value}
-                    onChange={(val) => {
-                      setValue(val);
-                      field.onChange(val);
-                    }}
-                    hideOutsideDates
+            <Title>Booking</Title>
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <BookingVenueCard venue={venue} />
+          </Grid.Col>
+          <Grid.Col span={{ base: 12, md: 6 }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid>
+                <Grid.Col>
+                  <Controller
+                    name="dateFrom"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <>
+                        <DatePickerInput
+                          type="range"
+                          label="Pick date"
+                          value={value}
+                          onChange={(val) => {
+                            setValue(val);
+                            field.onChange(val);
+                          }}
+                          hideOutsideDates
+                        />
+                      </>
+                    )}
                   />
-                </>
-              )}
-            />
-            {errors.dateFrom && <Text>Date is required</Text>}
-          </Grid.Col>
-          <Grid.Col>
-            <Controller
-              name="guests"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Input.Wrapper label="Guests" withAsterisk>
-                  <NumberInput {...field} />
-                </Input.Wrapper>
-              )}
-            />
-            {errors.guests && <Text>Guests is required</Text>}
-          </Grid.Col>
-          <Grid.Col>
-            <Button type="submit">Confirm Booking!</Button>
+                  {errors.dateFrom && <Text>Date is required</Text>}
+                </Grid.Col>
+                <Grid.Col>
+                  <Controller
+                    name="guests"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Input.Wrapper label="Guests" withAsterisk>
+                        <NumberInput {...field} />
+                      </Input.Wrapper>
+                    )}
+                  />
+                  {errors.guests && <Text>Guests is required</Text>}
+                </Grid.Col>
+                <Grid.Col>
+                  <Button type="submit">Confirm Booking!</Button>
+                </Grid.Col>
+              </Grid>
+            </form>
           </Grid.Col>
         </Grid>
-      </form>
+      </Container>
     </>
   );
 }
