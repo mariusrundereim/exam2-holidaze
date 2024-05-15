@@ -170,6 +170,9 @@ const venueSlice = createSlice({
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
+    appendVenues(state, action) {
+      state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -180,7 +183,8 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        state.allVenuesList = action.payload.data;
+        state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
+        // state.allVenuesList = action.payload.data;
         state.loading = "idle";
       })
       .addCase(fetchVenues.rejected, (state, action) => {
@@ -249,5 +253,5 @@ const venueSlice = createSlice({
   },
 });
 
-export const { clearSelectedVenue } = venueSlice.actions;
+export const { appendVenues, clearSelectedVenue } = venueSlice.actions;
 export default venueSlice.reducer;
