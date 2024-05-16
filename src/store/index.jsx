@@ -13,7 +13,7 @@ import profilesSlice from "./profiles/profilesSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user", "profile", "booking"],
+  whitelist: ["auth", "user", "profile", "booking", "venues"],
 };
 
 const rootReducer = combineReducers({

@@ -17,19 +17,14 @@ import {
   IconPhoto,
 } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
-import {
-  fetchProfileByName,
-  updateProfile,
-} from "../../../store/profile/profileSlice";
+import { useProfileHandler } from "./useProfileHandler";
+
+// import {
+//   fetchProfileByName,
+//   updateProfile,
+// } from "../../../store/profile/profileSlice";
 
 function ProfileUpdateForm() {
-  const [checked, setChecked] = useState(false);
-  const dispatch = useDispatch();
-  const profileData = useSelector((state) => state.profile);
-  const profileName = profileData.name;
-
-  console.log("Current profile data:", profileData);
-
   const {
     control,
     handleSubmit,
@@ -37,69 +32,96 @@ function ProfileUpdateForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      bio: profileData?.bio || "",
-      avatar: { url: profileData?.avatar?.url || "" },
-      banner: { url: profileData?.banner?.url || "" },
-      venueManager: profileData?.venueManager || false,
+      bio: "",
+      avatar: { url: "" },
+      banner: { url: "" },
+      venueManager: false,
     },
   });
-  useEffect(() => {
-    async function fetchAndSetProfile() {
-      try {
-        if (!profileName) {
-          console.error("Profile name is undefined");
-          return;
-        }
 
-        const response = await dispatch(
-          fetchProfileByName(profileName)
-        ).unwrap();
-        console.log("Fetched profile response:", response);
+  const { profileData, checked, setChecked, profileName, handleSubmitProfile } =
+    useProfileHandler(reset);
 
-        const data = response.data;
-        const avatarUrl = data.avatar ? data.avatar.url : "";
-        const bannerUrl = data.banner ? data.banner.url : "";
-
-        reset({
-          bio: data.bio,
-          avatar: { url: avatarUrl },
-          banner: { url: bannerUrl },
-          venueManager: data.venueManager,
-        });
-
-        setChecked(data.venueManager);
-      } catch (error) {
-        console.error("Failed to fetch profile data", error);
-      }
-    }
-
-    fetchAndSetProfile();
-  }, [dispatch, reset, profileName]);
-
-  const onSubmit = async (data) => {
-    if (!profileData || !profileData.name) {
-      console.error("Profile data is incomplete");
-      return;
-    }
-
-    const processedData = {
-      ...data,
-      avatar: { url: data.avatar?.url || null },
-      banner: { url: data.banner?.url || null },
-      venueManager: checked,
-    };
-
-    console.log(processedData);
-
-    try {
-      const result = await dispatch(
-        updateProfile({ profileName: profileData.name, data: processedData })
-      ).unwrap();
-      console.log("Update successful", result);
-    } catch (error) {
-      console.error(error);
-    }
+  const onSubmit = (data) => {
+    handleSubmitProfile(data);
   };
+  // const dispatch = useDispatch();
+  // const [checked, setChecked] = useState(false);
+  // const profileData = useSelector((state) => state.profile);
+  // const profileName = profileData.name;
+
+  // console.log("Current profile data:", profileData);
+
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm({
+  //   defaultValues: {
+  //     bio: profileData?.bio || "",
+  //     avatar: { url: profileData?.avatar?.url || "" },
+  //     banner: { url: profileData?.banner?.url || "" },
+  //     venueManager: profileData?.venueManager || false,
+  //   },
+  // });
+  // useEffect(() => {
+  //   async function fetchAndSetProfile() {
+  //     try {
+  //       if (!profileName) {
+  //         console.error("Profile name is undefined");
+  //         return;
+  //       }
+
+  //       const response = await dispatch(
+  //         fetchProfileByName(profileName)
+  //       ).unwrap();
+  //       console.log("Fetched profile response:", response);
+
+  //       const data = response.data;
+  //       const avatarUrl = data.avatar ? data.avatar.url : "";
+  //       const bannerUrl = data.banner ? data.banner.url : "";
+
+  //       reset({
+  //         bio: data.bio,
+  //         avatar: { url: avatarUrl },
+  //         banner: { url: bannerUrl },
+  //         venueManager: data.venueManager,
+  //       });
+
+  //       setChecked(data.venueManager);
+  //     } catch (error) {
+  //       console.error("Failed to fetch profile data", error);
+  //     }
+  //   }
+
+  //   fetchAndSetProfile();
+  // }, [dispatch, reset, profileName]);
+
+  // const onSubmit = async (data) => {
+  //   if (!profileData || !profileData.name) {
+  //     console.error("Profile data is incomplete");
+  //     return;
+  //   }
+
+  //   const processedData = {
+  //     ...data,
+  //     avatar: { url: data.avatar?.url || null },
+  //     banner: { url: data.banner?.url || null },
+  //     venueManager: checked,
+  //   };
+
+  //   console.log(processedData);
+
+  //   try {
+  //     const result = await dispatch(
+  //       updateProfile({ profileName: profileData.name, data: processedData })
+  //     ).unwrap();
+  //     console.log("Update successful", result);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <>
