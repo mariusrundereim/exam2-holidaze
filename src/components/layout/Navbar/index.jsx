@@ -33,7 +33,7 @@ function NavLinksBar() {
               <Text>Logout</Text>
             </button>
           ) : (
-            <Link to="/login" className={classes.loginButton}>
+            <Link to="/signup" className={classes.loginButton}>
               <IconLogin className={classes.linkIcon} stroke={1.5} />
               <Text>Login</Text>
             </Link>
