@@ -9,6 +9,7 @@ import { theme } from "./utils/theme/index.jsx";
 import store, { persistor } from "./store";
 import "@fontsource-variable/albert-sans";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

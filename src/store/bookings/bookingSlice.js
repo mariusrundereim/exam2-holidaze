@@ -34,15 +34,25 @@ export const allBookings = createAsyncThunk(
 export const singleBooking = createAsyncThunk(
   "booking/singleBooking",
   async ({ id }) => {
-    const response = await fetch(
-      `${BASE_URL}/bookings${id}?_customer=true&_venue=true`,
-      {
-        headers: getAuthHeaders(),
+    try {
+      console.log("singleBooking thunk called with id:", id);
+      const response = await fetch(
+        `${BASE_URL}/bookings/${id}?_customer=true&_venue=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+      console.log("Fetch response:", response);
+      if (!response.ok) {
+        throw new Error(`Error fetching booking: ${response.statusText}`);
       }
-    );
-    const data = await response.json();
-    console.log("bookingIds", data);
-    return data;
+      const data = await response.json();
+      console.log("bookingIds", data);
+      return data;
+    } catch (error) {
+      console.error("Error in singleBooking thunk:", error);
+      throw error;
+    }
   }
 );
 
@@ -133,6 +143,19 @@ const bookingSlice = createSlice({
       .addCase(createBooking.fulfilled, (state, action) => {
         state.bookingList.push(action.payload);
         state.loading = "idle";
+      })
+
+      .addCase(singleBooking.pending, (state) => {
+        state.loading = "loading";
+      })
+      .addCase(singleBooking.fulfilled, (state, action) => {
+        state.loading = "idle";
+        console.log("singleBooking.fulfilled payload:", action.payload);
+        state.selectedBooking = action.payload;
+      })
+      .addCase(singleBooking.rejected, (state, action) => {
+        state.loading = "idle";
+        state.error = action.error.message;
       })
       .addCase(updateBooking.pending, (state) => {
         state.loading = true;
