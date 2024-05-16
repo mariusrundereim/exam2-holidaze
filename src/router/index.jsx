@@ -16,6 +16,7 @@ import BookingPage from "../pages/Bookings";
 import BookingForm from "../components/forms/BookingForm";
 import BookingLayout from "./layout/bookingLayout";
 import BookingConfirmed from "../pages/success/booking";
+import VenueConfirmed from "../pages/success/venue";
 function Router() {
   return (
     <>
@@ -29,6 +30,7 @@ function Router() {
           <Route path="venues" element={<VenueLayout />}>
             <Route index element={<VenuesListPage />} />
             <Route path=":venueId" element={<SpecificVenue />} />
+            <Route path=":venueId/confirmed" element={<VenueConfirmed />} />
             <Route path="edit/:venueId" element={<VenueForm />} />
             <Route path="create" element={<CreateVenue />} />
           </Route>

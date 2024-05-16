@@ -1,13 +1,15 @@
-import { Grid, Title } from "@mantine/core";
 import { useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+// import { fetchVenueById } from "./path/to/venueSlice"; // Adjust the import path as necessary
+// import { singleBooking } from "./path/to/bookingSlice"; // Adjust the import path as necessary
 import { fetchVenueById } from "../../../store/venues/venueSlice";
 import { singleBooking } from "../../../store/bookings/bookingSlice";
+import { Title } from "@mantine/core";
+
 function BookingConfirmed() {
   const { venueId } = useParams();
   const location = useLocation();
-
   const dispatch = useDispatch();
 
   const venue = useSelector((state) => state.venues.selectedVenue);
@@ -15,6 +17,7 @@ function BookingConfirmed() {
 
   useEffect(() => {
     if (venueId) {
+      console.log("Fetching venue by ID:", venueId);
       dispatch(fetchVenueById({ id: venueId }));
     }
 
@@ -28,15 +31,16 @@ function BookingConfirmed() {
     <>
       <Title>Success!</Title>
       {venue && (
-        <Grid>
-          <Grid.Col>
-            <Title>Venue Details</Title>
-          </Grid.Col>
-        </Grid>
+        <div>
+          <h2>Venue Details</h2>
+          <p>Name: {venue.name}</p>
+        </div>
       )}
       {booking && (
         <div>
           <h2>Booking Details</h2>
+          <p>Customer: {booking.customer.name}</p>
+          <p>Booking Date: {booking.date}</p>
         </div>
       )}
     </>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import {
   createVenue,
@@ -19,7 +19,9 @@ import {
 } from "@mantine/core";
 function VenueForm() {
   const { venueId } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const venue = useSelector((state) => state.venues.selectedVenue);
   // const venue = useSelector((state) =>
   //   state.venues.allVenuesList.find((v) => v.id === venueId)
@@ -72,13 +74,30 @@ function VenueForm() {
     }
   }, [venueId, venue, dispatch, reset]);
 
-  const onSubmit = (data) => {
-    if (venue) {
-      dispatch(updateVenue({ id: venue.id, data }));
+  const onSubmit = async (data) => {
+    if (venueId) {
+      dispatch(updateVenue({ id: venueId, data }));
+      navigate(`/venues/${venueId}/confirmed`);
     } else {
-      dispatch(createVenue(data));
+      try {
+        const response = await dispatch(createVenue(data)).unwrap();
+        const createdVenueId = response.data.id;
+        navigate(`/venues/${createdVenueId}/confirmed`);
+      } catch (error) {
+        console.error("Failed to create venue:", error);
+      }
     }
   };
+
+  // const onSubmit = (data) => {
+  //   if (venue) {
+  //     dispatch(updateVenue({ id: venue.id, data }));
+  //     navigate(`/venues/create/${venueId}/confirmed`);
+  //   } else {
+  //     dispatch(createVenue(data));
+  //     navigate(`/venues/create/${createdVenueId}/confirmed`);
+  //   }
+  // };
 
   return (
     <>
