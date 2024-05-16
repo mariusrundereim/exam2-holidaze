@@ -57,9 +57,11 @@ export const getBookingsByProfile = createAsyncThunk(
 );
 
 // Update profile
+
 export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
   async ({ profileName, data }) => {
+    console.log("Calling api to update profile");
     try {
       const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
         method: "PUT",
@@ -68,12 +70,36 @@ export const updateProfile = createAsyncThunk(
       });
 
       if (!response.ok) {
-        throw new Error("Profile not updated");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Profile not updated");
       }
-      return { data };
-    } catch (error) {}
+
+      const responseData = await response.json();
+      console.log("API response received", responseData);
+      return responseData;
+    } catch (error) {
+      throw new Error(error.message || "An error occurred during the update");
+    }
   }
 );
+
+// export const updateProfile = createAsyncThunk(
+//   "profile/updateProfile",
+//   async ({ profileName, data }) => {
+//     try {
+//       const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
+//         method: "PUT",
+//         headers: getAuthHeaders(),
+//         body: JSON.stringify(data),
+//       });
+
+//       if (!response.ok) {
+//         throw new Error("Profile not updated");
+//       }
+//       return { data };
+//     } catch (error) {}
+//   }
+// );
 
 // Big profile slicer
 
@@ -119,7 +145,10 @@ export const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateProfile.fulfilled, (state, action) => {
-      state.data = action.payload;
+      Object.entries(action.payload.data).forEach(([key, value]) => {
+        state[key] = value;
+      });
+      // state.data = action.payload;
       state.isLoading = false;
     });
   },

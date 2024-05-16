@@ -41,8 +41,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
   const onSubmit = async (data) => {
     const processedData = {
       ...data,
-      avatar: { url: data.avatar.url || null },
-      banner: { url: data.banner.url || null },
+      avatar: data.avatar.url ? { url: data.avatar.url } : undefined,
+      banner: data.banner.url ? { url: data.banner.url } : undefined,
       venueManager: checked,
     };
 
@@ -122,7 +122,12 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="avatar.url"
               control={control}
-              rules={{ validate: validImageFormat }}
+              rules={{
+                validate: (value) =>
+                  value === "" ||
+                  validImageFormat(value) ||
+                  "Invalid image URL",
+              }}
               render={({ field, fieldState }) => (
                 <Input.Wrapper label="Avatar">
                   <Input
@@ -140,7 +145,12 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="banner.url"
               control={control}
-              rules={{ validate: validImageFormat }}
+              rules={{
+                validate: (value) =>
+                  value === "" ||
+                  validImageFormat(value) ||
+                  "Invalid image URL",
+              }}
               render={({ field, fieldState }) => (
                 <Input.Wrapper label="Banner">
                   <Input

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-// import { register } from "../../../store/auth/authSlice";
 import {
   Grid,
   Input,
@@ -18,13 +17,19 @@ import {
   IconPhoto,
 } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
-import { fetchProfileByName } from "../../../store/profile/profileSlice";
+import {
+  fetchProfileByName,
+  updateProfile,
+} from "../../../store/profile/profileSlice";
 
 function ProfileUpdateForm() {
   const [checked, setChecked] = useState(false);
   const dispatch = useDispatch();
-  const profileData = useSelector((state) => state.profile.data);
-  console.log("faaf", profileData);
+  const profileData = useSelector((state) => state.profile);
+  const profileName = profileData.name;
+
+  console.log("Current profile data:", profileData);
+
   const {
     control,
     handleSubmit,
@@ -32,49 +37,67 @@ function ProfileUpdateForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      bio: profileData ? profileData.bio : "",
-      avatar: { url: profileData ? profileData.avatar.url : "" },
-      banner: { url: profileData ? profileData.banner.url : "" },
-      venueManager: profileData ? profileData.venueManager : false,
+      bio: profileData?.bio || "",
+      avatar: { url: profileData?.avatar?.url || "" },
+      banner: { url: profileData?.banner?.url || "" },
+      venueManager: profileData?.venueManager || false,
     },
   });
-
   useEffect(() => {
     async function fetchAndSetProfile() {
-      // const profileName = "Simonsen";
       try {
+        if (!profileName) {
+          console.error("Profile name is undefined");
+          return;
+        }
+
         const response = await dispatch(
           fetchProfileByName(profileName)
         ).unwrap();
+        console.log("Fetched profile response:", response);
+
+        const data = response.data;
+        const avatarUrl = data.avatar ? data.avatar.url : "";
+        const bannerUrl = data.banner ? data.banner.url : "";
+
         reset({
-          bio: response.bio,
-          avatar: { url: response.avatar.url },
-          banner: { url: response.banner.url },
-          venueManager: response.venueManager,
+          bio: data.bio,
+          avatar: { url: avatarUrl },
+          banner: { url: bannerUrl },
+          venueManager: data.venueManager,
         });
+
+        setChecked(data.venueManager);
       } catch (error) {
         console.error("Failed to fetch profile data", error);
       }
     }
+
     fetchAndSetProfile();
-  }, [dispatch, reset]);
+  }, [dispatch, reset, profileName]);
 
   const onSubmit = async (data) => {
+    if (!profileData || !profileData.name) {
+      console.error("Profile data is incomplete");
+      return;
+    }
+
     const processedData = {
       ...data,
-      avatar: { url: data.avatar.url || null },
-      banner: { url: data.banner.url || null },
-      venueManager: data.venueManager,
+      avatar: { url: data.avatar?.url || null },
+      banner: { url: data.banner?.url || null },
+      venueManager: checked,
     };
 
-    console.log("Processed data for submission:", processedData);
+    console.log(processedData);
+
     try {
       const result = await dispatch(
         updateProfile({ profileName: profileData.name, data: processedData })
       ).unwrap();
-      console.log("update successful", result);
+      console.log("Update successful", result);
     } catch (error) {
-      console.error("Update failed", error);
+      console.error(error);
     }
   };
 
@@ -159,7 +182,7 @@ function ProfileUpdateForm() {
             />
           </Grid.Col>
           <Grid.Col>
-            <Button>Update profile</Button>
+            <Button type="submit">Update profile</Button>
           </Grid.Col>
         </Grid>
       </form>
