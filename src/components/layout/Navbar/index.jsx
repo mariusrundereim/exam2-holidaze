@@ -16,6 +16,7 @@ function NavLinksBar() {
 
   const handleLogout = () => {
     dispatch(logout())
+      .unwrap()
       .then(() => navigate("/"))
       .catch((error) => console.log("Logout failed:", error));
   };

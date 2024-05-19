@@ -11,9 +11,9 @@ const userSlice = createSlice({
     setProfileData: (state, action) => {
       Object.assign(state, action.payload);
     },
-    resetUserState: () => initialState,
+    resetUserState: (state) => initialState,
   },
 });
 
-export const { setProfileData } = userSlice.actions;
+export const { setProfileData, resetUserState } = userSlice.actions;
 export default userSlice.reducer;

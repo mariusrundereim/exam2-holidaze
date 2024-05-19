@@ -1,17 +1,31 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
 import { AUTH_URL } from "../../config/env";
 import { setProfileData } from "./userSlice";
+import { resetUserState } from "./userSlice";
+
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   isLoading: false,
   error: null,
 };
 
+export const selectAuthState = (state) => state.auth;
+
+export const isLoggedIn = createSelector(
+  [selectAuthState],
+  (auth) => !!auth.accessToken
+);
+
 export const logout = createAsyncThunk(
   "auth/logout",
-  async (_, { rejectWithValue }) => {
+  async (_, { dispatch, rejectWithValue }) => {
     try {
       localStorage.removeItem("accessToken");
+      dispatch(resetUserState());
       return {};
     } catch (error) {
       return rejectWithValue(error);
@@ -97,7 +111,6 @@ const authSlice = createSlice({
 
       .addCase(logout.fulfilled, (state) => {
         state.accessToken = null;
-        state.credentials = {};
         state.isLoading = false;
         state.error = null;
       })
