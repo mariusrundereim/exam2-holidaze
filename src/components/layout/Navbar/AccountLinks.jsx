@@ -24,7 +24,7 @@ const notLoggedInLinks = [
 const venueManagerLinks = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
-  { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profile", label: "Dashboard", icon: IconUserCircle },
   { link: "/profile/venues", label: "Your venues", icon: IconBox },
   { link: "/venues/create", label: "Create venue", icon: IconPlus },
   { link: "/profile/bookings", label: "Your bookings", icon: IconArticle },
@@ -34,7 +34,7 @@ const venueManagerLinks = [
 const customerLinks = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
-  { link: "/profile", label: "Profile", icon: IconUserCircle },
+  { link: "/profile", label: "Dashboard", icon: IconUserCircle },
   { link: "/profile/bookings", label: "Your bookings", icon: IconArticle },
   { link: "/profile/settings", label: "Settings", icon: IconSettings },
 ];
