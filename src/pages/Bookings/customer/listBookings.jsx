@@ -1,9 +1,9 @@
 import { Grid, Title } from "@mantine/core";
-import CustomerBookingCard from "../../components/cards/CustomerBookingCard";
-function ListBookings({ bookings }) {
+import CustomerBookingCard from "../../../components/cards/CustomerBookingCard";
+function CustomerListBookings({ bookings }) {
   return (
     <>
-      <Title>Your Upcoming booking as </Title>
+      <Title>Your Upcoming booking </Title>
       <Grid>
         {bookings.map((booking) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>
@@ -15,4 +15,4 @@ function ListBookings({ bookings }) {
   );
 }
 
-export default ListBookings;
+export default CustomerListBookings;
