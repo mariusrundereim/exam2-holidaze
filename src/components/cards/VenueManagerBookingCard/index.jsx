@@ -1,10 +1,23 @@
 import { Card, Text } from "@mantine/core";
+import { formattedDateTime } from "../../../utils/format/dateFormat";
 function VenueManagerBookingCard({ booking }) {
-  console.log("Venue,.", booking);
+  const {
+    customer: { name, email },
+    dateFrom,
+    dateTo,
+  } = booking;
+
   return (
     <>
-      <Card>
-        <Text></Text>
+      <Card shadow="sm" p="md" withBorder>
+        <Card.Section>
+          <Text>Name: {name}</Text>
+          <Text>Email: {email}</Text>
+        </Card.Section>
+        <Card.Section mt="md">
+          <Text>Date From: {formattedDateTime(dateFrom)}</Text>
+          <Text>Date To: {formattedDateTime(dateTo)}</Text>
+        </Card.Section>
       </Card>
     </>
   );

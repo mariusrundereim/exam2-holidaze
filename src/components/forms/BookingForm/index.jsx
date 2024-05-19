@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,15 +14,18 @@ import {
   Group,
 } from "@mantine/core";
 import { DatePicker, DatePickerInput } from "@mantine/dates";
+import { parseISO } from "date-fns";
+
+import { handleDateBooked } from "./handleDateBooked";
+
 import BookingVenueCard from "../../cards/BookingVenueCard";
 function BookingForm() {
   const { venueId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const venue = useSelector((state) => state.venues.selectedVenue);
-  // console.log("This is venue", venue);
-
   const [value, setValue] = useState([null, null]);
+  const [bookedDates, setBookedDates] = useState([]);
 
   const {
     control,
@@ -36,6 +39,16 @@ function BookingForm() {
       venueId: venueId,
     },
   });
+
+  useEffect(() => {
+    if (venue && venue.bookings) {
+      const dates = venue.bookings.map((booking) => ({
+        dateFrom: parseISO(booking.dateFrom),
+        dateTo: parseISO(booking.dateTo),
+      }));
+      setBookedDates(dates);
+    }
+  }, [venue]);
 
   const onSubmit = async (data) => {
     const newBooking = {
@@ -77,6 +90,9 @@ function BookingForm() {
                             field.onChange(val);
                           }}
                           hideOutsideDates
+                          excludeDate={(date) =>
+                            handleDateBooked(date, bookedDates)
+                          }
                         />
                       </>
                     )}

@@ -66,7 +66,12 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="name"
               control={control}
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                pattern: {
+                  value: /^[a-zA-Z0-9_]+$/,
+                },
+              }}
               render={({ field }) => (
                 <Input.Wrapper label="Name" withAsterisk>
                   <Input
@@ -80,7 +85,11 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 </Input.Wrapper>
               )}
             />
-            {errors.name && <Text>This field is required</Text>}
+            {errors.name && (
+              <Text>
+                Name must only contain letters, numbers, and underscores (_).
+              </Text>
+            )}
             <Controller
               name="email"
               control={control}
@@ -98,12 +107,17 @@ function RegisterForm({ onSuccess, setActiveTab }) {
               )}
             />
             {errors.email && (
-              <span>Field supports only @stud.noroff.no email</span>
+              <Text>Field supports only @stud.noroff.no email</Text>
             )}
             <Controller
               name="password"
               control={control}
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                minLength: {
+                  value: 8,
+                },
+              }}
               render={({ field }) => (
                 <Input.Wrapper label="Password" withAsterisk>
                   <Input
@@ -115,7 +129,9 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 </Input.Wrapper>
               )}
             />
-            {errors.password && <span>This field is required</span>}
+            {errors.password && (
+              <Text>The password value must be at least 8 characters.</Text>
+            )}
           </Grid.Col>
 
           <Grid.Col span={6}>
@@ -186,7 +202,12 @@ function RegisterForm({ onSuccess, setActiveTab }) {
             <Controller
               name="bio"
               control={control}
-              rules={{ required: false }}
+              rules={{
+                maxLength: {
+                  value: 160,
+                  message: "Bio must be less than 160 characters.",
+                },
+              }}
               render={({ field }) => (
                 <Textarea
                   label="Bio"
@@ -197,6 +218,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 />
               )}
             />
+            {errors.bio && <Text>Biography max length is 160</Text>}
           </Grid.Col>
 
           <Grid.Col>
