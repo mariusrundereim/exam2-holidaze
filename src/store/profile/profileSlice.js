@@ -89,9 +89,7 @@ export const profileSlice = createSlice({
     setProfileData: (state, action) => {
       Object.assign(state, action.payload);
     },
-    // resetProfileData: (state) => {
-    //   return profileInitialState;
-    // },
+    resetProfileState: () => profileInitialState,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProfileByName.pending, (state) => {
@@ -133,5 +131,5 @@ export const profileSlice = createSlice({
   },
 });
 
-export const { setProfileData, resetProfileData } = profileSlice.actions;
+export const { setProfileData, resetProfileState } = profileSlice.actions;
 export default profileSlice.reducer;

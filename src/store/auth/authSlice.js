@@ -6,6 +6,7 @@ import {
 import { AUTH_URL } from "../../config/env";
 import { setProfileData } from "./userSlice";
 import { resetUserState } from "./userSlice";
+import { resetProfileState } from "../profile/profileSlice";
 
 const initialState = {
   accessToken: localStorage.getItem("accessToken"),
@@ -26,6 +27,7 @@ export const logout = createAsyncThunk(
     try {
       localStorage.removeItem("accessToken");
       dispatch(resetUserState());
+      dispatch(resetProfileState());
       return {};
     } catch (error) {
       return rejectWithValue(error);

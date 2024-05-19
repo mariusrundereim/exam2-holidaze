@@ -12,7 +12,8 @@ import classes from "./navbar.module.css";
 function NavLinksBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedIn = useSelector(isLoggedIn);
+  // const loggedIn = useSelector(isLoggedIn);
+  const loggedIn = useSelector((state) => isLoggedIn(state));
 
   const handleLogout = () => {
     dispatch(logout())
