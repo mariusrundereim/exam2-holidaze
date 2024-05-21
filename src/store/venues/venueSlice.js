@@ -80,7 +80,7 @@ export const getVenuesByProfile = createAsyncThunk(
   async (profileName) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/profiles/${profileName}/venues?_venue=true&_customer=true`,
+        `${BASE_URL}/profiles/${profileName}/venues?_owner=true&_bookings=true`,
         {
           headers: getAuthHeaders(),
         }
@@ -91,6 +91,7 @@ export const getVenuesByProfile = createAsyncThunk(
       }
 
       const data = await response.json();
+      console.log("data", data.data);
       return data.data;
     } catch (error) {
       console.error("Error fetching venues:", error);

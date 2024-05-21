@@ -2,20 +2,21 @@ import { IconLogout, IconLogin } from "@tabler/icons-react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Text } from "@mantine/core";
+import { Text, Group, Button } from "@mantine/core";
 
 import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 import AccountLinks from "./AccountLinks";
-import classes from "./navbar.module.css";
+import classes from "./Navbar.module.css";
 
 function NavLinksBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const loggedIn = useSelector(isLoggedIn);
+  const loggedIn = useSelector((state) => isLoggedIn(state));
 
   const handleLogout = () => {
     dispatch(logout())
+      .unwrap()
       .then(() => navigate("/"))
       .catch((error) => console.log("Logout failed:", error));
   };
@@ -28,14 +29,16 @@ function NavLinksBar() {
         </div>
         <div className={classes.footer}>
           {loggedIn ? (
-            <button onClick={handleLogout} className={classes.logoutButton}>
-              <IconLogout className={classes.linkIcon} stroke={1.5} />
-              <Text>Logout</Text>
-            </button>
+            <Button
+              onClick={handleLogout}
+              leftSection={<IconLogout size={24} />}
+              className={classes.logoutButton}
+            >
+              Logout
+            </Button>
           ) : (
             <Link to="/signup" className={classes.loginButton}>
-              <IconLogin className={classes.linkIcon} stroke={1.5} />
-              <Text>Login</Text>
+              <Button leftSection={<IconLogin size={24} />}>Login</Button>
             </Link>
           )}
         </div>
