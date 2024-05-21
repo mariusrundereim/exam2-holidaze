@@ -4,11 +4,11 @@ export const theme = createTheme({
   // primaryColor: "violet",
   fontFamily: "Albert Sans Variable, sans-serif",
   fontSizes: {
-    xs: rem(18),
-    sm: rem(21),
-    md: rem(22),
-    lg: rem(25),
-    xl: rem(30),
+    xs: rem(16),
+    sm: rem(18),
+    md: rem(20),
+    lg: rem(23),
+    xl: rem(25),
   },
   headings: {
     // properties for all headings

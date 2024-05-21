@@ -9,6 +9,9 @@ function VenueManagerBookings({ bookings }) {
           <Grid.Col span={{ base: 12 }} key={venue.id}>
             <Card shadow="sm" p="lg" withBorder>
               <Title order={3}>{venue.name}</Title>
+              <Text>
+                {venue.location.address} - {venue.location.city}
+              </Text>
 
               {venue.bookings.length > 0 ? (
                 <Grid mt="md">

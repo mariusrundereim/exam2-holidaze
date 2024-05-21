@@ -31,6 +31,10 @@ function ProfileVenuesCard({ venue, venueId }) {
   } = venue;
   const firstImage = media[0].url;
 
+  const handlePageClick = () => {
+    navigate(`/venues/${venue.id}`);
+  };
+
   // Edit venue
 
   const editVenue = async (venueId) => {
@@ -47,7 +51,12 @@ function ProfileVenuesCard({ venue, venueId }) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Card.Section>
-        <Image src={firstImage} height={140} alt="Norway" />
+        <Image
+          src={firstImage}
+          onClick={handlePageClick}
+          height={140}
+          alt="Norway"
+        />
       </Card.Section>
       <Card.Section p={10}>
         <Title order={3}>{name}</Title>
