@@ -12,12 +12,13 @@ function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
 
-  const [opened, { open, close }] = useDisclosure(false);
-
   const filteredVenues = useSelector((state) => {
     const allVenues = state.venues.allVenuesList;
     return filterValidVenues(allVenues);
   });
+
+  const searchResults = useSelector((state) => state.venues.searchVenues.data);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     dispatch(fetchVenues());
@@ -53,7 +54,11 @@ function VenuesListPage() {
         </Grid.Col>
       </Grid>
 
-      <ListVenues venues={filteredVenues} />
+      {searchResults && searchResults.length > 0 ? (
+        <ListVenues venues={searchResults} />
+      ) : (
+        <ListVenues venues={filteredVenues} />
+      )}
       <Button>Button</Button>
     </>
   );
