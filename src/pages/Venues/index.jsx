@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ListVenues from "./listVenues";
-import filterValidVenues from "../../utils/venues/filterVenues";
+
 import { fetchVenues } from "../../store/venues/venueSlice";
 import { Drawer, Button, Grid } from "@mantine/core";
 import SearchVenues from "./searchVenues";
@@ -12,15 +12,14 @@ function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
 
-  // const filteredVenues = useSelector((state) => {
-  //   const allVenues = state.venues.allVenuesList;
-  //   return filterValidVenues(allVenues);
-  // });
-
   const filteredVenues = useSelector((state) => state.venues.filteredVenues);
   const searchResults = useSelector((state) => state.venues.searchVenues);
-  console.log("search", searchResults);
+  const searchFilterResults = useSelector(
+    (state) => state.venues.searchFilterResults
+  );
   const [opened, { open, close }] = useDisclosure(false);
+  console.log("search all", searchResults);
+  console.log("filtered", searchFilterResults);
 
   useEffect(() => {
     dispatch(fetchVenues());
@@ -29,6 +28,13 @@ function VenuesListPage() {
   if (loading === "loading") {
     return <p>Loading...</p>;
   }
+
+  const venuesToDisplay =
+    searchFilterResults.length > 0
+      ? searchFilterResults
+      : searchResults.length < 0
+      ? searchResults
+      : filteredVenues;
 
   return (
     <>
@@ -56,12 +62,7 @@ function VenuesListPage() {
         </Grid.Col>
       </Grid>
 
-      {searchResults && searchResults.length > 0 ? (
-        <ListVenues venues={searchResults} />
-      ) : (
-        <ListVenues venues={filteredVenues} />
-      )}
-      <Button>Button</Button>
+      <ListVenues venues={venuesToDisplay} />
     </>
   );
 }

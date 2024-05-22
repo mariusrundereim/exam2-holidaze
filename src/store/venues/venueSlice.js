@@ -8,6 +8,7 @@ const venuesInitialState = {
   allVenuesList: [],
   filteredVenues: [],
   searchVenues: [],
+  searchFilterResults: [],
   loading: "idle",
   error: null,
 };
@@ -169,6 +170,9 @@ const venueSlice = createSlice({
     filteredVenuesUpdated: (state, action) => {
       state.filteredVenues = action.payload;
     },
+    updateSearchFilterResults: (state, action) => {
+      state.searchFilterResults = action.payload;
+    },
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
@@ -253,7 +257,8 @@ const venueSlice = createSlice({
       })
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.searchVenues = action.payload.data;
+        state.searchVenues = action.payload;
+        // state.searchVenues = action.payload.data;
         // state.meta = action.payload.meta;
       })
       .addCase(searchVenues.rejected, (state, action) => {
@@ -268,5 +273,6 @@ export const {
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
+  updateSearchFilterResults,
 } = venueSlice.actions;
 export default venueSlice.reducer;
