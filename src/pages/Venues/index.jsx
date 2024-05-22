@@ -3,11 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import ListVenues from "./listVenues";
 import filterValidVenues from "../../utils/venues/filterVenues";
 import { fetchVenues } from "../../store/venues/venueSlice";
-import { Button } from "@mantine/core";
-
+import { Drawer, Button, Grid } from "@mantine/core";
+import SearchVenues from "./searchVenues";
+import { useDisclosure } from "@mantine/hooks";
+import FilterVenues from "./filter/filterVenues";
+import { IconFilter } from "@tabler/icons-react";
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
+
+  const [opened, { open, close }] = useDisclosure(false);
 
   const filteredVenues = useSelector((state) => {
     const allVenues = state.venues.allVenuesList;
@@ -24,6 +29,30 @@ function VenuesListPage() {
 
   return (
     <>
+      <Drawer
+        opened={opened}
+        onClose={close}
+        position="top"
+        size="100%"
+        title="Filter"
+      >
+        <FilterVenues />
+      </Drawer>
+      <Grid align="flex-end">
+        <Grid.Col span={{ base: 12, sm: 10 }}>
+          <SearchVenues />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, sm: 2 }}>
+          <Button
+            onClick={open}
+            leftSection={<IconFilter size={20} />}
+            variant="default"
+          >
+            Filter
+          </Button>
+        </Grid.Col>
+      </Grid>
+
       <ListVenues venues={filteredVenues} />
       <Button>Button</Button>
     </>
