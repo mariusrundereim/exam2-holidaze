@@ -8,10 +8,10 @@ import SearchVenues from "./searchVenues";
 import { useDisclosure } from "@mantine/hooks";
 import FilterVenues from "./filter/filterVenues";
 import { IconFilter } from "@tabler/icons-react";
+import { selectFilteredVenues } from "./filter/selectedFilteredVenues";
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
-
   const filteredVenues = useSelector((state) => state.venues.filteredVenues);
   const searchResults = useSelector((state) => state.venues.searchVenues);
   const searchFilterResults = useSelector(
@@ -30,11 +30,7 @@ function VenuesListPage() {
   }
 
   const venuesToDisplay =
-    searchFilterResults.length > 0
-      ? searchFilterResults
-      : searchResults.length < 0
-      ? searchResults
-      : filteredVenues;
+    searchFilterResults.length > 0 ? searchFilterResults : filteredVenues;
 
   return (
     <>

@@ -10,16 +10,18 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateSearchFilterResults } from "../../../store/venues/venueSlice";
+// import { updateSearchFilterResults } from "../../../store/venues/venueSlice";
+import { setFilters, clearFilters } from "../../../store/venues/venueSlice";
 function FilterVenues() {
   const dispatch = useDispatch();
+  const filters = useSelector((state) => state.venues.filters);
   const searchResults = useSelector((state) => state.venues.searchVenues);
-  const [price, setPrice] = useState(1000);
-  const [maxGuests, setMaxGuests] = useState(99);
-  const [wifiChecked, setWifiChecked] = useState(false);
-  const [petsChecked, setPetsChecked] = useState(false);
-  const [breakfastChecked, setBreakfastChecked] = useState(false);
-  const [parkingChecked, setParkingChecked] = useState(false);
+  const [price, setPrice] = useState(filters.price);
+  const [maxGuests, setMaxGuests] = useState(filters.maxGuests);
+  const [wifiChecked, setWifiChecked] = useState(filters.wifi);
+  const [petsChecked, setPetsChecked] = useState(filters.pets);
+  const [breakfastChecked, setBreakfastChecked] = useState(filters.breakfast);
+  const [parkingChecked, setParkingChecked] = useState(filters.parking);
 
   const handleFilter = () => {
     const filteredResults = searchResults.filter((venue) => {
@@ -39,8 +41,30 @@ function FilterVenues() {
         matchesParking
       );
     });
+
     dispatch(updateSearchFilterResults(filteredResults));
   };
+
+  //   const handleFilter = () => {
+  //     const filteredResults = searchResults.filter((venue) => {
+  //       const matchesPrice = venue.price <= price;
+  //       const matchesGuests = venue.maxGuests <= maxGuests;
+  //       const matchesWifi = !wifiChecked || venue.meta.wifi;
+  //       const matchesPets = !petsChecked || venue.meta.pets;
+  //       const matchesBreakfast = !breakfastChecked || venue.meta.breakfast;
+  //       const matchesParking = !parkingChecked || venue.meta.parking;
+
+  //       return (
+  //         matchesPrice &&
+  //         matchesGuests &&
+  //         matchesWifi &&
+  //         matchesPets &&
+  //         matchesBreakfast &&
+  //         matchesParking
+  //       );
+  //     });
+  //     dispatch(updateSearchFilterResults(filteredResults));
+  //   };
 
   const handleClear = () => {
     setPrice(1000);
@@ -49,7 +73,8 @@ function FilterVenues() {
     setPetsChecked(false);
     setBreakfastChecked(false);
     setParkingChecked(false);
-    dispatch(updateSearchFilterResults(searchResults));
+    dispatch(clearFilters());
+    // dispatch(updateSearchFilterResults(searchResults));
   };
   return (
     <>

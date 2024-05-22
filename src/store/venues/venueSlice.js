@@ -11,6 +11,14 @@ const venuesInitialState = {
   searchFilterResults: [],
   loading: "idle",
   error: null,
+  filters: {
+    price: 1000,
+    maxGuests: 99,
+    wifi: false,
+    pets: false,
+    breakfast: false,
+    parking: false,
+  },
 };
 
 // Fetch all venues
@@ -173,6 +181,19 @@ const venueSlice = createSlice({
     updateSearchFilterResults: (state, action) => {
       state.searchFilterResults = action.payload;
     },
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    clearFilters: (state) => {
+      state.filters = {
+        price: 1000,
+        maxGuests: 99,
+        wifi: false,
+        pets: false,
+        breakfast: false,
+        parking: false,
+      };
+    },
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
@@ -257,9 +278,7 @@ const venueSlice = createSlice({
       })
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.loading = "idle";
-        state.searchVenues = action.payload;
-        // state.searchVenues = action.payload.data;
-        // state.meta = action.payload.meta;
+        state.searchVenues = action.payload.data;
       })
       .addCase(searchVenues.rejected, (state, action) => {
         state.loading = "idle";
@@ -274,5 +293,7 @@ export const {
   clearSearchResults,
   filteredVenuesUpdated,
   updateSearchFilterResults,
+  setFilters,
+  clearFilters,
 } = venueSlice.actions;
 export default venueSlice.reducer;
