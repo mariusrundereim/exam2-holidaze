@@ -23,9 +23,6 @@ function VenueForm() {
   const dispatch = useDispatch();
 
   const venue = useSelector((state) => state.venues.selectedVenue);
-  // const venue = useSelector((state) =>
-  //   state.venues.allVenuesList.find((v) => v.id === venueId)
-  // );
 
   const {
     register,
@@ -36,23 +33,20 @@ function VenueForm() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: venue ? venue.name : "",
-      description: venue ? venue.description : "",
-      price: venue ? venue.price : 0,
-      maxGuests: venue ? venue.maxGuests : 0,
-
-      media: venue ? venue.media : [{ url: "" }],
-      location: venue
-        ? venue.location
-        : {
-            address: "",
-            city: "",
-            zip: "",
-            country: "",
-            contigent: "",
-            lat: 0,
-            lng: 0,
-          },
+      name: "",
+      description: "",
+      price: 0,
+      maxGuests: 0,
+      media: [{ url: "" }],
+      location: {
+        address: "",
+        city: "",
+        zip: "",
+        country: "",
+        contigent: "",
+        lat: 0,
+        lng: 0,
+      },
     },
   });
 
@@ -60,16 +54,35 @@ function VenueForm() {
 
   // Load and set venue data when venueId changes
   useEffect(() => {
-    if (venueId && !venue) {
-      dispatch(fetchVenueById({ id: venueId }));
-    } else if (venue) {
+    if (venueId) {
+      if (!venue) {
+        dispatch(fetchVenueById({ id: venueId }));
+      } else {
+        reset({
+          name: venue.name,
+          description: venue.description,
+          price: venue.price,
+          maxGuests: venue.maxGuests,
+          media: venue.media,
+          location: venue.location,
+        });
+      }
+    } else {
       reset({
-        name: venue.name,
-        description: venue.description,
-        price: venue.price,
-        maxGuests: venue.maxGuests,
-        media: venue.media,
-        location: venue.location,
+        name: "",
+        description: "",
+        price: 0,
+        maxGuests: 0,
+        media: [{ url: "" }],
+        location: {
+          address: "",
+          city: "",
+          zip: "",
+          country: "",
+          contigent: "",
+          lat: 0,
+          lng: 0,
+        },
       });
     }
   }, [venueId, venue, dispatch, reset]);
@@ -89,16 +102,6 @@ function VenueForm() {
     }
   };
 
-  // const onSubmit = (data) => {
-  //   if (venue) {
-  //     dispatch(updateVenue({ id: venue.id, data }));
-  //     navigate(`/venues/create/${venueId}/confirmed`);
-  //   } else {
-  //     dispatch(createVenue(data));
-  //     navigate(`/venues/create/${createdVenueId}/confirmed`);
-  //   }
-  // };
-
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +113,11 @@ function VenueForm() {
               rules={{ required: true }}
               render={({ field }) => (
                 <Input.Wrapper label="Name" description="Enter name of a venue">
-                  <Input {...register("name")} placeholder="Name" />
+                  <Input
+                    {...field}
+                    placeholder="Name"
+                    value={field.value ?? ""}
+                  />
                 </Input.Wrapper>
               )}
             />
@@ -175,13 +182,14 @@ function VenueForm() {
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value}
+                  checked={value ?? false}
                   onChange={(newValue) => {
                     onChange(newValue);
                   }}
                 />
               )}
             />
+
             <Controller
               name="meta.parking"
               control={control}
@@ -191,7 +199,7 @@ function VenueForm() {
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value}
+                  checked={value ?? false}
                   onChange={(newValue) => {
                     onChange(newValue);
                   }}
@@ -207,7 +215,7 @@ function VenueForm() {
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value}
+                  checked={value ?? false}
                   onChange={(newValue) => {
                     onChange(newValue);
                   }}
@@ -223,7 +231,7 @@ function VenueForm() {
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value}
+                  checked={value ?? false}
                   onChange={(newValue) => {
                     onChange(newValue);
                   }}

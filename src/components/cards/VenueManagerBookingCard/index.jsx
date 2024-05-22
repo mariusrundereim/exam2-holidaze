@@ -6,7 +6,7 @@ import {
   IconHash,
   IconUserQuestion,
 } from "@tabler/icons-react";
-import { Card, Text, Group } from "@mantine/core";
+import { Card, Title, Text, Group } from "@mantine/core";
 import { formattedDateTime } from "../../../utils/format/dateFormat";
 function VenueManagerBookingCard({ booking }) {
   const {
@@ -50,7 +50,7 @@ function VenueManagerBookingCard({ booking }) {
           </Group>
           <Group>
             <IconUserQuestion />
-            <Text>{guests}</Text>
+            <Text>{guests} guests</Text>
           </Group>
         </Card.Section>
       </Card>

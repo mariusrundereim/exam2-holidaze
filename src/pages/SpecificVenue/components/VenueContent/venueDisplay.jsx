@@ -16,6 +16,9 @@ function VenueDisplay({ venue }) {
         <Grid.Col my={30}>
           <Title>{name}</Title>
         </Grid.Col>
+        <Grid.Col>
+          <BookingButton venueId={venueId} />
+        </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Title order={4} mb={10}>
             Description
@@ -23,12 +26,9 @@ function VenueDisplay({ venue }) {
           <Text>{description}</Text>
         </Grid.Col>
         <Grid.Col span={6}>
-          <Text size="xl">Created: {newDate}</Text>
           <Text size="xl">{formattedPrice} /night</Text>
           <Text size="xl">{maxGuests} guests</Text>
-        </Grid.Col>
-        <Grid.Col>
-          <BookingButton venueId={venueId} />
+          <Text size="md">Created: {newDate}</Text>
         </Grid.Col>
       </Grid>
     </>
