@@ -7,10 +7,20 @@ function VenueContent({ venue }) {
   const { location, meta } = venue;
   return (
     <>
-      <VenueDisplay venue={venue} />
-      <LocationDisplay location={location} />
-      <AmenitiesDisplay meta={meta} />
-      <OwnerDisplay venue={venue} />
+      <Grid>
+        <Grid.Col>
+          <VenueDisplay venue={venue} />
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <LocationDisplay location={location} />
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <AmenitiesDisplay meta={meta} />
+        </Grid.Col>
+        <Grid.Col span={6}>
+          <OwnerDisplay venue={venue} />
+        </Grid.Col>
+      </Grid>
     </>
   );
 }
