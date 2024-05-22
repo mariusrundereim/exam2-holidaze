@@ -40,3 +40,8 @@ or open automatically 😎
 ```bash
 npm run dev --open
 ```
+
+## 2-side application
+
+- Venue manager cannot book a venue, they only create venues.
+- Customer can only book on a venue, they cannot create a venue.
