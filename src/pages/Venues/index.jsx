@@ -12,12 +12,14 @@ function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
 
-  const filteredVenues = useSelector((state) => {
-    const allVenues = state.venues.allVenuesList;
-    return filterValidVenues(allVenues);
-  });
+  // const filteredVenues = useSelector((state) => {
+  //   const allVenues = state.venues.allVenuesList;
+  //   return filterValidVenues(allVenues);
+  // });
 
-  const searchResults = useSelector((state) => state.venues.searchVenues.data);
+  const filteredVenues = useSelector((state) => state.venues.filteredVenues);
+  const searchResults = useSelector((state) => state.venues.searchVenues);
+  console.log("search", searchResults);
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {

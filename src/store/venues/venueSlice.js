@@ -154,7 +154,8 @@ export const searchVenues = createAsyncThunk(
       throw new Error("Search failed");
     }
     const data = await response.json();
-    return { data, meta };
+    return data;
+    // return { data, meta };
   }
 );
 
@@ -164,6 +165,9 @@ const venueSlice = createSlice({
   reducers: {
     clearSearchResults: (state) => {
       state.searchVenues = [];
+    },
+    filteredVenuesUpdated: (state, action) => {
+      state.filteredVenues = action.payload;
     },
     clearSelectedVenue(state) {
       state.selectedVenue = null;
@@ -250,7 +254,7 @@ const venueSlice = createSlice({
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.loading = "idle";
         state.searchVenues = action.payload.data;
-        state.meta = action.payload.meta;
+        // state.meta = action.payload.meta;
       })
       .addCase(searchVenues.rejected, (state, action) => {
         state.loading = "idle";
@@ -259,6 +263,10 @@ const venueSlice = createSlice({
   },
 });
 
-export const { appendVenues, clearSelectedVenue, clearSearchResults } =
-  venueSlice.actions;
+export const {
+  appendVenues,
+  clearSelectedVenue,
+  clearSearchResults,
+  filteredVenuesUpdated,
+} = venueSlice.actions;
 export default venueSlice.reducer;

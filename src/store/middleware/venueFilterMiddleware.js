@@ -2,7 +2,7 @@ import { fetchVenues } from "../venues/venueSlice";
 
 const venueFilteringMiddleware = (store) => (next) => (action) => {
   // Check if the action is the result of fetching venues
-  if (action.type === fetchVenues.fulfilled.type) {
+  if (action.type === fetchVenues.fulfilled.type && action.payload) {
     const filteredVenues = action.payload.data.filter((venue) => {
       // Filter based on missing address and city
       const hasAddressAndCity =
