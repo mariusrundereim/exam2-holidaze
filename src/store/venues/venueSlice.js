@@ -19,6 +19,7 @@ const venuesInitialState = {
     breakfast: false,
     parking: false,
   },
+  searchQuery: "",
 };
 
 // Fetch all venues
@@ -172,6 +173,9 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
     clearSearchResults: (state) => {
       state.searchVenues = [];
     },
@@ -295,5 +299,6 @@ export const {
   updateSearchFilterResults,
   setFilters,
   clearFilters,
+  setSearchQuery,
 } = venueSlice.actions;
 export default venueSlice.reducer;
