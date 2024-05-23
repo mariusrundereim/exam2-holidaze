@@ -11,7 +11,7 @@ import {
   IconBox,
 } from "@tabler/icons-react";
 import { Stack } from "@mantine/core";
-import classes from "./Navbar.module.css";
+import classes from "./AccountLinks.module.css";
 
 export const isLoggedIn = (state) => Boolean(state.auth.accessToken);
 
