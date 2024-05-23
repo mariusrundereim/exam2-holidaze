@@ -5,6 +5,16 @@ const profilesInitialState = {
   allProfilesList: [],
   searchResults: [],
   metaDetails: {},
+  allProfiles: [],
+  whitelistedProfiles: [],
+  whitelist: [
+    "Simonsen",
+    "Guttormsen",
+    "Julianne34",
+    "ayyoli1",
+    "ayyoli2",
+    "simentobias232",
+  ],
   loading: false,
   error: null,
 };
@@ -44,10 +54,30 @@ export const searchProfiles = createAsyncThunk(
   }
 );
 
+// WhiteList Profiles
+
+export const selectWhitelistedProfileIds = (state) =>
+  state.profiles.whitelistedProfiles.map((profile) => profile.name);
+
+// Profiles Slice
+
 export const profilesSlice = createSlice({
   name: "profiles",
   initialState: profilesInitialState,
-  reducers: {},
+  reducers: {
+    setProfiles(state, action) {
+      state.allProfiles = action.payload;
+      state.whitelistedProfiles = state.allProfiles.filter((profile) =>
+        state.whitelist.includes(profile.name)
+      );
+    },
+    updateWhitelist(state, action) {
+      state.whitelist = action.payload;
+      state.whitelistedProfiles = state.allProfiles.filter((profile) =>
+        state.whitelist.includes(profile.name)
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getAllProfiles.pending, (state) => {
       state.loading = true;
@@ -61,7 +91,17 @@ export const profilesSlice = createSlice({
       state.allProfilesList = action.payload.data;
       state.metaDetails = action.payload.meta;
       state.loading = false;
+
+      //Filter
+      state.whitelistedProfiles = action.payload.data.filter((profile) =>
+        state.whitelist.includes(profile.name)
+      );
     });
+    // builder.addCase(getAllProfiles.fulfilled, (state, action) => {
+    //   state.allProfilesList = action.payload.data;
+    //   state.metaDetails = action.payload.meta;
+    //   state.loading = false;
+    // });
     builder.addCase(searchProfiles.pending, (state) => {
       state.loading = "loading";
     });
@@ -73,5 +113,5 @@ export const profilesSlice = createSlice({
     });
   },
 });
-export const {} = profilesSlice.actions;
+export const { setProfiles, updateWhitelist } = profilesSlice.actions;
 export default profilesSlice.reducer;

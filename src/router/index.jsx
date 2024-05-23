@@ -17,6 +17,7 @@ import BookingForm from "../components/forms/BookingForm";
 import BookingLayout from "./layout/bookingLayout";
 import BookingConfirmed from "../pages/success/booking";
 import VenueConfirmed from "../pages/success/venue";
+import NotFound from "../components/NotFound";
 function Router() {
   return (
     <>
@@ -49,6 +50,7 @@ function Router() {
           </Route>
           <Route path="/signup" element={<Signup />} />
           <Route path="/profiles" element={<Profiles />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>

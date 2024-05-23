@@ -9,10 +9,12 @@ import { useDisclosure } from "@mantine/hooks";
 import FilterVenues from "./filter/filterVenues";
 import { IconFilter } from "@tabler/icons-react";
 import { selectFilteredVenues } from "./filter/selectedFilteredVenues";
+import { selectFilteredVenuesByWhitelist } from "../../store/venues/venueSlice";
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
-  const filteredVenues = useSelector((state) => state.venues.filteredVenues);
+  const filteredVenues = useSelector(selectFilteredVenuesByWhitelist);
+  // const filteredVenues = useSelector((state) => state.venues.filteredVenues);
   const searchResults = useSelector((state) => state.venues.searchVenues);
   const searchFilterResults = useSelector(
     (state) => state.venues.searchFilterResults

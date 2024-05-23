@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
-
+import { createSelector } from "@reduxjs/toolkit";
+import { selectWhitelistedProfileIds } from "../profiles/profilesSlice";
 const venuesInitialState = {
   myCreatedVenues: [],
   selectedVenue: null,
@@ -29,7 +30,7 @@ export const fetchVenues = createAsyncThunk(
   async (page = 1) => {
     try {
       const response = await fetch(
-        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc`,
+        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
         { headers: getAuthHeaders() }
       );
       if (!response.ok) {
@@ -168,6 +169,16 @@ export const searchVenues = createAsyncThunk(
     // return { data, meta };
   }
 );
+
+// Whitelist profiles for venues
+
+export const selectFilteredVenuesByWhitelist = createSelector(
+  [(state) => state.venues.allVenuesList, selectWhitelistedProfileIds],
+  (venues, whitelistedProfileNames) =>
+    venues.filter((venue) => whitelistedProfileNames.includes(venue.owner.name))
+);
+
+// Venues slice
 
 const venueSlice = createSlice({
   name: "venues",
