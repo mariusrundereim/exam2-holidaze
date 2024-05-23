@@ -10,6 +10,7 @@ import FilterVenues from "./filter/filterVenues";
 import { IconFilter } from "@tabler/icons-react";
 import { selectFilteredVenues } from "./filter/selectedFilteredVenues";
 import { selectFilteredVenuesByWhitelist } from "../../store/venues/venueSlice";
+import { getAllProfiles } from "../../store/profiles/profilesSlice";
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
@@ -25,6 +26,7 @@ function VenuesListPage() {
 
   useEffect(() => {
     dispatch(fetchVenues());
+    dispatch(getAllProfiles());
   }, [dispatch]);
 
   if (loading === "loading") {

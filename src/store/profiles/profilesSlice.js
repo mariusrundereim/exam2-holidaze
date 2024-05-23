@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
+
 const profilesInitialState = {
   allProfilesList: [],
   searchResults: [],
@@ -56,7 +57,7 @@ export const searchProfiles = createAsyncThunk(
 
 // WhiteList Profiles
 
-export const selectWhitelistedProfileIds = (state) =>
+export const selectWhitelistedProfileNames = (state) =>
   state.profiles.whitelistedProfiles.map((profile) => profile.name);
 
 // Profiles Slice
@@ -66,16 +67,26 @@ export const profilesSlice = createSlice({
   initialState: profilesInitialState,
   reducers: {
     setProfiles(state, action) {
+      console.log("Set profiles action payload:", action.payload); // Debugging log
       state.allProfiles = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
         state.whitelist.includes(profile.name)
       );
+      console.log(
+        "Whitelisted profiles after setProfiles:",
+        state.whitelistedProfiles
+      ); // Debugging log
     },
     updateWhitelist(state, action) {
+      console.log("Update whitelist action payload:", action.payload); // Debugging log
       state.whitelist = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
         state.whitelist.includes(profile.name)
       );
+      console.log(
+        "Whitelisted profiles after updateWhitelist:",
+        state.whitelistedProfiles
+      ); // Debugging log
     },
   },
   extraReducers: (builder) => {
@@ -96,6 +107,10 @@ export const profilesSlice = createSlice({
       state.whitelistedProfiles = action.payload.data.filter((profile) =>
         state.whitelist.includes(profile.name)
       );
+      console.log(
+        "Whitelisted profiles after getAllProfiles:",
+        state.whitelistedProfiles
+      ); // Debugging log
     });
     // builder.addCase(getAllProfiles.fulfilled, (state, action) => {
     //   state.allProfilesList = action.payload.data;
