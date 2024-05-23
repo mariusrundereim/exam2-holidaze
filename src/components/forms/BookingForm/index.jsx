@@ -65,9 +65,6 @@ function BookingForm() {
     <>
       <Container size="xl">
         <Grid>
-          <Grid.Col>
-            <Title>Booking</Title>
-          </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <BookingVenueCard venue={venue} />
           </Grid.Col>

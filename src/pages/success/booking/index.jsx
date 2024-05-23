@@ -1,11 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import { fetchVenueById } from "./path/to/venueSlice"; // Adjust the import path as necessary
-// import { singleBooking } from "./path/to/bookingSlice"; // Adjust the import path as necessary
 import { fetchVenueById } from "../../../store/venues/venueSlice";
 import { singleBooking } from "../../../store/bookings/bookingSlice";
-import { Title } from "@mantine/core";
+import { Title, Grid, Text, Card } from "@mantine/core";
 
 function BookingConfirmed() {
   const { venueId } = useParams();
@@ -23,26 +21,27 @@ function BookingConfirmed() {
 
     const bookingId = new URLSearchParams(location.search).get("bookingId");
     if (bookingId) {
+      console.log("Fetching booking by ID", bookingId);
       dispatch(singleBooking({ id: bookingId }));
     }
   }, [dispatch, venueId, location.search]);
 
   return (
     <>
-      <Title>Success!</Title>
       {venue && (
         <div>
           <h2>Venue Details</h2>
-          <p>Name: {venue.name}</p>
+          <p>Venue: {venue.name}</p>
+          <Text>Owner {venue.owner.name}</Text>
         </div>
       )}
-      {booking && (
+      {/* {booking && (
         <div>
           <h2>Booking Details</h2>
           <p>Customer: {booking.customer.name}</p>
           <p>Booking Date: {booking.date}</p>
         </div>
-      )}
+      )} */}
     </>
   );
 }
