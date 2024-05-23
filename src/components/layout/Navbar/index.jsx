@@ -7,7 +7,7 @@ import { Text, Group, Button } from "@mantine/core";
 import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";
 import AccountLinks from "./AccountLinks";
-import classes from "./Navbar.module.css";
+import classes from "./NavLinksBar.module.css";
 
 function NavLinksBar() {
   const dispatch = useDispatch();
