@@ -33,7 +33,6 @@ export const getAllProfiles = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log("aaaaaaaaaaaa:", data.data); // Debugging log
       return data;
     } catch (error) {
       console.error("Error fetching profiles:", error);
@@ -53,7 +52,6 @@ export const getAllVenuesByProfileName = createAsyncThunk(
       }
     );
     const data = await response.json();
-    console.log("Fetched venues by profile name:", data); // Debugging log
     return data;
   }
 );
@@ -72,10 +70,6 @@ export const searchProfiles = createAsyncThunk(
   }
 );
 
-// Select whitelisted profile names
-export const selectWhitelistedProfileNames = (state) =>
-  state.profiles.whitelistedProfiles.map((profile) => profile.owner.name);
-
 // Profiles Slice
 
 export const profilesSlice = createSlice({
@@ -83,26 +77,16 @@ export const profilesSlice = createSlice({
   initialState: profilesInitialState,
   reducers: {
     setProfiles(state, action) {
-      console.log("Set profiles action payload:", action.payload); // Debugging log
       state.allProfiles = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
         state.whitelist.includes(profile.owner.name)
       );
-      console.log(
-        "Whitelisted profiles after setProfiles:",
-        state.whitelistedProfiles
-      ); // Debugging log
     },
     updateWhitelist(state, action) {
-      console.log("Update whitelist action payload:", action.payload); // Debugging log
       state.whitelist = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
         state.whitelist.includes(profile.owner.name)
       );
-      console.log(
-        "Whitelisted profiles after updateWhitelist:",
-        state.whitelistedProfiles
-      ); // Debugging log
     },
   },
   extraReducers: (builder) => {
@@ -115,17 +99,12 @@ export const profilesSlice = createSlice({
       state.error = action.error.message;
     });
     builder.addCase(getAllProfiles.fulfilled, (state, action) => {
-      console.log("Get all profiles fulfilled action payload:", action.payload); // Debugging log
       state.allProfiles = action.payload.data;
       state.metaDetails = action.payload.meta;
       state.loading = false;
       state.whitelistedProfiles = action.payload.data.filter((profile) =>
         state.whitelist.includes(profile.owner.name)
       );
-      console.log(
-        "Whitelisted profiles after getAllProfiles:",
-        state.whitelistedProfiles
-      ); // Debugging log
     });
     builder.addCase(searchProfiles.pending, (state) => {
       state.loading = "loading";

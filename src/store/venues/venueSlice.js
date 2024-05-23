@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
-import { createSelector } from "@reduxjs/toolkit";
-import { selectWhitelistedProfileNames } from "../profiles/profilesSlice";
 
 const venuesInitialState = {
   myCreatedVenues: [],
@@ -25,8 +23,6 @@ const venuesInitialState = {
 };
 
 // Fetch all venues
-
-// Fetch all venues with pagination handling
 export const fetchVenues = createAsyncThunk(
   "venues/fetchVenues",
   async (_, { rejectWithValue }) => {
@@ -48,7 +44,6 @@ export const fetchVenues = createAsyncThunk(
         const data = await response.json();
         allVenues = [...allVenues, ...data.data];
 
-        // Check if more pages are available
         if (data.meta && data.meta.currentPage < data.meta.pageCount) {
           page++;
         } else {
@@ -60,32 +55,9 @@ export const fetchVenues = createAsyncThunk(
       }
     }
 
-    console.log("All venues after fetching all pages:", allVenues); // Debugging log
     return { data: allVenues };
   }
 );
-
-// export const fetchVenues = createAsyncThunk(
-//   "venues/fetchVenues",
-//   async (page = 2) => {
-//     try {
-//       const response = await fetch(
-//         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
-//         { headers: getAuthHeaders() }
-//       );
-//       if (!response.ok) {
-//         throw new Error("Server responded with an error");
-//       }
-//       const data = await response.json();
-//       console.log("Complete API response for venus", data);
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
-
-// Single Venue
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
@@ -211,17 +183,6 @@ export const searchVenues = createAsyncThunk(
   }
 );
 
-// Whitelist profiles for venues
-
-// Whitelist profiles for venues
-// export const selectFilteredVenuesByWhitelist = createSelector(
-//   [(state) => state.venues.allVenuesList, selectWhitelistedProfileNames],
-//   (venues, whitelistedProfileNames) =>
-//     venues.filter((venue) => whitelistedProfileNames.includes(venue.owner.name))
-// );
-
-// Venues slice
-
 const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
@@ -253,9 +214,6 @@ const venueSlice = createSlice({
     },
     clearSelectedVenue(state) {
       state.selectedVenue = null;
-    },
-    appendVenues(state, action) {
-      state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
     },
   },
   extraReducers: (builder) => {
@@ -346,7 +304,6 @@ const venueSlice = createSlice({
 });
 
 export const {
-  appendVenues,
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
