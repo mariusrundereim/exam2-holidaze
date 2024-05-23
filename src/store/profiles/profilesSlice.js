@@ -5,15 +5,12 @@ import { getAuthHeaders } from "../helper";
 const profilesInitialState = {
   searchResults: [],
   metaDetails: {},
-  allProfiles: [],
-  whitelistedProfiles: [],
   whitelist: [
     "Simonsen",
-    "Guttormsen",
     "Julianne34",
-    "ayyoli1",
-    "ayyoli2",
     "simentobias232",
+    "JanneMerethe",
+    "ThereseOlavsen",
   ],
   loading: false,
   error: null,

@@ -19,7 +19,6 @@ const notLoggedInLinks = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
   { link: "/signup", label: "Sign Up", icon: IconLogin },
-  { link: "/profiles", label: "All Profiles", icon: IconLogin },
 ];
 
 const venueManagerLinks = [

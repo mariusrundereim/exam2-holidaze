@@ -149,7 +149,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                   <Input
                     {...field}
                     label="avatar.url"
-                    placeholder="Enter url"
                     value={field.value || ""}
                     onChange={field.onChange}
                     error={fieldState.error?.message}
@@ -172,7 +171,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                   <Input
                     label="banner.url"
                     {...field}
-                    placeholder="Enter url"
                     value={field.value}
                     onChange={field.onChange}
                     error={fieldState.error?.message}
@@ -181,6 +179,8 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 </Input.Wrapper>
               )}
             />
+          </Grid.Col>
+          <Grid.Col>
             <Controller
               name="venueManager"
               control={control}
