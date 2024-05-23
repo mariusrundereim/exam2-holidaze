@@ -10,16 +10,14 @@ import {
   Button,
   Textarea,
 } from "@mantine/core";
-import {
-  IconAt,
-  IconUserCircle,
-  IconLock,
-  IconPhoto,
-} from "@tabler/icons-react";
+import { IconPhoto } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
 import { useProfileHandler } from "./useProfileHandler";
+import { useNavigate } from "react-router-dom";
 
 function ProfileUpdateForm() {
+  const navigate = useNavigate();
+  const username = useSelector((state) => state.user.name);
   const {
     control,
     handleSubmit,
@@ -39,6 +37,7 @@ function ProfileUpdateForm() {
 
   const onSubmit = (data) => {
     handleSubmitProfile(data);
+    navigate(`/profile/${username}`);
   };
 
   return (

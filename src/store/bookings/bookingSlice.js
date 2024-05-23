@@ -3,7 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const bookingInitialState = {
-  selectedBooking: null,
+  selectedBooking: [],
   bookingList: [],
   loading: "idle",
   error: null,
@@ -47,7 +47,7 @@ export const singleBooking = createAsyncThunk(
         throw new Error(`Error fetching booking: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log("bookingIds", data);
+      console.log("Fetched booking data:", data);
       return data;
     } catch (error) {
       console.error("Error in singleBooking thunk:", error);
