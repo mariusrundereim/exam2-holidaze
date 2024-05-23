@@ -30,7 +30,11 @@ function VenuesListPage() {
   }
 
   const venuesToDisplay =
-    searchFilterResults.length > 0 ? searchFilterResults : filteredVenues;
+    searchResults.length > 0
+      ? searchResults
+      : searchFilterResults.length > 0
+      ? searchFilterResults
+      : filteredVenues;
 
   return (
     <>
