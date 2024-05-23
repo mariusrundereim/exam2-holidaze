@@ -32,7 +32,9 @@ function VenuesCard({ venue }) {
         <Card.Section p={14}>
           <Grid>
             <Grid.Col>
-              <Title order={4}>{venue.name}</Title>
+              <Title order={4} lineClamp={1}>
+                {venue.name}
+              </Title>
             </Grid.Col>
           </Grid>
         </Card.Section>
@@ -45,8 +47,9 @@ function VenuesCard({ venue }) {
             </Grid.Col>
             <Grid.Col></Grid.Col>
             <Grid.Col>
-              <Text>{city}</Text>
-              <Text>{country}</Text>
+              <Text lineClamp={1}>
+                {city},{country}
+              </Text>
             </Grid.Col>
           </Grid>
         </Card.Section>

@@ -4,7 +4,6 @@ import VenuesCard from "../../components/cards/VenuesCard";
 function ListVenues({ venues }) {
   return (
     <>
-      <Title mb={20}>Venues</Title>
       <Grid>
         {venues.map((venue) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={venue.id}>

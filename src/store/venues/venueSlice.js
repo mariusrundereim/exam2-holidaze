@@ -8,8 +8,17 @@ const venuesInitialState = {
   allVenuesList: [],
   filteredVenues: [],
   searchVenues: [],
+  searchFilterResults: [],
   loading: "idle",
   error: null,
+  filters: {
+    price: 1000,
+    maxGuests: 99,
+    wifi: false,
+    pets: false,
+    breakfast: false,
+    parking: false,
+  },
 };
 
 // Fetch all venues
@@ -149,15 +158,13 @@ export const deleteVenue = createAsyncThunk(
 export const searchVenues = createAsyncThunk(
   "venues/searchVenues",
   async ({ query }) => {
-    try {
-      const response = await fetch(`${BASE_URL}/venues/search?q=${query}`);
-
-      if (!response.ok) {
-        throw new Error("Search failed");
-      }
-    } catch (error) {
-      console.log(error);
+    const response = await fetch(`${BASE_URL}/venues/search?q=${query}`);
+    if (!response.ok) {
+      throw new Error("Search failed");
     }
+    const data = await response.json();
+    return data;
+    // return { data, meta };
   }
 );
 
@@ -165,6 +172,28 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
+    clearSearchResults: (state) => {
+      state.searchVenues = [];
+    },
+    filteredVenuesUpdated: (state, action) => {
+      state.filteredVenues = action.payload;
+    },
+    updateSearchFilterResults: (state, action) => {
+      state.searchFilterResults = action.payload;
+    },
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    clearFilters: (state) => {
+      state.filters = {
+        price: 1000,
+        maxGuests: 99,
+        wifi: false,
+        pets: false,
+        breakfast: false,
+        parking: false,
+      };
+    },
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
@@ -181,7 +210,6 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        // state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
         state.allVenuesList = action.payload.data;
         state.loading = "idle";
       })
@@ -245,11 +273,27 @@ const venueSlice = createSlice({
           (venue) => venue.id !== action.payload
         );
       })
+      .addCase(searchVenues.pending, (state) => {
+        state.loading = "loading";
+      })
       .addCase(searchVenues.fulfilled, (state, action) => {
-        state.searchVenues = action.payload;
+        state.loading = "idle";
+        state.searchVenues = action.payload.data;
+      })
+      .addCase(searchVenues.rejected, (state, action) => {
+        state.loading = "idle";
+        state.error = action.error.message;
       });
   },
 });
 
-export const { appendVenues, clearSelectedVenue } = venueSlice.actions;
+export const {
+  appendVenues,
+  clearSelectedVenue,
+  clearSearchResults,
+  filteredVenuesUpdated,
+  updateSearchFilterResults,
+  setFilters,
+  clearFilters,
+} = venueSlice.actions;
 export default venueSlice.reducer;
