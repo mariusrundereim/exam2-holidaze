@@ -3,7 +3,6 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 
 const profilesInitialState = {
-  allProfilesList: [],
   searchResults: [],
   metaDetails: {},
   allProfiles: [],
@@ -20,23 +19,44 @@ const profilesInitialState = {
   error: null,
 };
 
-// All profiles
-
+// Fetch all profiles
 export const getAllProfiles = createAsyncThunk(
   "profiles/getAllProfiles",
-  async (page) => {
+  async () => {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/profiles/?sortOrder=asc&_bookings=true&_venues=true`,
+        {
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Profile fetch failed");
+      }
+
+      const data = await response.json();
+      console.log("aaaaaaaaaaaa:", data.data); // Debugging log
+      return data;
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+    }
+  }
+);
+
+// Fetch all venues by profile name
+
+export const getAllVenuesByProfileName = createAsyncThunk(
+  "profiles/getAllVenuesByProfileName",
+  async (name) => {
     const response = await fetch(
-      `${BASE_URL}/profiles/?page=${page}&sortOrder=asc`,
+      `${BASE_URL}/profiles/${name}/venues?_owner=true&_bookings=true`,
       {
         headers: getAuthHeaders(),
       }
     );
-
-    if (!response.ok) {
-      throw new Error("Profile fetch failed");
-    }
     const data = await response.json();
-    console.log("all profiles dataa", data);
+    console.log("Fetched venues by profile name:", data); // Debugging log
     return data;
   }
 );
@@ -55,10 +75,9 @@ export const searchProfiles = createAsyncThunk(
   }
 );
 
-// WhiteList Profiles
-
+// Select whitelisted profile names
 export const selectWhitelistedProfileNames = (state) =>
-  state.profiles.whitelistedProfiles.map((profile) => profile.name);
+  state.profiles.whitelistedProfiles.map((profile) => profile.owner.name);
 
 // Profiles Slice
 
@@ -70,7 +89,7 @@ export const profilesSlice = createSlice({
       console.log("Set profiles action payload:", action.payload); // Debugging log
       state.allProfiles = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
-        state.whitelist.includes(profile.name)
+        state.whitelist.includes(profile.owner.name)
       );
       console.log(
         "Whitelisted profiles after setProfiles:",
@@ -81,7 +100,7 @@ export const profilesSlice = createSlice({
       console.log("Update whitelist action payload:", action.payload); // Debugging log
       state.whitelist = action.payload;
       state.whitelistedProfiles = state.allProfiles.filter((profile) =>
-        state.whitelist.includes(profile.name)
+        state.whitelist.includes(profile.owner.name)
       );
       console.log(
         "Whitelisted profiles after updateWhitelist:",
@@ -99,24 +118,18 @@ export const profilesSlice = createSlice({
       state.error = action.error.message;
     });
     builder.addCase(getAllProfiles.fulfilled, (state, action) => {
-      state.allProfilesList = action.payload.data;
+      console.log("Get all profiles fulfilled action payload:", action.payload); // Debugging log
+      state.allProfiles = action.payload.data;
       state.metaDetails = action.payload.meta;
       state.loading = false;
-
-      //Filter
       state.whitelistedProfiles = action.payload.data.filter((profile) =>
-        state.whitelist.includes(profile.name)
+        state.whitelist.includes(profile.owner.name)
       );
       console.log(
         "Whitelisted profiles after getAllProfiles:",
         state.whitelistedProfiles
       ); // Debugging log
     });
-    // builder.addCase(getAllProfiles.fulfilled, (state, action) => {
-    //   state.allProfilesList = action.payload.data;
-    //   state.metaDetails = action.payload.meta;
-    //   state.loading = false;
-    // });
     builder.addCase(searchProfiles.pending, (state) => {
       state.loading = "loading";
     });

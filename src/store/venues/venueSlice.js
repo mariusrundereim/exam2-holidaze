@@ -3,6 +3,7 @@ import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
 import { createSelector } from "@reduxjs/toolkit";
 import { selectWhitelistedProfileNames } from "../profiles/profilesSlice";
+
 const venuesInitialState = {
   myCreatedVenues: [],
   selectedVenue: null,
@@ -172,6 +173,7 @@ export const searchVenues = createAsyncThunk(
 
 // Whitelist profiles for venues
 
+// Whitelist profiles for venues
 export const selectFilteredVenuesByWhitelist = createSelector(
   [(state) => state.venues.allVenuesList, selectWhitelistedProfileNames],
   (venues, whitelistedProfileNames) =>

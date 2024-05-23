@@ -8,6 +8,7 @@ import venueSlice from "./venues/venueSlice";
 import userSlice from "./auth/userSlice";
 import profileSlice from "./profile/profileSlice";
 import bookingSlice from "./bookings/bookingSlice";
+import venueFilterMiddleware from "./middleware/venueFilterMiddleware";
 import venueFilteringMiddleware from "./middleware/venueFilterMiddleware";
 import profileFilteringMiddleware from "./middleware/profileFilterMiddleware";
 import profilesSlice from "./profiles/profilesSlice";
@@ -41,7 +42,7 @@ const store = configureStore({
           "persist/REGISTER",
         ],
       },
-    }).concat(venueFilteringMiddleware, profileFilteringMiddleware),
+    }).concat(venueFilterMiddleware),
 });
 
 export const persistor = persistStore(store);
