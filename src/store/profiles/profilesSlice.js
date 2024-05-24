@@ -11,6 +11,7 @@ const profilesInitialState = {
     "simentobias232",
     "JanneMerethe",
     "ThereseOlavsen",
+    "StianNybo",
   ],
   loading: false,
   error: null,

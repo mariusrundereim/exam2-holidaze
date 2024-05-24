@@ -29,7 +29,7 @@ function ProfileVenuesCard({ venue, venueId }) {
     location: { address, city, zip, country },
     media,
   } = venue;
-  const firstImage = media[0].url;
+  const firstImage = media[0]?.url;
 
   const handlePageClick = () => {
     navigate(`/venues/${venue.id}`);

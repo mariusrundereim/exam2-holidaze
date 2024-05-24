@@ -1,11 +1,13 @@
 import { Card, Image, Title, Text, Group, Grid } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../utils/format/dateFormat";
+import formatCurrency from "../../../utils/format/currencyFormat";
 function VenuesCard({ venue }) {
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
 
   // console.log("This venue!", venue.id);
+  console.log("Venue card", venue);
 
   const navigate = useNavigate();
   const handlePageClick = () => {
@@ -15,12 +17,12 @@ function VenuesCard({ venue }) {
   const {
     price,
     location: { address, city, zip, country },
-    created,
+    maxGuests,
   } = venue;
 
   return (
     <>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
+      <Card shadow="sm" radius="md" withBorder>
         <Card.Section>
           <Image
             onClick={handlePageClick}
@@ -29,7 +31,7 @@ function VenuesCard({ venue }) {
             height={300}
           />
         </Card.Section>
-        <Card.Section p={14}>
+        <Card.Section p={10}>
           <Grid>
             <Grid.Col>
               <Title order={4} lineClamp={1}>
@@ -38,14 +40,12 @@ function VenuesCard({ venue }) {
             </Grid.Col>
           </Grid>
         </Card.Section>
-        <Card.Section p={14}>
+        <Card.Section px={10}>
           <Grid>
             <Grid.Col>
-              <Text>{formattedDate(created)}</Text>
+              <Text>{price} / night</Text>
               <Text>{venue.maxGuests} guests</Text>
-              <Text> {price} NOK /night</Text>
             </Grid.Col>
-            <Grid.Col></Grid.Col>
             <Grid.Col>
               <Text lineClamp={1}>
                 {city},{country}
