@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL } from "../../config/env";
 import { getAuthHeaders } from "../helper";
+// import { setProfileData } from "../auth/userSlice";
 
 const profileInitialState = {
   bookings: [],
@@ -55,10 +56,9 @@ export const getBookingsByProfile = createAsyncThunk(
 );
 
 // Update profile
-
 export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
-  async ({ profileName, data }) => {
+  async ({ profileName, data }, { dispatch }) => {
     try {
       const response = await fetch(`${BASE_URL}/profiles/${profileName}`, {
         method: "PUT",
@@ -72,7 +72,7 @@ export const updateProfile = createAsyncThunk(
       }
 
       const responseData = await response.json();
-      console.log("API response received", responseData);
+      // dispatch(setProfileData(responseData));
       return responseData;
     } catch (error) {
       throw new Error(error.message || "An error occurred during the update");
@@ -122,10 +122,9 @@ export const profileSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(updateProfile.fulfilled, (state, action) => {
-      Object.entries(action.payload.data).forEach(([key, value]) => {
+      Object.entries(action.payload).forEach(([key, value]) => {
         state[key] = value;
       });
-      // state.data = action.payload;
       state.isLoading = false;
     });
   },
