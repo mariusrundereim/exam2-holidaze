@@ -84,6 +84,7 @@ export const allCityAndCountry = {
     "Geilo",
     "Lommedalen",
     "Knarrevik",
+    "Ørsta",
   ],
   Sweden: [
     "Stockholm",

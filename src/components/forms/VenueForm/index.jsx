@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
@@ -54,6 +54,15 @@ function VenueForm() {
 
   const { fields, append, remove } = useFieldArray({ control, name: "media" });
 
+  // State for meta fields
+
+  const [meta, setMeta] = useState({
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
+  });
+
   // Load and set venue data when venueId changes
   useEffect(() => {
     if (venueId) {
@@ -68,6 +77,7 @@ function VenueForm() {
           media: venue.media,
           location: venue.location,
         });
+        setMeta(venue.meta || {});
       }
     } else {
       reset({
@@ -86,22 +96,36 @@ function VenueForm() {
           lng: 0,
         },
       });
+      setMeta({
+        wifi: false,
+        parking: false,
+        breakfast: false,
+        pets: false,
+      });
     }
   }, [venueId, venue, dispatch, reset]);
 
   const onSubmit = async (data) => {
+    const fullData = { ...data, meta };
     if (venueId) {
-      dispatch(updateVenue({ id: venueId, data }));
+      dispatch(updateVenue({ id: venueId, data: fullData }));
       navigate(`/venues/${venueId}/confirmed`);
     } else {
       try {
-        const response = await dispatch(createVenue(data)).unwrap();
+        const response = await dispatch(createVenue(fullData)).unwrap();
         const createdVenueId = response.data.id;
         navigate(`/venues/${createdVenueId}/confirmed`);
       } catch (error) {
         console.error("Failed to create venue:", error);
       }
     }
+  };
+
+  const handleMetaChange = (key, value) => {
+    setMeta((prevMeta) => ({
+      ...prevMeta,
+      [key]: value,
+    }));
   };
 
   return (
@@ -178,16 +202,16 @@ function VenueForm() {
             <Controller
               name="meta.wifi"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Wifi"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.wifi}
+                  onChange={(event) =>
+                    handleMetaChange("wifi", event.currentTarget.checked)
+                  }
                 />
               )}
             />
@@ -195,48 +219,48 @@ function VenueForm() {
             <Controller
               name="meta.parking"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Parking"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.parking}
+                  onChange={(event) =>
+                    handleMetaChange("parking", event.currentTarget.checked)
+                  }
                 />
               )}
             />
             <Controller
               name="meta.breakfast"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Breakfast"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.breakfast}
+                  onChange={(event) =>
+                    handleMetaChange("breakfast", event.currentTarget.checked)
+                  }
                 />
               )}
             />
             <Controller
               name="meta.pets"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Pets"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.pets}
+                  onChange={(event) =>
+                    handleMetaChange("pets", event.currentTarget.checked)
+                  }
                 />
               )}
             />
@@ -256,17 +280,6 @@ function VenueForm() {
           <Grid.Col span={4}>
             <SelectCityAndCountry control={control} setValue={setValue} />
           </Grid.Col>
-          <Grid.Col span={4}></Grid.Col>
-          {/* <Grid.Col span={4}>
-            <Controller
-              name="location.country"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <NativeSelect {...field} label="Country" />
-              )}
-            />
-          </Grid.Col> */}
           <Grid.Col>
             {fields.map((field, index) => (
               <Grid key={field.id} gutter={10}>

@@ -37,19 +37,17 @@ function VenuesCard({ venue }) {
               <Title order={4} lineClamp={1}>
                 {venue.name}
               </Title>
+              <Text lineClamp={1}>
+                {zip} {city}, {country}
+              </Text>
             </Grid.Col>
           </Grid>
         </Card.Section>
-        <Card.Section px={10}>
+        <Card.Section p={10}>
           <Grid>
             <Grid.Col>
               <Text>{price} / night</Text>
-              <Text>{venue.maxGuests} guests</Text>
-            </Grid.Col>
-            <Grid.Col>
-              <Text lineClamp={1}>
-                {city},{country}
-              </Text>
+              <Text>{maxGuests} guests</Text>
             </Grid.Col>
           </Grid>
         </Card.Section>
