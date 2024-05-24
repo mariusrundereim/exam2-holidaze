@@ -263,5 +263,6 @@ export const allCityAndCountry = {
     "Iisalmi",
     "Kemi",
     "Uusikaupunki",
+    "Spjutsund",
   ],
 };

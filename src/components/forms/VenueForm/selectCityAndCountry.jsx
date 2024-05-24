@@ -55,6 +55,8 @@ export default function SelectCityAndCountry({ control, setValue }) {
             data={[
               { label: "Norway", value: "Norway" },
               { label: "Sweden", value: "Sweden" },
+              { label: "Denmark", value: "Denmark" },
+              { label: "Finland", value: "Finland" },
             ]}
             value={selectedCountry}
             label="Country"

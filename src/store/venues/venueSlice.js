@@ -23,6 +23,27 @@ const venuesInitialState = {
 };
 
 // Fetch all venues
+
+// export const fetchVenues = createAsyncThunk(
+//   "venues/fetchVenues",
+//   async (page = 1) => {
+//     try {
+//       const response = await fetch(
+//         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+//         { headers: getAuthHeaders() }
+//       );
+//       if (!response.ok) {
+//         throw new Error("Server responded with an error");
+//       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// );
+
+// Fetch all venues
 export const fetchVenues = createAsyncThunk(
   "venues/fetchVenues",
   async (_, { rejectWithValue }) => {
