@@ -16,7 +16,9 @@ import {
   Button,
   Textarea,
   NumberInput,
+  NativeSelect,
 } from "@mantine/core";
+import SelectCityAndCountry from "./selectCityAndCountry";
 function VenueForm() {
   const { venueId } = useParams();
   const navigate = useNavigate();
@@ -252,41 +254,19 @@ function VenueForm() {
             />
           </Grid.Col>
           <Grid.Col span={4}>
-            <Controller
-              name="location.city"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input.Wrapper label="City">
-                  <Input {...field} placeholder="City" />
-                </Input.Wrapper>
-              )}
-            />
+            <SelectCityAndCountry control={control} setValue={setValue} />
           </Grid.Col>
-          <Grid.Col span={4}>
-            <Controller
-              name="location.zip"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input.Wrapper label="Zip">
-                  <Input {...field} placeholder="Zip" />
-                </Input.Wrapper>
-              )}
-            />
-          </Grid.Col>
-          <Grid.Col span={4}>
+          <Grid.Col span={4}></Grid.Col>
+          {/* <Grid.Col span={4}>
             <Controller
               name="location.country"
               control={control}
               rules={{ required: false }}
               render={({ field }) => (
-                <Input.Wrapper label="Country">
-                  <Input {...field} placeholder="Country" />
-                </Input.Wrapper>
+                <NativeSelect {...field} label="Country" />
               )}
             />
-          </Grid.Col>
+          </Grid.Col> */}
           <Grid.Col>
             {fields.map((field, index) => (
               <Grid key={field.id} gutter={10}>
