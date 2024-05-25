@@ -1,10 +1,9 @@
-import { Grid, Title, Text, Stack, Space, Flex } from "@mantine/core";
+import { Grid, Title, Text } from "@mantine/core";
 
 import {
   addressMessage,
   cityMessage,
   countryMessage,
-  continentMessage,
   zipMessage,
 } from "../../utils/displayMessages";
 function LocationDisplay({ location }) {

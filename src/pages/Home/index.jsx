@@ -1,8 +1,15 @@
 import { Title, Text } from "@mantine/core";
+import VenuesInSweden from "./lists/listVenuesInSweden";
+import VenuesWithPets from "./lists/listVenuesWithPets";
+import VenuesBySmallPrice from "./lists/listVenuesBySmallPrice";
+import VenuesByFamilyCity from "./lists/listVenuesByFamilyCity";
 function Home() {
   return (
     <>
-      <Title order={4}>Home</Title>
+      <VenuesInSweden />
+      <VenuesWithPets />
+      <VenuesBySmallPrice />
+      <VenuesByFamilyCity />
     </>
   );
 }

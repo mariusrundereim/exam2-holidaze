@@ -24,61 +24,61 @@ const venuesInitialState = {
 
 // Fetch all venues
 
-export const fetchVenues = createAsyncThunk(
-  "venues/fetchVenues",
-  async (page = 1) => {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
-        { headers: getAuthHeaders() }
-      );
-      if (!response.ok) {
-        throw new Error("Server responded with an error");
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
-// Fetch all venues
 // export const fetchVenues = createAsyncThunk(
 //   "venues/fetchVenues",
-//   async (_, { rejectWithValue }) => {
-//     let allVenues = [];
-//     let page = 1;
-//     let morePagesAvailable = true;
-
-//     while (morePagesAvailable) {
-//       try {
-//         const response = await fetch(
-//           `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`
-//         );
-//         if (!response.ok) {
-//           const errorDetails = await response.json();
-//           throw new Error(
-//             `Server responded with an error: ${errorDetails.message}`
-//           );
-//         }
-//         const data = await response.json();
-//         allVenues = [...allVenues, ...data.data];
-
-//         if (data.meta && data.meta.currentPage < data.meta.pageCount) {
-//           page++;
-//         } else {
-//           morePagesAvailable = false;
-//         }
-//       } catch (error) {
-//         console.error("Error fetching venues:", error);
-//         return rejectWithValue(error.message);
+//   async (page = 1) => {
+//     try {
+//       const response = await fetch(
+//         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+//         { headers: getAuthHeaders() }
+//       );
+//       if (!response.ok) {
+//         throw new Error("Server responded with an error");
 //       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.log(error);
 //     }
-
-//     return { data: allVenues };
 //   }
 // );
+
+// Fetch all venues
+export const fetchVenues = createAsyncThunk(
+  "venues/fetchVenues",
+  async (_, { rejectWithValue }) => {
+    let allVenues = [];
+    let page = 1;
+    let morePagesAvailable = true;
+
+    while (morePagesAvailable) {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`
+        );
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          throw new Error(
+            `Server responded with an error: ${errorDetails.message}`
+          );
+        }
+        const data = await response.json();
+        allVenues = [...allVenues, ...data.data];
+
+        if (data.meta && data.meta.currentPage < data.meta.pageCount) {
+          page++;
+        } else {
+          morePagesAvailable = false;
+        }
+      } catch (error) {
+        console.error("Error fetching venues:", error);
+        return rejectWithValue(error.message);
+      }
+    }
+
+    return { data: allVenues };
+  }
+);
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
