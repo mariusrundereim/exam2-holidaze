@@ -40,7 +40,7 @@ function Signup() {
                   value="register"
                   leftSection={<IconUserPlus style={iconStyle} />}
                 >
-                  Register
+                  Sign up
                 </Tabs.Tab>
               </Tabs.List>
 

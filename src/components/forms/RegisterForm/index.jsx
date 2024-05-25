@@ -188,11 +188,9 @@ function RegisterForm({ onSuccess, setActiveTab }) {
                 <Switch
                   {...field}
                   checked={checked}
-                  label="Venue manager?"
+                  label="Venue manager"
                   onChange={(event) => setChecked(event.currentTarget.checked)}
                   size="md"
-                  onLabel="Yes"
-                  offLabel="No"
                 />
               )}
             />
@@ -223,7 +221,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
 
           <Grid.Col>
             <Button type="submit" fullWidth>
-              Register
+              Sign up
             </Button>
           </Grid.Col>
         </Grid>

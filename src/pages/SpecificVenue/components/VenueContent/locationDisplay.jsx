@@ -17,14 +17,8 @@ function LocationDisplay({ location }) {
           <Text>
             {zipMessage(location)} {cityMessage(location)}
           </Text>
+          <Text>{countryMessage(location)}</Text>
         </Grid.Col>
-        <Grid.Col>
-          <Title order={4}>Country</Title>
-          <Text>
-            {countryMessage(location)} {continentMessage(location)}
-          </Text>
-        </Grid.Col>
-        <Grid.Col></Grid.Col>
       </Grid>
     </>
   );

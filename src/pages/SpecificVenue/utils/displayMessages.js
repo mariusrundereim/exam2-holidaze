@@ -25,17 +25,17 @@ export function zipMessage(location) {
 // Meta
 
 export function wifiMessage(meta) {
-  return meta.wifi ? "Available" : "Unavailable";
+  return meta.wifi ? "WiFi" : "No WiFi";
 }
 
 export function parkingMessage(meta) {
-  return meta.parking ? "Available" : "Unavailable";
+  return meta.parking ? "Parking" : "No parking";
 }
 
 export function petsMessage(meta) {
-  return meta.pets ? "Available" : "Unavailable";
+  return meta.pets ? "Pets" : "No pets";
 }
 
 export function breakfastMessage(meta) {
-  return meta.breakfast ? "Included" : "Not included";
+  return meta.breakfast ? "Breakfast" : "No breakfast";
 }
