@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { Grid, Title } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
+import VenueSkeleton from "../../../components/ui/skeleton";
 
 const filterVenues = (venues) => {
   return venues.filter((venue) => {
@@ -17,8 +18,13 @@ const filterVenues = (venues) => {
 };
 
 function VenuesByFamilyCity() {
+  const loading = useSelector((state) => state.venues.loading);
   const allVenuesList = useSelector((state) => state.venues.allVenuesList);
   const filteredVenues = filterVenues(allVenuesList);
+
+  if (loading === "loading") {
+    return <VenueSkeleton />;
+  }
   return (
     <>
       <Grid>

@@ -1,4 +1,4 @@
-import { Text, TextInput, Button } from "@mantine/core";
+import { Text, TextInput, Button, Grid } from "@mantine/core";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -25,14 +25,20 @@ function SearchVenues() {
   };
   return (
     <>
-      <TextInput
-        label="Search venues"
-        placeholder="Where to stay?"
-        value={query}
-        onChange={handleChange}
-      />
-      <Button onClick={handleClear}>Clear</Button>
-      <Button onClick={handleSearch}>Search</Button>
+      <Grid align="flex-end">
+        <Grid.Col span={{ base: 12, md: 3 }}>
+          <TextInput
+            label="Search venues"
+            placeholder="Where to stay?"
+            value={query}
+            onChange={handleChange}
+          />
+        </Grid.Col>
+        <Grid.Col span={{ base: 12, md: 3 }}>
+          <Button onClick={handleClear}>Clear</Button>
+          <Button onClick={handleSearch}>Search</Button>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

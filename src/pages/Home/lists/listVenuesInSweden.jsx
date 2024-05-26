@@ -1,15 +1,20 @@
 import { Grid, Title } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
 import { useSelector } from "react-redux";
+import VenueSkeleton from "../../../components/ui/skeleton";
 
 const filterVenuesByCountry = (venues, country) => {
   return venues.filter((venue) => venue.location.country === country);
 };
 
 function VenuesInSweden() {
+  const loading = useSelector((state) => state.venues.loading);
   const allVenuesList = useSelector((state) => state.venues.allVenuesList);
   const venuesInSweden = filterVenuesByCountry(allVenuesList, "Sweden");
 
+  if (loading === "loading") {
+    return <VenueSkeleton />;
+  }
   return (
     <>
       <Grid>

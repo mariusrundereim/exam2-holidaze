@@ -3,67 +3,37 @@ import { useDispatch, useSelector } from "react-redux";
 import ListVenues from "./listVenues";
 
 import { fetchVenues } from "../../store/venues/venueSlice";
-import { Drawer, Button, Grid } from "@mantine/core";
+import { Grid } from "@mantine/core";
 import SearchVenues from "./searchVenues";
-import { useDisclosure } from "@mantine/hooks";
-import FilterVenues from "./filter/filterVenues";
-import { IconFilter } from "@tabler/icons-react";
+import VenueSkeleton from "../../components/ui/skeleton";
+
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
 
   const filteredVenues = useSelector((state) => state.venues.allVenuesList);
   const searchResults = useSelector((state) => state.venues.searchVenues);
-  const searchFilterResults = useSelector(
-    (state) => state.venues.searchFilterResults
-  );
-  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     dispatch(fetchVenues());
   }, [dispatch]);
 
   if (loading === "loading") {
-    return <p>Loading...</p>;
+    return <VenueSkeleton />;
   }
 
-  // const venuesToDisplay =
-  //   searchResults.length > 0 ? searchResults : filteredVenues;
-
-  // const venuesToDisplay =
-  //   searchResults.length > 0
-  //     ? searchResults
-  //     : searchFilterResults.length > 0
-  //     ? searchFilterResults
-  //     : filteredVenues;
+  const venuesToDisplay =
+    searchResults.length > 0 ? searchResults : filteredVenues;
 
   return (
     <>
-      <Drawer
-        opened={opened}
-        onClose={close}
-        position="top"
-        size="100%"
-        title="Filter"
-      >
-        <FilterVenues />
-      </Drawer>
-      <Grid align="flex-end">
-        <Grid.Col span={{ base: 12, sm: 10 }}>
+      <Grid>
+        <Grid.Col>
           <SearchVenues />
-        </Grid.Col>
-        <Grid.Col span={{ base: 12, sm: 2 }}>
-          <Button
-            onClick={open}
-            leftSection={<IconFilter size={20} />}
-            variant="default"
-          >
-            Filter
-          </Button>
         </Grid.Col>
       </Grid>
 
-      <ListVenues venues={filteredVenues} />
+      <ListVenues venues={venuesToDisplay} />
     </>
   );
 }
