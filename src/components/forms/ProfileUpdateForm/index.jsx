@@ -14,10 +14,13 @@ import { IconPhoto } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
 import { useProfileHandler } from "./useProfileHandler";
 import { useNavigate } from "react-router-dom";
-
+import useNotification from "../../ui/Notification";
 function ProfileUpdateForm() {
-  const navigate = useNavigate();
   const username = useSelector((state) => state.user.name);
+  const { showNotification, NotificationComponent } = useNotification();
+
+  const navigate = useNavigate();
+
   const {
     control,
     handleSubmit,
@@ -35,10 +38,20 @@ function ProfileUpdateForm() {
   const { profileData, checked, setChecked, profileName, handleSubmitProfile } =
     useProfileHandler(reset);
 
-  const onSubmit = (data) => {
-    handleSubmitProfile(data);
-    navigate(`/profile/${username}`);
+  const onSubmit = async (data) => {
+    try {
+      await handleSubmitProfile(data);
+      showNotification("Profile updated successfully!", "success");
+      navigate(`/profile/${profileName}`);
+    } catch (error) {
+      showNotification("Failed to update profile.", "error");
+    }
   };
+
+  // const onSubmit = (data) => {
+  //   handleSubmitProfile(data);
+  //   navigate(`/profile/${username}`);
+  // };
 
   return (
     <>
@@ -125,6 +138,7 @@ function ProfileUpdateForm() {
           </Grid.Col>
         </Grid>
       </form>
+      <NotificationComponent />
     </>
   );
 }

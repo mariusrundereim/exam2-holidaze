@@ -7,7 +7,6 @@ import VenueSkeleton from "../../components/ui/skeleton";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchVenues } from "../../store/venues/venueSlice";
-
 function Home() {
   const dispatch = useDispatch();
   useEffect(() => {

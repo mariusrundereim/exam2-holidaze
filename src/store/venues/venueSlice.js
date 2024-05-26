@@ -22,11 +22,37 @@ const venuesInitialState = {
   searchQuery: "",
 };
 
+// Fetch venues NEW
+
+// export const fetchVenues = createAsyncThunk(
+//   "venues/fetchVenues",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch(
+//         `${BASE_URL}/venues?sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+//         { headers: getAuthHeaders() }
+//       );
+//       if (!response.ok) {
+//         const errorDetails = await response.json();
+//         throw new Error(
+//           `Server responded with an error: ${errorDetails.message}`
+//         );
+//       }
+//       const data = await response.json();
+//       console.log("veee", data);
+//       return data;
+//     } catch (error) {
+//       console.error("Error fetching venues:", error);
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
+
 // Fetch all venues
 
 // export const fetchVenues = createAsyncThunk(
 //   "venues/fetchVenues",
-//   async (page = 1) => {
+//   async (page = 2) => {
 //     try {
 //       const response = await fetch(
 //         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
@@ -43,40 +69,43 @@ const venuesInitialState = {
 //   }
 // );
 
-// Fetch all venues
 export const fetchVenues = createAsyncThunk(
   "venues/fetchVenues",
   async (_, { rejectWithValue }) => {
-    let allVenues = [];
-    let page = 1;
-    let morePagesAvailable = true;
+    const fetchPage = async (page) => {
+      const response = await fetch(
+        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+        { headers: getAuthHeaders() }
+      );
 
-    while (morePagesAvailable) {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`
-        );
-        if (!response.ok) {
-          const errorDetails = await response.json();
-          throw new Error(
-            `Server responded with an error: ${errorDetails.message}`
-          );
-        }
-        const data = await response.json();
-        allVenues = [...allVenues, ...data.data];
-
-        if (data.meta && data.meta.currentPage < data.meta.pageCount) {
-          page++;
-        } else {
-          morePagesAvailable = false;
-        }
-      } catch (error) {
-        console.error("Error fetching venues:", error);
-        return rejectWithValue(error.message);
+      if (!response.ok) {
+        throw new Error("Server responded with an error");
       }
-    }
 
-    return { data: allVenues };
+      return await response.json();
+    };
+
+    try {
+      let allVenues = [];
+      let page = 1;
+      let isLastPage = false;
+      let lastMeta = {};
+
+      while (!isLastPage) {
+        const data = await fetchPage(page);
+        if (data.data) {
+          allVenues = [...allVenues, ...data.data];
+          lastMeta = data.meta;
+        }
+        isLastPage = data.meta.isLastPage;
+        page += 1;
+      }
+
+      return { data: allVenues, meta: lastMeta };
+    } catch (error) {
+      console.error("Error fetching venues:", error);
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -246,9 +275,8 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        console.log("Get all venues fulfilled action payload:", action.payload);
-        state.allVenuesList = action.payload.data;
         state.loading = "idle";
+        state.allVenuesList = action.payload.data;
       })
       .addCase(fetchVenues.rejected, (state, action) => {
         state.loading = "idle";

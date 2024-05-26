@@ -2,12 +2,14 @@ import { Card, Image, Title, Text, Group, Grid } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../utils/format/dateFormat";
 import formatCurrency from "../../../utils/format/currencyFormat";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchVenues } from "../../../store/venues/venueSlice";
 function VenuesCard({ venue }) {
+  const dispatch = useDispatch();
+
   const imageUrl = venue.media?.[0]?.url || "default-image-url";
   const venueName = venue.name || "No image available";
-
-  // console.log("This venue!", venue.id);
-  console.log("Venue card", venue);
 
   const navigate = useNavigate();
   const handlePageClick = () => {
