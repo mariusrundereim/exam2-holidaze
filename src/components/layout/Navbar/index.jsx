@@ -2,7 +2,7 @@ import { IconLogout, IconLogin } from "@tabler/icons-react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { Text, Group, Button } from "@mantine/core";
+import { Text, Group, Button, Grid } from "@mantine/core";
 
 import { logout } from "../../../store/auth/authSlice";
 import { isLoggedIn } from "../../../utils/account/isLoggedIn";

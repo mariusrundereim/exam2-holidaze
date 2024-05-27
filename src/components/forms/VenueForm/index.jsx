@@ -16,7 +16,6 @@ import {
   Button,
   Textarea,
   NumberInput,
-  NativeSelect,
   Title,
   Text,
 } from "@mantine/core";
@@ -307,6 +306,7 @@ function VenueForm() {
                     color="red"
                     fullWidth
                     onClick={() => remove(index)}
+                    disabled={fields.length === 1}
                   >
                     Remove
                   </Button>
@@ -328,10 +328,12 @@ function VenueForm() {
                   />
                 </Grid.Col>
                 <Grid.Col>
-                  {fields.length < 6 && (
-                    <Button onClick={() => append({ url: "" })}>
-                      Add media
-                    </Button>
+                  {index === fields.length - 1 && fields.length < 6 && (
+                    <Grid.Col span={12}>
+                      <Button onClick={() => append({ url: "", alt: "" })}>
+                        Add media
+                      </Button>
+                    </Grid.Col>
                   )}
                 </Grid.Col>
               </Grid>
