@@ -301,7 +301,8 @@ const venueSlice = createSlice({
       })
       .addCase(createVenue.fulfilled, (state, action) => {
         console.log("Venue created:", action.payload); // Log the new venue
-        state.allVenuesList.push(action.payload);
+        console.log("log venues", state.allVenuesList);
+        state.allVenuesList = [action.payload.data, ...state.allVenuesList];
         console.log("all venues updated", state.allVenuesList);
         state.loading = "idle";
       })
