@@ -143,6 +143,9 @@ export const createVenue = createAsyncThunk(
       body: JSON.stringify(newVenue),
     });
     const data = await response.json();
+    if (!response.ok) {
+      throw new Error("Failed to create venue");
+    }
     return data;
   }
 );
@@ -297,7 +300,9 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
+        console.log("Venue created:", action.payload); // Log the new venue
         state.allVenuesList.push(action.payload);
+        console.log("Updated allVenuesList:", state.allVenuesList); // Log the updated state
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
