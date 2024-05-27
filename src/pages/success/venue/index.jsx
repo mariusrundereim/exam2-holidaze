@@ -4,20 +4,25 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title, Text, Card, Button, Center } from "@mantine/core";
 import { fetchVenueById } from "../../../store/venues/venueSlice";
 import { formattedDateTime } from "../../../utils/format/dateFormat";
+
 function VenueConfirmed() {
   const { venueId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const venue = useSelector((state) => state.venues.selectedVenue);
+  const loading = useSelector((state) => state.venues.loading);
   const userName = useSelector((state) => state.user.name);
-  console.log("selected", venue);
 
   useEffect(() => {
     if (venueId) {
       dispatch(fetchVenueById({ id: venueId }));
     }
   }, [dispatch, venueId]);
+
+  if (loading === "loading" || !venue) {
+    return <p>Loading...</p>;
+  }
 
   const handleClickVenue = () => {
     navigate(`/venues/${venueId}`);
@@ -26,12 +31,13 @@ function VenueConfirmed() {
   const handleClickYourVenues = () => {
     navigate(`/profile/${userName}/venues`);
   };
+
   return (
     <>
       <Center mih={"100dvh"}>
         <Card>
           <Card.Section>
-            <Title>Venues is created!</Title>
+            <Title>Venues is created or updated!</Title>
             <Text>{venue.name}</Text>
           </Card.Section>
           <Card.Section>

@@ -14,7 +14,7 @@ const venuesInitialState = {
   filters: {
     price: 1000,
     maxGuests: 99,
-    wifi: false,
+    wifi: { checked: false, value: true },
     pets: false,
     breakfast: false,
     parking: false,
@@ -297,7 +297,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
-        state.allVenuesList.push(action.payload);
+        state.allVenuesList.unshift(action.payload.data);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
