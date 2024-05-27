@@ -15,7 +15,7 @@ function GalleryPicturesVenue({ venueId, media }) {
   return (
     <>
       <Drawer opened={opened} onClose={close} size="100%" title="Gallery">
-        <Container fluid>
+        <Container size={"xl"}>
           <Grid>
             {media && media.length > 0 ? (
               media.map((item, index) => (

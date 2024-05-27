@@ -25,17 +25,17 @@ function VenuesListPage() {
   const venuesToSoonDisplay =
     searchResults.length > 0 ? searchResults : filteredVenues;
 
-  console.log("yooooooo", venuesToSoonDisplay);
+  // console.log("yooooooo", venuesToSoonDisplay);
 
-  // venues to display --- filter them now
-  const venuesToDisplay = venuesToSoonDisplay.filter((venue) => {
-    if (filters.wifi.checked && venue.meta.wifi != filters.wifi.value) {
-      return false;
-    }
-    return true;
-  });
+  // // venues to display --- filter them now
+  // const venuesToDisplay = venuesToSoonDisplay.filter((venue) => {
+  //   if (filters.wifi.checked && venue.meta.wifi != filters.wifi.value) {
+  //     return false;
+  //   }
+  //   return true;
+  // });
 
-  console.log("eivind", venuesToDisplay);
+  // console.log("eivind", venuesToDisplay);
 
   return (
     <>
@@ -45,7 +45,7 @@ function VenuesListPage() {
         </Grid.Col>
       </Grid>
 
-      <ListVenues venues={venuesToDisplay} />
+      <ListVenues venues={venuesToSoonDisplay} />
     </>
   );
 }
