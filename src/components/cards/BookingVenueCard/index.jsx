@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { calculateTotalPrice } from "../../../utils/booking/calculateTotalPrice";
 function BookingVenueCard({ venue, bookingDates }) {
   const { price, name, description, created } = venue;
-  console.log("venue", venue);
   const [totalPrice, setTotalPrice] = useState(0);
   const [nights, setNights] = useState(0);
 

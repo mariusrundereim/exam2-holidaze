@@ -3,11 +3,11 @@ import formatCurrency from "../../../../utils/format/currencyFormat";
 import { formattedDate } from "../../../../utils/format/dateFormat";
 import BookingButton from "../../../../components/venues/BookingButton";
 import { useParams } from "react-router-dom";
+import GalleryPicturesVenue from "../Gallery";
 function VenueDisplay({ venue }) {
-  const { name, description, created, maxGuests, price } = venue;
+  const { name, description, created, maxGuests, price, media } = venue;
   const formattedPrice = formatCurrency(price);
   const newDate = formattedDate(created);
-
   const { venueId } = useParams();
 
   return (
@@ -18,6 +18,7 @@ function VenueDisplay({ venue }) {
         </Grid.Col>
         <Grid.Col>
           <BookingButton venueId={venueId} />
+          <GalleryPicturesVenue venueId={venueId} media={media} />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Title order={4} mb={10}>

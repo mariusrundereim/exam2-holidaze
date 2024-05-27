@@ -7,7 +7,7 @@ function VenueContent({ venue }) {
   const { location, meta } = venue;
   return (
     <>
-      <Grid>
+      <Grid gutter={100}>
         <Grid.Col>
           <VenueDisplay venue={venue} />
         </Grid.Col>
