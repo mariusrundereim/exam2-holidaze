@@ -5,7 +5,7 @@ import Home from "../pages/Home";
 import ProfilePage from "../pages/Profile";
 import Signup from "../pages/Signup";
 import VenueForm from "../components/forms/VenueForm";
-import Profiles from "../pages/Profiles";
+// import Profiles from "../pages/Profiles";
 import VenuesListPage from "../pages/Venues";
 import VenueLayout from "./layout/venueLayout";
 import CreateVenue from "../pages/create/venue";
@@ -17,6 +17,8 @@ import BookingForm from "../components/forms/BookingForm";
 import BookingLayout from "./layout/bookingLayout";
 import BookingConfirmed from "../pages/success/booking";
 import VenueConfirmed from "../pages/success/venue";
+import NotFound from "../components/NotFound";
+import AllProfilesPage from "../pages/Profiles";
 function Router() {
   return (
     <>
@@ -48,7 +50,8 @@ function Router() {
             />
           </Route>
           <Route path="/signup" element={<Signup />} />
-          <Route path="/profiles" element={<Profiles />} />
+          <Route path="/profiles" element={<AllProfilesPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>

@@ -40,8 +40,9 @@ const customerLinks = [
 ];
 
 function AccountLinks() {
-  const { name, venueManager } = useSelector((state) => state.user);
-  const loggedIn = useSelector(isLoggedIn);
+  const { name } = useSelector((state) => state.user);
+  const venueManager = useSelector((state) => state.profile.venueManager);
+  const loggedIn = useSelector((state) => Boolean(state.auth.accessToken));
   let links;
 
   if (!loggedIn) {

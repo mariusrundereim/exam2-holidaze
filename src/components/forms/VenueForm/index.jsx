@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
@@ -16,7 +16,11 @@ import {
   Button,
   Textarea,
   NumberInput,
+  Title,
+  Text,
 } from "@mantine/core";
+import SelectCityAndCountry from "./selectCityAndCountry";
+import { IconPhoto, IconTypography } from "@tabler/icons-react";
 function VenueForm() {
   const { venueId } = useParams();
   const navigate = useNavigate();
@@ -37,7 +41,7 @@ function VenueForm() {
       description: "",
       price: 0,
       maxGuests: 0,
-      media: [{ url: "" }],
+      media: [{ url: "", alt: "" }],
       location: {
         address: "",
         city: "",
@@ -51,6 +55,15 @@ function VenueForm() {
   });
 
   const { fields, append, remove } = useFieldArray({ control, name: "media" });
+
+  // State for meta fields
+
+  const [meta, setMeta] = useState({
+    wifi: false,
+    parking: false,
+    breakfast: false,
+    pets: false,
+  });
 
   // Load and set venue data when venueId changes
   useEffect(() => {
@@ -66,6 +79,7 @@ function VenueForm() {
           media: venue.media,
           location: venue.location,
         });
+        setMeta(venue.meta || {});
       }
     } else {
       reset({
@@ -73,7 +87,7 @@ function VenueForm() {
         description: "",
         price: 0,
         maxGuests: 0,
-        media: [{ url: "" }],
+        media: [{ url: "", alt: "" }],
         location: {
           address: "",
           city: "",
@@ -84,22 +98,36 @@ function VenueForm() {
           lng: 0,
         },
       });
+      setMeta({
+        wifi: false,
+        parking: false,
+        breakfast: false,
+        pets: false,
+      });
     }
   }, [venueId, venue, dispatch, reset]);
 
   const onSubmit = async (data) => {
+    const fullData = { ...data, meta };
     if (venueId) {
-      dispatch(updateVenue({ id: venueId, data }));
+      dispatch(updateVenue({ id: venueId, data: fullData }));
       navigate(`/venues/${venueId}/confirmed`);
     } else {
       try {
-        const response = await dispatch(createVenue(data)).unwrap();
+        const response = await dispatch(createVenue(fullData)).unwrap();
         const createdVenueId = response.data.id;
         navigate(`/venues/${createdVenueId}/confirmed`);
       } catch (error) {
         console.error("Failed to create venue:", error);
       }
     }
+  };
+
+  const handleMetaChange = (key, value) => {
+    setMeta((prevMeta) => ({
+      ...prevMeta,
+      [key]: value,
+    }));
   };
 
   return (
@@ -176,16 +204,16 @@ function VenueForm() {
             <Controller
               name="meta.wifi"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Wifi"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.wifi}
+                  onChange={(event) =>
+                    handleMetaChange("wifi", event.currentTarget.checked)
+                  }
                 />
               )}
             />
@@ -193,48 +221,48 @@ function VenueForm() {
             <Controller
               name="meta.parking"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Parking"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.parking}
+                  onChange={(event) =>
+                    handleMetaChange("parking", event.currentTarget.checked)
+                  }
                 />
               )}
             />
             <Controller
               name="meta.breakfast"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Breakfast"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.breakfast}
+                  onChange={(event) =>
+                    handleMetaChange("breakfast", event.currentTarget.checked)
+                  }
                 />
               )}
             />
             <Controller
               name="meta.pets"
               control={control}
-              render={({ field: { onChange, value } }) => (
+              render={({ field: { value } }) => (
                 <Switch
                   label="Pets"
                   size="lg"
                   onLabel="Yes"
                   offLabel="No"
-                  checked={value ?? false}
-                  onChange={(newValue) => {
-                    onChange(newValue);
-                  }}
+                  checked={meta.pets}
+                  onChange={(event) =>
+                    handleMetaChange("pets", event.currentTarget.checked)
+                  }
                 />
               )}
             />
@@ -252,74 +280,66 @@ function VenueForm() {
             />
           </Grid.Col>
           <Grid.Col span={4}>
-            <Controller
-              name="location.city"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input.Wrapper label="City">
-                  <Input {...field} placeholder="City" />
-                </Input.Wrapper>
-              )}
-            />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <Controller
-              name="location.zip"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input.Wrapper label="Zip">
-                  <Input {...field} placeholder="Zip" />
-                </Input.Wrapper>
-              )}
-            />
-          </Grid.Col>
-          <Grid.Col span={4}>
-            <Controller
-              name="location.country"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <Input.Wrapper label="Country">
-                  <Input {...field} placeholder="Country" />
-                </Input.Wrapper>
-              )}
-            />
+            <SelectCityAndCountry control={control} setValue={setValue} />
           </Grid.Col>
           <Grid.Col>
+            <Title order={4}>Pictures</Title>
+            <Text>Up to 6 pictures. </Text>
             {fields.map((field, index) => (
               <Grid key={field.id} gutter={10}>
-                <Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
                   <Controller
                     name={`media[${index}].url`}
                     control={control}
                     render={({ field }) => (
-                      <Input.Wrapper label={`Media URL ${index + 1}`}>
-                        <Input {...field} />
+                      <Input.Wrapper label={`Picture URL #${index + 1}`}>
+                        <Input
+                          leftSection={<IconPhoto size={20} />}
+                          {...field}
+                        />
                       </Input.Wrapper>
                     )}
                   />
+
                   <Button
                     variant="outline"
                     color="red"
+                    fullWidth
                     onClick={() => remove(index)}
+                    disabled={fields.length === 1}
                   >
                     Remove
                   </Button>
                 </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Controller
+                    name={`media[${index}].alt`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input.Wrapper
+                        label={`Describe your picture #${index + 1}`}
+                      >
+                        <Input
+                          leftSection={<IconTypography size={20} />}
+                          {...field}
+                        />
+                      </Input.Wrapper>
+                    )}
+                  />
+                </Grid.Col>
                 <Grid.Col>
-                  {fields.length < 6 && (
-                    <Button onClick={() => append({ url: "" })}>
-                      Add media
-                    </Button>
+                  {index === fields.length - 1 && fields.length < 6 && (
+                    <Grid.Col span={12}>
+                      <Button onClick={() => append({ url: "", alt: "" })}>
+                        Add media
+                      </Button>
+                    </Grid.Col>
                   )}
                 </Grid.Col>
               </Grid>
             ))}
           </Grid.Col>
 
-          <Stack></Stack>
           <Grid.Col>
             <Button type="submit">
               {venueId ? "Update Venue" : "Create Venue"}

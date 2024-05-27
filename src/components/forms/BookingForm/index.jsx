@@ -15,9 +15,7 @@ import {
 } from "@mantine/core";
 import { DatePicker, DatePickerInput } from "@mantine/dates";
 import { parseISO } from "date-fns";
-
 import { handleDateBooked } from "./handleDateBooked";
-
 import BookingVenueCard from "../../cards/BookingVenueCard";
 function BookingForm() {
   const { venueId } = useParams();
@@ -65,10 +63,10 @@ function BookingForm() {
     <>
       <Container size="xl">
         <Grid>
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <BookingVenueCard venue={venue} />
+          <Grid.Col>
+            <BookingVenueCard venue={venue} bookingDates={value} />
           </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6 }}>
+          <Grid.Col>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid>
                 <Grid.Col>
@@ -96,7 +94,7 @@ function BookingForm() {
                   />
                   {errors.dateFrom && <Text>Date is required</Text>}
                 </Grid.Col>
-                <Grid.Col>
+                <Grid.Col span={2}>
                   <Controller
                     name="guests"
                     control={control}

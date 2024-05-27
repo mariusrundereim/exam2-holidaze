@@ -1,10 +1,9 @@
-import { Grid, Title, Text, Stack, Space, Flex } from "@mantine/core";
+import { Grid, Title, Text } from "@mantine/core";
 
 import {
   addressMessage,
   cityMessage,
   countryMessage,
-  continentMessage,
   zipMessage,
 } from "../../utils/displayMessages";
 function LocationDisplay({ location }) {
@@ -17,14 +16,8 @@ function LocationDisplay({ location }) {
           <Text>
             {zipMessage(location)} {cityMessage(location)}
           </Text>
+          <Text>{countryMessage(location)}</Text>
         </Grid.Col>
-        <Grid.Col>
-          <Title order={4}>Country</Title>
-          <Text>
-            {countryMessage(location)} {continentMessage(location)}
-          </Text>
-        </Grid.Col>
-        <Grid.Col></Grid.Col>
       </Grid>
     </>
   );

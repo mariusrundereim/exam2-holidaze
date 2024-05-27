@@ -1,31 +1,39 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProfiles } from "../../store/profiles/profilesSlice";
-import ListProfiles from "./listProfiles";
-import SearchPanelProfiles from "./SearchBar";
-import PaginationProfiles from "./PaginationControls";
 
-function Profiles() {
+function AllProfilesPage() {
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const allProfiles = useSelector((state) => state.profiles.allProfilesList);
+  const allProfiles = useSelector((state) => state.profiles.allProfiles);
+  const loading = useSelector((state) => state.profiles.loading);
+  const error = useSelector((state) => state.profiles.error);
 
   useEffect(() => {
-    dispatch(getAllProfiles(currentPage));
-  }, [dispatch, currentPage]);
+    dispatch(getAllProfiles());
+  }, [dispatch]);
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+  console.log("All profiles in state:", allProfiles); // Debugging log
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
   return (
     <>
       <h2>All profiles</h2>
-      <SearchPanelProfiles />
-      {/* <ListProfiles profiles={allProfiles} /> */}
-      {/* <PaginationProfiles /> */}
+      {allProfiles.length > 0 ? (
+        allProfiles.map((profile) => (
+          <div key={profile.id}>{profile.owner.name}</div>
+        ))
+      ) : (
+        <p>No profiles found.</p>
+      )}
     </>
   );
 }
 
-export default Profiles;
+export default AllProfilesPage;

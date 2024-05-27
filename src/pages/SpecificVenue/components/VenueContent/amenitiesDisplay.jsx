@@ -1,5 +1,12 @@
 import { Grid, Title, Text, Group, Stack } from "@mantine/core";
-import { IconBaguette, IconPaw, IconCar, IconWifi } from "@tabler/icons-react";
+import {
+  IconBaguette,
+  IconPaw,
+  IconCar,
+  IconWifi,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
 import { rem } from "@mantine/core";
 import {
   wifiMessage,
@@ -10,27 +17,23 @@ import {
 function AmenitiesDisplay({ meta }) {
   return (
     <>
-      <Title>Amenities</Title>
+      <Title order={4}>Amenities</Title>
       <Grid>
         <Grid.Col>
           <Group>
             <IconBaguette />
-            <Text>Breakfast</Text>
             <Text>{breakfastMessage(meta)}</Text>
           </Group>
           <Group>
             <IconCar />
-            <Text>Parking</Text>
-            <Text>{breakfastMessage(meta)}</Text>
+            <Text>{parkingMessage(meta)}</Text>
           </Group>
           <Group>
             <IconPaw />
-            <Text>Pets</Text>
             <Text>{petsMessage(meta)}</Text>
           </Group>
           <Group>
             <IconWifi />
-            <Text>WIFI</Text>
             <Text>{wifiMessage(meta)}</Text>
           </Group>
         </Grid.Col>

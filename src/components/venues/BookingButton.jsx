@@ -1,5 +1,8 @@
 import { Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { isLoggedIn } from "../../utils/account/isLoggedIn";
+import { useSelector } from "react-redux";
+
 /**
  * Renders a button component for booking a venue.
  *
@@ -10,9 +13,14 @@ import { useNavigate } from "react-router-dom";
  */
 function BookingButton({ venueId }) {
   const navigate = useNavigate();
+  const loggedIn = useSelector((state) => isLoggedIn(state));
 
   const handleClick = () => {
-    navigate(`/${venueId}/bookings`);
+    if (loggedIn) {
+      navigate(`/${venueId}/bookings`);
+    } else {
+      navigate(`/signup`);
+    }
   };
   return (
     <>

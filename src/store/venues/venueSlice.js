@@ -19,30 +19,95 @@ const venuesInitialState = {
     breakfast: false,
     parking: false,
   },
+  searchQuery: "",
 };
+
+// Fetch venues NEW
+
+// export const fetchVenues = createAsyncThunk(
+//   "venues/fetchVenues",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch(
+//         `${BASE_URL}/venues?sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+//         { headers: getAuthHeaders() }
+//       );
+//       if (!response.ok) {
+//         const errorDetails = await response.json();
+//         throw new Error(
+//           `Server responded with an error: ${errorDetails.message}`
+//         );
+//       }
+//       const data = await response.json();
+//       console.log("veee", data);
+//       return data;
+//     } catch (error) {
+//       console.error("Error fetching venues:", error);
+//       return rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 // Fetch all venues
 
+// export const fetchVenues = createAsyncThunk(
+//   "venues/fetchVenues",
+//   async (page = 2) => {
+//     try {
+//       const response = await fetch(
+//         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+//         { headers: getAuthHeaders() }
+//       );
+//       if (!response.ok) {
+//         throw new Error("Server responded with an error");
+//       }
+//       const data = await response.json();
+//       return data;
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// );
+
 export const fetchVenues = createAsyncThunk(
   "venues/fetchVenues",
-  async (page = 1) => {
-    try {
+  async (_, { rejectWithValue }) => {
+    const fetchPage = async (page) => {
       const response = await fetch(
-        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc`,
+        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
         { headers: getAuthHeaders() }
       );
+
       if (!response.ok) {
         throw new Error("Server responded with an error");
       }
-      const data = await response.json();
-      return data;
+
+      return await response.json();
+    };
+
+    try {
+      let allVenues = [];
+      let page = 1;
+      let isLastPage = false;
+      let lastMeta = {};
+
+      while (!isLastPage) {
+        const data = await fetchPage(page);
+        if (data.data) {
+          allVenues = [...allVenues, ...data.data];
+          lastMeta = data.meta;
+        }
+        isLastPage = data.meta.isLastPage;
+        page += 1;
+      }
+
+      return { data: allVenues, meta: lastMeta };
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching venues:", error);
+      return rejectWithValue(error.message);
     }
   }
 );
-
-// Single Venue
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
@@ -78,6 +143,9 @@ export const createVenue = createAsyncThunk(
       body: JSON.stringify(newVenue),
     });
     const data = await response.json();
+    if (!response.ok) {
+      throw new Error("Failed to create venue");
+    }
     return data;
   }
 );
@@ -172,6 +240,9 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
     clearSearchResults: (state) => {
       state.searchVenues = [];
     },
@@ -197,9 +268,6 @@ const venueSlice = createSlice({
     clearSelectedVenue(state) {
       state.selectedVenue = null;
     },
-    appendVenues(state, action) {
-      state.allVenuesList = [...state.allVenuesList, ...action.payload.data];
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -210,8 +278,8 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(fetchVenues.fulfilled, (state, action) => {
-        state.allVenuesList = action.payload.data;
         state.loading = "idle";
+        state.allVenuesList = action.payload.data;
       })
       .addCase(fetchVenues.rejected, (state, action) => {
         state.loading = "idle";
@@ -232,7 +300,9 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
+        console.log("Venue created:", action.payload); // Log the new venue
         state.allVenuesList.push(action.payload);
+        console.log("all venues updated", state.allVenuesList);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
@@ -288,12 +358,12 @@ const venueSlice = createSlice({
 });
 
 export const {
-  appendVenues,
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
   updateSearchFilterResults,
   setFilters,
   clearFilters,
+  setSearchQuery,
 } = venueSlice.actions;
 export default venueSlice.reducer;

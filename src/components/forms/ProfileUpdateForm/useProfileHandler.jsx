@@ -4,6 +4,7 @@ import {
   updateProfile,
 } from "../../../store/profile/profileSlice";
 import { useEffect, useState } from "react";
+import ProfileSettingsAlert from "../../../pages/update/profile/component/Alert";
 
 export const useProfileHandler = (reset) => {
   const dispatch = useDispatch();
@@ -50,15 +51,14 @@ export const useProfileHandler = (reset) => {
   const handleSubmitProfile = async (data) => {
     if (!profileData || !profileData.name) {
       console.error("Profile data is incomplete");
-      return;
+      throw new Error("Profile data is incomplete");
     }
 
     if (!checked && venues.length > 0) {
-      console.log("you must delete");
-      alert(
-        "You must delete all your created venues before switching to a customer user"
+      console.log("You must delete all venues before switching to customer.");
+      throw new Error(
+        "You must delete all venues before switching to customer."
       );
-      return;
     }
 
     const processedData = {
