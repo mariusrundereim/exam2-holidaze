@@ -315,6 +315,7 @@ const venueSlice = createSlice({
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.loading = "idle";
         state.searchVenues = action.payload.data;
+        state.searchQuery = action.payload.query;
       })
       .addCase(searchVenues.rejected, (state, action) => {
         state.loading = "idle";

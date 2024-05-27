@@ -24,11 +24,6 @@ function FilterVenues() {
   const filters = useSelector((state) => state.venues.filters);
   const searchResults = useSelector((state) => state.venues.searchVenues);
 
-  // Compute min and max prices
-  // const prices = searchResults.map((venue) => venue.price);
-  // const minPrice = Math.min(...prices);
-  // const maxPrice = Math.max(...prices);
-
   const prices = searchResults
     .map((venue) => venue.price)
     .filter((price) => typeof price === "number");
