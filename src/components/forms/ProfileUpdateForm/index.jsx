@@ -44,7 +44,7 @@ function ProfileUpdateForm() {
       showNotification("Profile updated successfully!", "success");
       navigate(`/profile/${profileName}`);
     } catch (error) {
-      showNotification("Failed to update profile.", "error");
+      showNotification("Must delete all venues.", "error");
     }
   };
 

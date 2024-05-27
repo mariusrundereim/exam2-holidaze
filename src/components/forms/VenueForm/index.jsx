@@ -17,8 +17,11 @@ import {
   Textarea,
   NumberInput,
   NativeSelect,
+  Title,
+  Text,
 } from "@mantine/core";
 import SelectCityAndCountry from "./selectCityAndCountry";
+import { IconPhoto, IconTypography } from "@tabler/icons-react";
 function VenueForm() {
   const { venueId } = useParams();
   const navigate = useNavigate();
@@ -39,7 +42,7 @@ function VenueForm() {
       description: "",
       price: 0,
       maxGuests: 0,
-      media: [{ url: "" }],
+      media: [{ url: "", alt: "" }],
       location: {
         address: "",
         city: "",
@@ -85,7 +88,7 @@ function VenueForm() {
         description: "",
         price: 0,
         maxGuests: 0,
-        media: [{ url: "" }],
+        media: [{ url: "", alt: "" }],
         location: {
           address: "",
           city: "",
@@ -281,25 +284,48 @@ function VenueForm() {
             <SelectCityAndCountry control={control} setValue={setValue} />
           </Grid.Col>
           <Grid.Col>
+            <Title order={4}>Pictures</Title>
+            <Text>Up to 6 pictures. </Text>
             {fields.map((field, index) => (
               <Grid key={field.id} gutter={10}>
-                <Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
                   <Controller
                     name={`media[${index}].url`}
                     control={control}
                     render={({ field }) => (
-                      <Input.Wrapper label={`Media URL ${index + 1}`}>
-                        <Input {...field} />
+                      <Input.Wrapper label={`Picture URL #${index + 1}`}>
+                        <Input
+                          leftSection={<IconPhoto size={20} />}
+                          {...field}
+                        />
                       </Input.Wrapper>
                     )}
                   />
+
                   <Button
                     variant="outline"
                     color="red"
+                    fullWidth
                     onClick={() => remove(index)}
                   >
                     Remove
                   </Button>
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6 }}>
+                  <Controller
+                    name={`media[${index}].alt`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input.Wrapper
+                        label={`Describe your picture #${index + 1}`}
+                      >
+                        <Input
+                          leftSection={<IconTypography size={20} />}
+                          {...field}
+                        />
+                      </Input.Wrapper>
+                    )}
+                  />
                 </Grid.Col>
                 <Grid.Col>
                   {fields.length < 6 && (
@@ -312,7 +338,6 @@ function VenueForm() {
             ))}
           </Grid.Col>
 
-          <Stack></Stack>
           <Grid.Col>
             <Button type="submit">
               {venueId ? "Update Venue" : "Create Venue"}
