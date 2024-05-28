@@ -1,10 +1,11 @@
 import LoginForm from "../../components/forms/LoginForm";
-
+import { Container } from "@mantine/core";
 function LoginPage() {
   return (
     <>
-      <h2>Login page</h2>
-      <LoginForm />
+      <Container>
+        <LoginForm />
+      </Container>
     </>
   );
 }

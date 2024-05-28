@@ -18,8 +18,9 @@ import {
   IconPhoto,
 } from "@tabler/icons-react";
 import { validImageFormat } from "../../../utils/format/imageFormat";
-function RegisterForm({ onSuccess, setActiveTab }) {
+function RegisterForm({ onSuccess }) {
   const [checked, setChecked] = useState(false);
+  const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
 
   const {
@@ -49,7 +50,6 @@ function RegisterForm({ onSuccess, setActiveTab }) {
     console.log("Processed data for submission:", processedData);
     try {
       await dispatch(register(processedData)).unwrap();
-      setActiveTab("login");
       onSuccess();
     } catch (error) {
       console.error("Registration error", error);
@@ -58,10 +58,12 @@ function RegisterForm({ onSuccess, setActiveTab }) {
 
   return (
     <>
-      <Title order={3}>Sign up</Title>
+      <Title order={3} mb={20}>
+        Register
+      </Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid gutter={{ base: 5, xs: "md", md: "xl", xl: 50 }}>
+        <Grid gutter={40}>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <Controller
               name="name"
@@ -220,9 +222,7 @@ function RegisterForm({ onSuccess, setActiveTab }) {
           </Grid.Col>
 
           <Grid.Col>
-            <Button type="submit" fullWidth>
-              Sign up
-            </Button>
+            <Button type="submit">Sign up</Button>
           </Grid.Col>
         </Grid>
       </form>
