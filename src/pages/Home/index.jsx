@@ -1,9 +1,8 @@
 import { Grid, Title, Text } from "@mantine/core";
-import VenuesInSweden from "./lists/listVenuesInSweden";
+import VenuesNationalDay from "./lists/listVenuesByCountry";
 import VenuesWithPets from "./lists/listVenuesWithPets";
 import VenuesBySmallPrice from "./lists/listVenuesBySmallPrice";
 import VenuesByFamilyCity from "./lists/listVenuesByFamilyCity";
-import VenueSkeleton from "../../components/ui/skeleton";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fetchVenues } from "../../store/venues/venueSlice";
@@ -16,7 +15,7 @@ function Home() {
     <>
       <Grid>
         <Grid.Col>
-          <VenuesInSweden />
+          <VenuesNationalDay />
         </Grid.Col>
         <Grid.Col my={40}>
           <VenuesWithPets />
