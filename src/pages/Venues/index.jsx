@@ -6,7 +6,6 @@ import { Grid } from "@mantine/core";
 import ListVenues from "./listVenues";
 import SearchVenues from "./searchVenues";
 import VenueSkeleton from "../../components/ui/skeleton";
-import FilterVenues from "./filterCopy/filterVenues";
 
 function VenuesListPage() {
   const dispatch = useDispatch();
@@ -32,21 +31,6 @@ function VenuesListPage() {
   if (loading === "loading") {
     return <VenueSkeleton />;
   }
-
-  // const venuesToSoonDisplay =
-  //   searchResults.length > 0 ? searchResults : allVenues;
-
-  // console.log("yooooooo", venuesToSoonDisplay);
-
-  // // venues to display --- filter them now
-  // const venuesToDisplay = venuesToSoonDisplay.filter((venue) => {
-  //   if (filters.wifi.checked && venue.meta.wifi != filters.wifi.value) {
-  //     return false;
-  //   }
-  //   return true;
-  // });
-
-  // console.log("eivind", venuesToDisplay);
 
   return (
     <>

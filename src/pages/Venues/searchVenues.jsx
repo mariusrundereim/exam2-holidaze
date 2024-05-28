@@ -7,7 +7,8 @@ import {
   clearFilteredVenues,
 } from "../../store/venues/venueSlice";
 import { useDisclosure } from "@mantine/hooks";
-import FilterVenues from "./filterCopy/filterVenues";
+import FilterVenues from "./filterVenues";
+import { IconFilter } from "@tabler/icons-react";
 function SearchVenues() {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
@@ -54,7 +55,13 @@ function SearchVenues() {
           <Drawer opened={opened} onClose={close} title="Filter venues">
             <FilterVenues />
           </Drawer>
-          <Button onClick={open}>Filter</Button>
+          <Button
+            onClick={open}
+            leftSection={<IconFilter size={18} />}
+            variant="default"
+          >
+            Filter
+          </Button>
         </Grid.Col>
       </Grid>
     </>

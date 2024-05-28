@@ -213,10 +213,13 @@ const venueSlice = createSlice({
     },
     clearSearchResults: (state) => {
       state.searchVenues = [];
-      state.filteredVenues = [];
+      state.searchFilterResults = [];
+
+      // state.filteredVenues = [];
     },
     clearFilteredVenues: (state) => {
       state.searchFilterResults = [];
+      // state.filteredVenues = [];
     },
     filteredVenuesUpdated: (state, action) => {
       state.filteredVenues = action.payload;

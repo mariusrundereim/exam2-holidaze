@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 40 34">
+  <defs>
+    <style>
+    .path {
+      fill: #7B2EDA;
+    }
+    @media (prefers-color-scheme: dark) {
+      .path {
+        fill: #fff;
+      }
+    }
+    </style>
+  </defs>
+  <path class="path" d="M20,4.6c4.6,0,8.4,3.9,8.4,8.6s-3.8,8.6-8.4,8.6-8.4-3.9-8.4-8.6,3.8-8.6,8.4-8.6ZM20,0C12.9,0,7.1,5.9,7.1,13.2s5.8,13.2,12.9,13.2,12.9-5.9,12.9-13.2S27.1,0,20,0Z"/>
+  <path class="path" d="M20,34C9,34,0,24.8,0,13.5h3.6c0,9.3,7.4,16.8,16.4,16.8s16.4-7.5,16.4-16.8h3.6c0,11.3-9,20.5-20,20.5h0Z"/>
+</svg>

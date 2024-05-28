@@ -1,8 +1,9 @@
 const venueFilterMiddleware = (store) => (next) => (action) => {
   if (action.type === "venues/fetchVenues/fulfilled") {
     const whitelist = store.getState().profiles.whitelist;
-    const filteredVenues = action.payload.data.filter((venue) =>
-      whitelist.includes(venue.owner.name)
+    const filteredVenues = action.payload.data.filter(
+      (venue) =>
+        whitelist.includes(venue.owner.name) || venue.name.endsWith("holidaze")
     );
     action.payload.data = filteredVenues;
   }
@@ -10,3 +11,16 @@ const venueFilterMiddleware = (store) => (next) => (action) => {
 };
 
 export default venueFilterMiddleware;
+
+// const venueFilterMiddleware = (store) => (next) => (action) => {
+//   if (action.type === "venues/fetchVenues/fulfilled") {
+//     const whitelist = store.getState().profiles.whitelist;
+//     const filteredVenues = action.payload.data.filter((venue) =>
+//       whitelist.includes(venue.owner.name)
+//     );
+//     action.payload.data = filteredVenues;
+//   }
+//   return next(action);
+// };
+
+// export default venueFilterMiddleware;

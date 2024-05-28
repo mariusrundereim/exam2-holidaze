@@ -12,8 +12,11 @@ import {
   updateSearchFilterResults,
   clearFilters,
   clearSearchResults,
-} from "../../../store/venues/venueSlice";
+  clearFilteredVenues,
+} from "../../store/venues/venueSlice";
+
 import {
+  Card,
   Grid,
   Group,
   Text,
@@ -37,7 +40,7 @@ function FilterVenues() {
   const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
   const maxPrice = prices.length > 0 ? Math.max(...prices) : 1000;
 
-  // Initialize price filter to span the full range on initial load
+  // Initialize price filter
   useEffect(() => {
     if (filters.price[0] < minPrice || filters.price[1] > maxPrice) {
       dispatch(setPrice([minPrice, maxPrice]));
@@ -73,27 +76,9 @@ function FilterVenues() {
     });
   }, [searchResults, filters]);
 
-  // const filteredVenues = searchResults.filter((venue) => {
-  //   if (filters.wifi.checked && venue.meta.wifi !== filters.wifi.value)
-  //     return false;
-  //   if (filters.pets.checked && venue.meta.pets !== filters.pets.value)
-  //     return false;
-  //   if (
-  //     filters.breakfast.checked &&
-  //     venue.meta.breakfast !== filters.breakfast.value
-  //   )
-  //     return false;
-  //   if (filters.parking.checked && venue.meta.parking !== filters.parking.value)
-  //     return false;
-  //   if (venue.price > filters.price[1] || venue.price < filters.price[0])
-  //     return false;
-  //   if (venue.maxGuests > filters.maxGuests) return false;
-  //   return true;
-  // });
-
   // Debounce dispatch
 
-  const debounceUpdateSearchFilterResults = useCallback(
+  const debounceFilterResults = useCallback(
     debounce((filteredVenues) => {
       dispatch(updateSearchFilterResults(filteredVenues));
     }, 300),
@@ -101,12 +86,13 @@ function FilterVenues() {
   );
 
   useEffect(() => {
-    debounceUpdateSearchFilterResults(filteredVenues);
-  }, [filteredVenues, debounceUpdateSearchFilterResults]);
+    debounceFilterResults(filteredVenues);
+  }, [filteredVenues, debounceFilterResults]);
 
   const handleClear = () => {
     dispatch(clearFilters());
     dispatch(clearSearchResults());
+    dispatch(clearFilteredVenues());
   };
 
   if (loading === "loading") {
@@ -116,10 +102,6 @@ function FilterVenues() {
   return (
     <>
       <Grid gutter={30}>
-        <Grid.Col>
-          <Text>Search found: {searchResults ? searchResults.length : 0}</Text>
-          <Text>Filtered found: {filteredVenues.length}</Text>
-        </Grid.Col>
         <Grid.Col>
           <Text>Price</Text>
           <RangeSlider
@@ -172,10 +154,21 @@ function FilterVenues() {
           </Group>
         </Grid.Col>
         <Grid.Col>
+          <Card withBorder>
+            <Card.Section p={"sm"}>
+              <Text>Venues:</Text>
+              <Text fw={700}>{searchResults ? searchResults.length : 0}</Text>
+            </Card.Section>
+            <Card.Section p={"sm"}>
+              <Text>Filtered found:</Text>
+              <Text fw={700}>{filteredVenues.length}</Text>
+            </Card.Section>
+          </Card>
+        </Grid.Col>
+        <Grid.Col>
           <Button variant="default" onClick={handleClear}>
-            Clear
+            Reset venues ({filteredVenues.length})
           </Button>
-          <Button variant="light">View results</Button>
         </Grid.Col>
       </Grid>
     </>
