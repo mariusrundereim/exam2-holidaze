@@ -1,5 +1,9 @@
 function CustomerSection() {
-  return <></>;
+  return (
+    <>
+      <p>CUstoommmmmer</p>
+    </>
+  );
 }
 
 export default CustomerSection;

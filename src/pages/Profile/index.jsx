@@ -5,6 +5,7 @@ import { fetchProfileByName } from "../../store/profile/profileSlice";
 import ProfileHeader from "./profileHeader";
 import VenueManagerSection from "./VenueManager";
 import CustomerSection from "./Customer";
+import ProfileStatsDisplay from "./Stats";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function ProfilePage() {
   return (
     <>
       <ProfileHeader />
+      <ProfileStatsDisplay />
     </>
   );
 }

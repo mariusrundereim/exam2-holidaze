@@ -13,21 +13,36 @@ import {
   Card,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { clearSelectedVenue } from "../../store/venues/venueSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileByName } from "../../store/profile/profileSlice";
 import { useEffect } from "react";
+import VenueSkeleton from "../../components/ui/skeleton";
 function ProfileHeader() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
-  console.log("ppp", profile);
+  const loading = useSelector((state) => state.profile.loading);
 
-  const { name, email, bio, venueManager, avatar = {}, banner = {} } = profile;
   useEffect(() => {
     dispatch(fetchProfileByName(name));
-  }, [dispatch]);
+  }, [dispatch, profile.name]);
+
+  if (loading === "loading") {
+    return <VenueSkeleton />;
+  }
+
+  const {
+    name,
+    email,
+    bio,
+    venueManager,
+    avatar = {},
+    banner = {},
+    _count: { venues, bookings },
+  } = profile;
 
   const role = venueManager ? "Venue Manager" : "Customer";
+  const count = venueManager ? venues : bookings;
+  const countLabel = venueManager ? "Venues" : "Bookings";
 
   return (
     <>
@@ -42,10 +57,10 @@ function ProfileHeader() {
           <Flex direction={"column"} gap="md">
             <Card withBorder>
               <Card.Section p={10}>
-                <Text fw={500}>{name}</Text>
-                <Text>{email}</Text>
-                <Badge>{role}</Badge>
-                <Avatar src={avatar.url} size="lg" />
+                <Stack align="center">
+                  <Avatar src={avatar.url} size="lg" />
+                  <Badge>{role}</Badge>
+                </Stack>
               </Card.Section>
               <Card.Section></Card.Section>
             </Card>
@@ -54,6 +69,13 @@ function ProfileHeader() {
                 <Title order={4}>Email:</Title>
                 <Text>{email}</Text>
               </Card.Section>
+            </Card>
+            <Card withBorder>
+              <Card.Section p={10}>
+                <Title order={3}>{count}</Title>
+                <Text>{countLabel}</Text>
+              </Card.Section>
+              <Card.Section></Card.Section>
             </Card>
             <Card withBorder>
               <Card.Section p={10}>
