@@ -1,23 +1,24 @@
-import { Grid } from "@mantine/core";
+import { Grid, Title } from "@mantine/core";
 import LocationDisplay from "./locationDisplay";
 import AmenitiesDisplay from "./amenitiesDisplay";
 import VenueDisplay from "./venueDisplay";
 import OwnerDisplay from "./ownerDisplay";
 function VenueContent({ venue }) {
-  const { location, meta } = venue;
+  const { name, location, meta } = venue;
+  console.log("vvv", venue);
   return (
     <>
       <Grid gutter={100}>
         <Grid.Col>
           <VenueDisplay venue={venue} />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col>
           <LocationDisplay location={location} />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col>
           <AmenitiesDisplay meta={meta} />
         </Grid.Col>
-        <Grid.Col span={6}>
+        <Grid.Col>
           <OwnerDisplay venue={venue} />
         </Grid.Col>
       </Grid>

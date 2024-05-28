@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fetchVenueById } from "../../store/venues/venueSlice";
 import VenueHeader from "./components/VenueHeader";
 import VenueContent from "./components/VenueContent";
+import { Container } from "@mantine/core";
 
 function SpecificVenue() {
   const dispatch = useDispatch();
@@ -33,8 +34,10 @@ function SpecificVenue() {
 
   return (
     <>
-      <VenueHeader venue={venue} />
-      <VenueContent venue={venue} />
+      <Container size="xl">
+        <VenueHeader venue={venue} />
+        <VenueContent venue={venue} />
+      </Container>
     </>
   );
 }

@@ -19,7 +19,7 @@ function BookingButton({ venueId }) {
     if (loggedIn) {
       navigate(`/${venueId}/bookings`);
     } else {
-      navigate(`/signup`);
+      navigate(`/login`);
     }
   };
   return (

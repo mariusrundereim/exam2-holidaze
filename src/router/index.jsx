@@ -3,9 +3,7 @@ import Layout from "./layout";
 import SpecificVenue from "../pages/SpecificVenue";
 import Home from "../pages/Home";
 import ProfilePage from "../pages/Profile";
-import Signup from "../pages/Signup";
 import VenueForm from "../components/forms/VenueForm";
-// import Profiles from "../pages/Profiles";
 import VenuesListPage from "../pages/Venues";
 import VenueLayout from "./layout/venueLayout";
 import CreateVenue from "../pages/create/venue";
@@ -51,7 +49,6 @@ function Router() {
               element={<ProfileInfoUpdate />}
             />
           </Route>
-          {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/profiles" element={<AllProfilesPage />} />

@@ -11,7 +11,9 @@ function LocationDisplay({ location }) {
     <>
       <Grid>
         <Grid.Col>
-          <Title order={4}>Address</Title>
+          <Title order={4} mb={10}>
+            Address
+          </Title>
           <Text>{addressMessage(location)}</Text>
           <Text>
             {zipMessage(location)} {cityMessage(location)}
