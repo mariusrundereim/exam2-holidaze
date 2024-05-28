@@ -55,7 +55,6 @@ function BookingForm() {
       dateTo: value[1] ? value[1].toISOString() : null,
       venueId,
     };
-    console.log("Newbooking", newBooking);
     dispatch(createBooking(newBooking));
     navigate("confirmed");
   };

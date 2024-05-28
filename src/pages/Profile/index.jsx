@@ -12,7 +12,6 @@ function ProfilePage() {
 
   useEffect(() => {
     if (profileName) {
-      console.log(profileName);
       dispatch(fetchProfileByName(profileName));
     }
   }, [dispatch, profileName]);

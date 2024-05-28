@@ -13,17 +13,13 @@ function BookingConfirmed() {
   const venue = useSelector((state) => state.venues.selectedVenue);
   const booking = useSelector((state) => state.booking.selectedBooking);
 
-  console.log("book venue", booking);
-
   useEffect(() => {
     if (venueId) {
-      console.log("Fetching venue by ID:", venueId);
       dispatch(fetchVenueById({ id: venueId }));
     }
 
     const bookingId = new URLSearchParams(location.search).get("bookingId");
     if (bookingId) {
-      console.log("Fetching booking by ID", bookingId);
       dispatch(singleBooking({ id: bookingId }));
     }
   }, [dispatch, venueId, location.search]);
