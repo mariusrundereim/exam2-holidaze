@@ -6,7 +6,12 @@ import { getAuthHeaders } from "../helper";
 const profileInitialState = {
   bookings: [],
   isLoading: false,
+  loading: "idle",
   bookingsLoading: false,
+  _count: {
+    venues: 0,
+    bookings: 0,
+  },
 };
 
 // Single profile
@@ -93,15 +98,20 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchProfileByName.pending, (state) => {
+      state.loading = "loading";
       state.isLoading = true;
     });
     builder.addCase(fetchProfileByName.rejected, (state) => {
+      state.loading = "idle";
       state.isLoading = false;
     });
     builder.addCase(fetchProfileByName.fulfilled, (state, action) => {
-      Object.entries(action.payload.data).forEach(([key, value]) => {
+      const { data } = action.payload;
+      Object.entries(data).forEach(([key, value]) => {
         state[key] = value;
       });
+      state._count = data._count || state._count; // Ensure _count is properly assigned
+      state.loading = "idle";
       state.isLoading = false;
     });
     builder.addCase(getBookingsByProfile.pending, (state) => {

@@ -278,7 +278,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
-state.allVenuesList.unshift(action.payload.data);
+        state.allVenuesList.unshift(action.payload.data);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
