@@ -1,29 +1,40 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ListVenues from "./listVenues";
 
 import { fetchVenues } from "../../store/venues/venueSlice";
 import { Grid } from "@mantine/core";
+import ListVenues from "./listVenues";
 import SearchVenues from "./searchVenues";
 import VenueSkeleton from "../../components/ui/skeleton";
+import FilterVenues from "./filterCopy/filterVenues";
 
 function VenuesListPage() {
   const dispatch = useDispatch();
   const loading = useSelector((state) => state.venues.loading);
 
-  const filteredVenues = useSelector((state) => state.venues.allVenuesList);
+  const allVenues = useSelector((state) => state.venues.allVenuesList);
   const searchResults = useSelector((state) => state.venues.searchVenues);
+  const searchFilterResults = useSelector(
+    (state) => state.venues.searchFilterResults
+  );
 
   useEffect(() => {
     dispatch(fetchVenues());
   }, [dispatch]);
 
+  const venuesToDisplay =
+    searchFilterResults.length > 0
+      ? searchFilterResults
+      : searchResults.length > 0
+      ? searchResults
+      : allVenues;
+
   if (loading === "loading") {
     return <VenueSkeleton />;
   }
 
-  const venuesToSoonDisplay =
-    searchResults.length > 0 ? searchResults : filteredVenues;
+  // const venuesToSoonDisplay =
+  //   searchResults.length > 0 ? searchResults : allVenues;
 
   // console.log("yooooooo", venuesToSoonDisplay);
 
@@ -44,8 +55,7 @@ function VenuesListPage() {
           <SearchVenues />
         </Grid.Col>
       </Grid>
-
-      <ListVenues venues={venuesToSoonDisplay} />
+      <ListVenues venues={venuesToDisplay} />
     </>
   );
 }

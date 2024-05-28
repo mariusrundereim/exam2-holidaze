@@ -332,10 +332,10 @@ export const {
   setBreakfastChecked,
   setParkingChecked,
   // Check reducers
+  updateSearchFilterResults,
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
-  updateSearchFilterResults,
   setFilters,
   clearFilters,
   setSearchQuery,

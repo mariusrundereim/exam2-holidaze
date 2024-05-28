@@ -19,6 +19,7 @@ import {
   setParkingChecked,
 } from "../../../store/venues/venueSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { updateSearchFilterResults } from "../../../store/venues/venueSlice";
 function FilterVenues() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.venues.filters);
@@ -51,12 +52,15 @@ function FilterVenues() {
       return false;
     if (venue.price > filters.price[1] || venue.price < filters.price[0])
       return false;
-    // if (venue.price > filters.price) return false;
     if (venue.maxGuests > filters.maxGuests) return false;
     return true;
   });
 
   console.log("Filtered venues::", filteredVenues);
+
+  useEffect(() => {
+    dispatch(updateSearchFilterResults(filteredVenues));
+  }, [filteredVenues, dispatch]);
 
   const handleClear = () => {
     dispatch(setPrice([minPrice, maxPrice]));
@@ -68,7 +72,7 @@ function FilterVenues() {
   };
 
   const handleFilter = () => {
-    // Assuming you have some logic to refresh the search results
+    //
   };
 
   return (
