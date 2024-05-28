@@ -4,6 +4,5 @@ export const handleConfirmDelete = (dispatch, venueId) => {
 };
 
 export const handleEditButton = (venueId) => (dispatch) => {
-  console.log("venueId", venueId);
   return dispatch(fetchVenueById({ id: venueId }));
 };

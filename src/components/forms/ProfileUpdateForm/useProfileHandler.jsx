@@ -17,14 +17,12 @@ export const useProfileHandler = (reset) => {
     async function fetchAndSetProfile() {
       try {
         if (!profileName) {
-          console.error("Profile name is undefined");
           return;
         }
 
         const response = await dispatch(
           fetchProfileByName(profileName)
         ).unwrap();
-        console.log("Fetched profile response:", response);
 
         const data = response.data;
         const avatarUrl = data.avatar ? data.avatar.url : "";
@@ -55,7 +53,6 @@ export const useProfileHandler = (reset) => {
     }
 
     if (!checked && venues.length > 0) {
-      console.log("You must delete all venues before switching to customer.");
       throw new Error(
         "You must delete all venues before switching to customer."
       );
@@ -68,7 +65,7 @@ export const useProfileHandler = (reset) => {
       venueManager: checked,
     };
 
-    console.log(processedData);
+    // console.log(processedData);
 
     try {
       const result = await dispatch(

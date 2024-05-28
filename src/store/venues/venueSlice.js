@@ -12,62 +12,15 @@ const venuesInitialState = {
   loading: "idle",
   error: null,
   filters: {
-    price: 1000,
+    price: [0, 20000],
     maxGuests: 99,
-    wifi: false,
-    pets: false,
-    breakfast: false,
-    parking: false,
+    wifi: { checked: false, value: true },
+    pets: { checked: false, value: true },
+    breakfast: { checked: false, value: true },
+    parking: { checked: false, value: true },
   },
   searchQuery: "",
 };
-
-// Fetch venues NEW
-
-// export const fetchVenues = createAsyncThunk(
-//   "venues/fetchVenues",
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await fetch(
-//         `${BASE_URL}/venues?sort=created&sortOrder=desc&_owner=true&_bookings=true`,
-//         { headers: getAuthHeaders() }
-//       );
-//       if (!response.ok) {
-//         const errorDetails = await response.json();
-//         throw new Error(
-//           `Server responded with an error: ${errorDetails.message}`
-//         );
-//       }
-//       const data = await response.json();
-//       console.log("veee", data);
-//       return data;
-//     } catch (error) {
-//       console.error("Error fetching venues:", error);
-//       return rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// Fetch all venues
-
-// export const fetchVenues = createAsyncThunk(
-//   "venues/fetchVenues",
-//   async (page = 2) => {
-//     try {
-//       const response = await fetch(
-//         `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
-//         { headers: getAuthHeaders() }
-//       );
-//       if (!response.ok) {
-//         throw new Error("Server responded with an error");
-//       }
-//       const data = await response.json();
-//       return data;
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
 
 export const fetchVenues = createAsyncThunk(
   "venues/fetchVenues",
@@ -240,11 +193,36 @@ const venueSlice = createSlice({
   name: "venues",
   initialState: venuesInitialState,
   reducers: {
+    setPrice(state, action) {
+      state.filters.price = action.payload;
+    },
+    setMaxGuests(state, action) {
+      state.filters.maxGuests = action.payload;
+    },
+    setWifiChecked(state, action) {
+      state.filters.wifi.checked = action.payload;
+    },
+    setPetsChecked(state, action) {
+      state.filters.pets.checked = action.payload;
+    },
+    setBreakfastChecked(state, action) {
+      state.filters.breakfast.checked = action.payload;
+    },
+    setParkingChecked(state, action) {
+      state.filters.parking.checked = action.payload;
+    },
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
     },
     clearSearchResults: (state) => {
       state.searchVenues = [];
+      state.searchFilterResults = [];
+
+      // state.filteredVenues = [];
+    },
+    clearFilteredVenues: (state) => {
+      state.searchFilterResults = [];
+      // state.filteredVenues = [];
     },
     filteredVenuesUpdated: (state, action) => {
       state.filteredVenues = action.payload;
@@ -300,10 +278,7 @@ const venueSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(createVenue.fulfilled, (state, action) => {
-        console.log("Venue created:", action.payload); // Log the new venue
-        console.log("log venues", state.allVenuesList);
-        state.allVenuesList = [action.payload.data, ...state.allVenuesList];
-        console.log("all venues updated", state.allVenuesList);
+state.allVenuesList.unshift(action.payload.data);
         state.loading = "idle";
       })
       .addCase(createVenue.rejected, (state, action) => {
@@ -350,6 +325,7 @@ const venueSlice = createSlice({
       .addCase(searchVenues.fulfilled, (state, action) => {
         state.loading = "idle";
         state.searchVenues = action.payload.data;
+        state.searchQuery = action.payload.query;
       })
       .addCase(searchVenues.rejected, (state, action) => {
         state.loading = "idle";
@@ -359,10 +335,18 @@ const venueSlice = createSlice({
 });
 
 export const {
+  setPrice,
+  setMaxGuests,
+  setWifiChecked,
+  setPetsChecked,
+  setBreakfastChecked,
+  setParkingChecked,
+  // Check reducers
+  updateSearchFilterResults,
+  clearFilteredVenues,
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
-  updateSearchFilterResults,
   setFilters,
   clearFilters,
   setSearchQuery,

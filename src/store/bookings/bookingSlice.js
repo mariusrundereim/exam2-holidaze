@@ -21,7 +21,6 @@ export const allBookings = createAsyncThunk(
         }
       );
       const data = await response.json();
-      console.log("all bookings", data);
       return data;
     } catch (error) {
       console.log(error);
@@ -35,22 +34,18 @@ export const singleBooking = createAsyncThunk(
   "booking/singleBooking",
   async ({ id }) => {
     try {
-      console.log("singleBooking thunk called with id:", id);
       const response = await fetch(
         `${BASE_URL}/bookings/${id}?_customer=true&_venue=true`,
         {
           headers: getAuthHeaders(),
         }
       );
-      console.log("Fetch response:", response);
       if (!response.ok) {
         throw new Error(`Error fetching booking: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log("Fetched booking data:", data);
       return data;
     } catch (error) {
-      console.error("Error in singleBooking thunk:", error);
       throw error;
     }
   }
@@ -150,7 +145,6 @@ const bookingSlice = createSlice({
       })
       .addCase(singleBooking.fulfilled, (state, action) => {
         state.loading = "idle";
-        console.log("singleBooking.fulfilled payload:", action.payload);
         state.selectedBooking = action.payload;
       })
       .addCase(singleBooking.rejected, (state, action) => {
