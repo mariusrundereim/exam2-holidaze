@@ -1,15 +1,5 @@
-import {
-  Title,
-  Grid,
-  Group,
-  Text,
-  TextInput,
-  Slider,
-  RangeSlider,
-  Radio,
-  Button,
-} from "@mantine/core";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import debounce from "lodash.debounce";
 
 import {
@@ -19,17 +9,31 @@ import {
   setPetsChecked,
   setBreakfastChecked,
   setParkingChecked,
+  updateSearchFilterResults,
+  clearFilters,
+  clearSearchResults,
 } from "../../../store/venues/venueSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { updateSearchFilterResults } from "../../../store/venues/venueSlice";
+import {
+  Grid,
+  Group,
+  Text,
+  Slider,
+  RangeSlider,
+  Radio,
+  Button,
+} from "@mantine/core";
 function FilterVenues() {
   const dispatch = useDispatch();
   const filters = useSelector((state) => state.venues.filters);
   const searchResults = useSelector((state) => state.venues.searchVenues);
+  const loading = useSelector((state) => state.venues.loading);
 
+  // min max price
   const prices = searchResults
-    .map((venue) => venue.price)
-    .filter((price) => typeof price === "number");
+    ? searchResults
+        .map((venue) => venue.price)
+        .filter((price) => typeof price === "number")
+    : [];
   const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
   const maxPrice = prices.length > 0 ? Math.max(...prices) : 1000;
 
@@ -37,25 +41,25 @@ function FilterVenues() {
     if (filters.price[0] !== minPrice || filters.price[1] !== maxPrice) {
       dispatch(setPrice([minPrice, maxPrice]));
     }
-  }, [minPrice, maxPrice, dispatch]);
+  }, [minPrice, maxPrice, filters.price, dispatch]);
 
   // Filter venues based on the filters in the state
 
   const filteredVenues = useMemo(() => {
     return searchResults.filter((venue) => {
-      // Apply filter logic here
       const withinPriceRange =
         venue.price >= filters.price[0] && venue.price <= filters.price[1];
       const withinGuestLimit = venue.maxGuests <= filters.maxGuests;
       const matchesWifi =
-        !filters.wifi.checked || venue.wifi === filters.wifi.value;
+        !filters.wifi.checked || venue.meta.wifi === filters.wifi.value;
       const matchesPets =
-        !filters.pets.checked || venue.pets === filters.pets.value;
+        !filters.pets.checked || venue.meta.pets === filters.pets.value;
       const matchesBreakfast =
         !filters.breakfast.checked ||
-        venue.breakfast === filters.breakfast.value;
+        venue.meta.breakfast === filters.breakfast.value;
       const matchesParking =
-        !filters.parking.checked || venue.parking === filters.parking.value;
+        !filters.parking.checked ||
+        venue.meta.parking === filters.parking.value;
       return (
         withinPriceRange &&
         withinGuestLimit &&
@@ -100,28 +104,20 @@ function FilterVenues() {
 
   // console.log("Filtered venues::", filteredVenues);
 
-  // useEffect(() => {
-  //   dispatch(updateSearchFilterResults(filteredVenues));
-  // }, [filteredVenues, dispatch]);
-
   const handleClear = () => {
-    dispatch(setPrice([minPrice, maxPrice]));
-    dispatch(setMaxGuests(99));
-    dispatch(setWifiChecked(false));
-    dispatch(setPetsChecked(false));
-    dispatch(setBreakfastChecked(false));
-    dispatch(setParkingChecked(false));
+    dispatch(clearFilters());
+    dispatch(clearSearchResults());
   };
 
-  const handleFilter = () => {
-    //
-  };
+  if (loading === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <Grid gutter={30}>
         <Grid.Col>
-          <Text>Search found: {searchResults.length}</Text>
+          <Text>Search found: {searchResults ? searchResults.length : 0}</Text>
           <Text>Filtered found: {filteredVenues.length}</Text>
         </Grid.Col>
         <Grid.Col>
@@ -179,9 +175,7 @@ function FilterVenues() {
           <Button variant="default" onClick={handleClear}>
             Clear
           </Button>
-          <Button variant="light" onClick={handleFilter}>
-            View results
-          </Button>
+          <Button variant="light">View results</Button>
         </Grid.Col>
       </Grid>
     </>
@@ -189,128 +183,3 @@ function FilterVenues() {
 }
 
 export default FilterVenues;
-
-// import {
-//   Title,
-//   Grid,
-//   Group,
-//   Text,
-//   TextInput,
-//   Slider,
-//   Radio,
-//   Button,
-// } from "@mantine/core";
-// import { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// // import { updateSearchFilterResults } from "../../../store/venues/venueSlice";
-// import { setFilters, clearFilters } from "../../../store/venues/venueSlice";
-// function FilterVenues() {
-//   const dispatch = useDispatch();
-//   const filters = useSelector((state) => state.venues.filters);
-//   const searchResults = useSelector((state) => state.venues.searchVenues);
-//   const [price, setPrice] = useState(filters.price);
-//   const [maxGuests, setMaxGuests] = useState(filters.maxGuests);
-//   const [wifiChecked, setWifiChecked] = useState(filters.wifi);
-//   const [petsChecked, setPetsChecked] = useState(filters.pets);
-//   const [breakfastChecked, setBreakfastChecked] = useState(filters.breakfast);
-//   const [parkingChecked, setParkingChecked] = useState(filters.parking);
-
-//   const handleFilter = () => {
-//     const filteredResults = searchResults.filter((venue) => {
-//       const matchesPrice = venue.price <= price;
-//       const matchesGuests = venue.maxGuests <= maxGuests;
-//       const matchesWifi = !wifiChecked || venue.meta.wifi;
-//       const matchesPets = !petsChecked || venue.meta.pets;
-//       const matchesBreakfast = !breakfastChecked || venue.meta.breakfast;
-//       const matchesParking = !parkingChecked || venue.meta.parking;
-
-//       return (
-//         matchesPrice &&
-//         matchesGuests &&
-//         matchesWifi &&
-//         matchesPets &&
-//         matchesBreakfast &&
-//         matchesParking
-//       );
-//     });
-
-//     dispatch(updateSearchFilterResults(filteredResults));
-//   };
-
-//   const handleClear = () => {
-//     setPrice(1000);
-//     setMaxGuests(99);
-//     setWifiChecked(false);
-//     setPetsChecked(false);
-//     setBreakfastChecked(false);
-//     setParkingChecked(false);
-//     dispatch(clearFilters());
-//     // dispatch(updateSearchFilterResults(searchResults));
-//   };
-//   return (
-//     <>
-//       <Title>Filter</Title>
-//       <Grid>
-//         <Grid.Col>Venues found: {searchResults.length}</Grid.Col>
-//         <Grid.Col>
-//           <Text>Price</Text>
-//           <Slider
-//             value={price}
-//             onChange={setPrice}
-//             max={1000}
-//             label={(value) => `${value} NOK`}
-//           />
-//         </Grid.Col>
-//         <Grid.Col>
-//           <Text>Max guests</Text>
-//           <Slider
-//             value={maxGuests}
-//             onChange={setMaxGuests}
-//             max={99}
-//             label={(value) => `${value}`}
-//           />
-//         </Grid.Col>
-//         <Grid.Col>
-//           <Radio.Group label="Ammenities">
-//             <Group>
-//               <Radio
-//                 label="Wifi"
-//                 value="wifi"
-//                 checked={wifiChecked}
-//                 onChange={() => setWifiChecked(!wifiChecked)}
-//               />
-//               <Radio
-//                 label="Pets"
-//                 value="pets"
-//                 checked={petsChecked}
-//                 onChange={() => setPetsChecked(!petsChecked)}
-//               />
-//               <Radio
-//                 label="Breakfast"
-//                 value="breakfast"
-//                 checked={breakfastChecked}
-//                 onChange={() => setBreakfastChecked(!breakfastChecked)}
-//               />
-//               <Radio
-//                 label="Parking"
-//                 value="parking"
-//                 checked={parkingChecked}
-//                 onChange={() => setParkingChecked(!parkingChecked)}
-//               />
-//             </Group>
-//           </Radio.Group>
-//         </Grid.Col>
-//         <Grid.Col>
-//           <Button variant="default" onClick={handleClear}>
-//             Clear
-//           </Button>
-//           <Button variant="light" onClick={handleFilter}>
-//             View results
-//           </Button>
-//         </Grid.Col>
-//       </Grid>
-//     </>
-//   );
-// }
-
-// export default FilterVenues;
