@@ -82,3 +82,9 @@ npm run dev --open
 - Home: Venues filter customer travel with pets
 - Create venue: Autoselect country by selecting city
 - Format the date and currency to Norwegian
+
+## See Live
+
+Check out the application on Netlify
+
+[Holidaze](https://holidaze-exam2.netlify.app/)

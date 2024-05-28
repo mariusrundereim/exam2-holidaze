@@ -50,21 +50,25 @@ function LoginForm() {
 
   return (
     <>
-      <Title order={3}>Login</Title>
+      <Title order={3} mb={20}>
+        Login
+      </Title>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid>
+        <Grid gutter={20}>
           <Grid.Col>
             <Controller
               name="email"
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
-                <Input.Wrapper label="Email">
+                <Input.Wrapper label="Email" withAsterisk>
                   <Input {...field} placeholder="Email" />
                 </Input.Wrapper>
               )}
             />
-            {errors.email && <span>This field is required</span>}
+            {errors.email && <Text>This field is required</Text>}
+          </Grid.Col>
+          <Grid.Col>
             <Grid>
               <Grid.Col span={6}>
                 <Controller
@@ -72,7 +76,7 @@ function LoginForm() {
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-                    <Input.Wrapper label="Password">
+                    <Input.Wrapper label="Password" withAsterisk>
                       <Input
                         type="password"
                         {...field}
@@ -93,7 +97,7 @@ function LoginForm() {
                       value === password || "Passwords don't match.",
                   }}
                   render={({ field }) => (
-                    <Input.Wrapper label="Confirm password">
+                    <Input.Wrapper label="Confirm password" withAsterisk>
                       <Input
                         type="password"
                         {...field}
@@ -109,9 +113,7 @@ function LoginForm() {
             </Grid>
           </Grid.Col>
           <Grid.Col>
-            <Button type="submit" fullWidth>
-              Login
-            </Button>
+            <Button type="submit">Login</Button>
           </Grid.Col>
         </Grid>
       </form>

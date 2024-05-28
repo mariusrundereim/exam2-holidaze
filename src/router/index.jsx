@@ -19,6 +19,8 @@ import BookingConfirmed from "../pages/success/booking";
 import VenueConfirmed from "../pages/success/venue";
 import NotFound from "../components/NotFound";
 import AllProfilesPage from "../pages/Profiles";
+import LoginPage from "../pages/Signup/LoginPage";
+import RegisterPage from "../pages/Signup/RegisterPage";
 function Router() {
   return (
     <>
@@ -49,7 +51,9 @@ function Router() {
               element={<ProfileInfoUpdate />}
             />
           </Route>
-          <Route path="/signup" element={<Signup />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/profiles" element={<AllProfilesPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>

@@ -9,6 +9,7 @@ import {
   IconArticle,
   IconSettings,
   IconBox,
+  IconUserPlus,
 } from "@tabler/icons-react";
 import { Stack } from "@mantine/core";
 import classes from "./AccountLinks.module.css";
@@ -18,7 +19,8 @@ export const isLoggedIn = (state) => Boolean(state.auth.accessToken);
 const notLoggedInLinks = [
   { link: "/", label: "Home", icon: IconHome },
   { link: "/venues", label: "Venues", icon: IconLayout2 },
-  { link: "/signup", label: "Sign Up", icon: IconLogin },
+  { link: "/login", label: "Login", icon: IconLogin },
+  { link: "/register", label: "Register", icon: IconUserPlus },
 ];
 
 const venueManagerLinks = [
