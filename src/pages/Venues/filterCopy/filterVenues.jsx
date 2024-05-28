@@ -9,7 +9,9 @@ import {
   Radio,
   Button,
 } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import debounce from "lodash.debounce";
+
 import {
   setPrice,
   setMaxGuests,
@@ -38,29 +40,69 @@ function FilterVenues() {
   }, [minPrice, maxPrice, dispatch]);
 
   // Filter venues based on the filters in the state
-  const filteredVenues = searchResults.filter((venue) => {
-    if (filters.wifi.checked && venue.meta.wifi !== filters.wifi.value)
-      return false;
-    if (filters.pets.checked && venue.meta.pets !== filters.pets.value)
-      return false;
-    if (
-      filters.breakfast.checked &&
-      venue.meta.breakfast !== filters.breakfast.value
-    )
-      return false;
-    if (filters.parking.checked && venue.meta.parking !== filters.parking.value)
-      return false;
-    if (venue.price > filters.price[1] || venue.price < filters.price[0])
-      return false;
-    if (venue.maxGuests > filters.maxGuests) return false;
-    return true;
-  });
 
-  console.log("Filtered venues::", filteredVenues);
+  const filteredVenues = useMemo(() => {
+    return searchResults.filter((venue) => {
+      // Apply filter logic here
+      const withinPriceRange =
+        venue.price >= filters.price[0] && venue.price <= filters.price[1];
+      const withinGuestLimit = venue.maxGuests <= filters.maxGuests;
+      const matchesWifi =
+        !filters.wifi.checked || venue.wifi === filters.wifi.value;
+      const matchesPets =
+        !filters.pets.checked || venue.pets === filters.pets.value;
+      const matchesBreakfast =
+        !filters.breakfast.checked ||
+        venue.breakfast === filters.breakfast.value;
+      const matchesParking =
+        !filters.parking.checked || venue.parking === filters.parking.value;
+      return (
+        withinPriceRange &&
+        withinGuestLimit &&
+        matchesWifi &&
+        matchesPets &&
+        matchesBreakfast &&
+        matchesParking
+      );
+    });
+  }, [searchResults, filters]);
+
+  // const filteredVenues = searchResults.filter((venue) => {
+  //   if (filters.wifi.checked && venue.meta.wifi !== filters.wifi.value)
+  //     return false;
+  //   if (filters.pets.checked && venue.meta.pets !== filters.pets.value)
+  //     return false;
+  //   if (
+  //     filters.breakfast.checked &&
+  //     venue.meta.breakfast !== filters.breakfast.value
+  //   )
+  //     return false;
+  //   if (filters.parking.checked && venue.meta.parking !== filters.parking.value)
+  //     return false;
+  //   if (venue.price > filters.price[1] || venue.price < filters.price[0])
+  //     return false;
+  //   if (venue.maxGuests > filters.maxGuests) return false;
+  //   return true;
+  // });
+
+  // Debounce dispatch
+
+  const debounceUpdateSearchFilterResults = useCallback(
+    debounce((filteredVenues) => {
+      dispatch(updateSearchFilterResults(filteredVenues));
+    }, 300),
+    [dispatch]
+  );
 
   useEffect(() => {
-    dispatch(updateSearchFilterResults(filteredVenues));
-  }, [filteredVenues, dispatch]);
+    debounceUpdateSearchFilterResults(filteredVenues);
+  }, [filteredVenues, debounceUpdateSearchFilterResults]);
+
+  // console.log("Filtered venues::", filteredVenues);
+
+  // useEffect(() => {
+  //   dispatch(updateSearchFilterResults(filteredVenues));
+  // }, [filteredVenues, dispatch]);
 
   const handleClear = () => {
     dispatch(setPrice([minPrice, maxPrice]));
