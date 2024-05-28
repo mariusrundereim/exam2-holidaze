@@ -1,6 +1,6 @@
 import VenuesCard from "../../../components/cards/VenuesCard";
 import { useSelector } from "react-redux";
-import { Grid, Title } from "@mantine/core";
+import { Grid, Title, Text } from "@mantine/core";
 import VenueSkeleton from "../../../components/ui/skeleton";
 const filterVenuesByPetsAllowed = (venues, allowPets) => {
   return venues.filter((venue) => venue.meta.pets === allowPets);
@@ -18,7 +18,8 @@ function VenuesWithPets() {
   return (
     <Grid>
       <Grid.Col>
-        <Title order={3}>Pets</Title>
+        <Title order={3}>You and your lovely pets</Title>
+        <Text>Venues accepting your pets</Text>
       </Grid.Col>
 
       {venuesPets.map((venue) => (

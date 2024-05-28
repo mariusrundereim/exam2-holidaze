@@ -73,3 +73,12 @@ npm run dev --open
 
 - Venue manager can only create a venue.
 - Customer can only book on a venue.
+
+## Extra features
+
+- Home: Venues filtered dynamically for next national day (Norway, Sweden, Denmark, Finland)
+- Home: Venues filter customer with small budget
+- Home: Venues filter customer with family size and picky teenagers who require internet connection
+- Home: Venues filter customer travel with pets
+- Create venue: Autoselect country by selecting city
+- Format the date and currency to Norwegian
