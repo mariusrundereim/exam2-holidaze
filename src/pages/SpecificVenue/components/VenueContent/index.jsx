@@ -14,17 +14,17 @@ function VenueContent({ venue }) {
         <Grid.Col>
           <VenueDisplay venue={venue} />
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
           <DescriptionVenue venue={venue} />
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
           <DetailsVenue venue={venue} />
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
           <LocationDisplay location={location} />
         </Grid.Col>
 
-        <Grid.Col>
+        <Grid.Col span={{ base: 12, md: 6 }}>
           <AmenitiesDisplay meta={meta} />
         </Grid.Col>
         <Grid.Col>
