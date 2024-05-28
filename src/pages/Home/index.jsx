@@ -14,18 +14,18 @@ function Home() {
   }, [dispatch]);
   return (
     <>
-      <Grid gutter={"xl"}>
+      <Grid>
         <Grid.Col>
           <VenuesInSweden />
         </Grid.Col>
-        <Grid.Col>
+        <Grid.Col my={40}>
           <VenuesWithPets />
+        </Grid.Col>
+        <Grid.Col my={40}>
+          <VenuesByFamilyCity />
         </Grid.Col>
         <Grid.Col>
           <VenuesBySmallPrice />
-        </Grid.Col>
-        <Grid.Col>
-          <VenuesByFamilyCity />
         </Grid.Col>
       </Grid>
     </>

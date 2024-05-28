@@ -1,7 +1,12 @@
-import { Grid, Title } from "@mantine/core";
+import { Grid, Title, Text } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
 import { useSelector } from "react-redux";
 import VenueSkeleton from "../../../components/ui/skeleton";
+import {
+  getNextNationalDay,
+  nationalDays,
+} from "../../../utils/venue/nationalDays";
+import { isWithinTwoWeeksBefore } from "../../../utils/venue/weekBeforeCheck";
 
 const filterVenuesByCountry = (venues, country) => {
   return venues.filter((venue) => venue.location.country === country);
@@ -10,7 +15,7 @@ const filterVenuesByCountry = (venues, country) => {
 function VenuesInSweden() {
   const loading = useSelector((state) => state.venues.loading);
   const allVenuesList = useSelector((state) => state.venues.allVenuesList);
-  const venuesInSweden = filterVenuesByCountry(allVenuesList, "Sweden");
+  // const venuesInSweden = filterVenuesByCountry(allVenuesList, "Sweden");
 
   if (loading === "loading") {
     return <VenueSkeleton />;
@@ -20,6 +25,7 @@ function VenuesInSweden() {
       <Grid>
         <Grid.Col>
           <Title order={3}>Take a vacation in Sweden</Title>
+          <Text>Celebrate the national day!</Text>
         </Grid.Col>
 
         {venuesInSweden.map((venue) => (
