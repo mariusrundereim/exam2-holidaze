@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   clearSearchResults,
   searchVenues,
+  clearFilteredVenues,
 } from "../../store/venues/venueSlice";
 import { useDisclosure } from "@mantine/hooks";
 import FilterVenues from "./filterCopy/filterVenues";
@@ -24,6 +25,7 @@ function SearchVenues() {
   const handleClear = () => {
     setQuery("");
     dispatch(clearSearchResults());
+    dispatch(clearFilteredVenues());
   };
 
   const handleChange = (event) => {

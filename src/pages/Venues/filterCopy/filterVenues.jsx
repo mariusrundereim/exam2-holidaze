@@ -37,8 +37,9 @@ function FilterVenues() {
   const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
   const maxPrice = prices.length > 0 ? Math.max(...prices) : 1000;
 
+  // Initialize price filter to span the full range on initial load
   useEffect(() => {
-    if (filters.price[0] !== minPrice || filters.price[1] !== maxPrice) {
+    if (filters.price[0] < minPrice || filters.price[1] > maxPrice) {
       dispatch(setPrice([minPrice, maxPrice]));
     }
   }, [minPrice, maxPrice, filters.price, dispatch]);
@@ -46,6 +47,7 @@ function FilterVenues() {
   // Filter venues based on the filters in the state
 
   const filteredVenues = useMemo(() => {
+    if (!searchResults) return [];
     return searchResults.filter((venue) => {
       const withinPriceRange =
         venue.price >= filters.price[0] && venue.price <= filters.price[1];
@@ -101,8 +103,6 @@ function FilterVenues() {
   useEffect(() => {
     debounceUpdateSearchFilterResults(filteredVenues);
   }, [filteredVenues, debounceUpdateSearchFilterResults]);
-
-  // console.log("Filtered venues::", filteredVenues);
 
   const handleClear = () => {
     dispatch(clearFilters());

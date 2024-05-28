@@ -213,6 +213,10 @@ const venueSlice = createSlice({
     },
     clearSearchResults: (state) => {
       state.searchVenues = [];
+      state.filteredVenues = [];
+    },
+    clearFilteredVenues: (state) => {
+      state.searchFilterResults = [];
     },
     filteredVenuesUpdated: (state, action) => {
       state.filteredVenues = action.payload;
@@ -333,6 +337,7 @@ export const {
   setParkingChecked,
   // Check reducers
   updateSearchFilterResults,
+  clearFilteredVenues,
   clearSelectedVenue,
   clearSearchResults,
   filteredVenuesUpdated,
