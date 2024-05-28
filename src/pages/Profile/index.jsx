@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchProfileByName } from "../../store/profile/profileSlice";
 import ProfileHeader from "./profileHeader";
-import VenueManagerSection from "./VenueManager";
-import CustomerSection from "./Customer";
-import ProfileStatsDisplay from "./Stats";
+import { Container } from "@mantine/core";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -19,8 +17,9 @@ function ProfilePage() {
 
   return (
     <>
-      <ProfileHeader />
-      <ProfileStatsDisplay />
+      <Container>
+        <ProfileHeader />
+      </Container>
     </>
   );
 }
