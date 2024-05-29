@@ -3,7 +3,9 @@ import CustomerBookingCard from "../../../components/cards/CustomerBookingCard";
 function CustomerListBookings({ bookings }) {
   return (
     <>
-      <Title>Your Upcoming booking </Title>
+      <Title order={3} mb={20}>
+        Your Upcoming booking
+      </Title>
       <Grid>
         {bookings.map((booking) => (
           <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>

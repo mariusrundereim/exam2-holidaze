@@ -265,6 +265,7 @@ const venueSlice = createSlice({
       })
       .addCase(fetchVenueById.pending, (state) => {
         state.loading = "loading";
+        state.error = null;
       })
       .addCase(fetchVenueById.fulfilled, (state, action) => {
         state.selectedVenue = action.payload.data;
