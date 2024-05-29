@@ -7,7 +7,6 @@ import DetailsVenue from "./detailsDisplay";
 import DescriptionVenue from "./descDisplay";
 function VenueContent({ venue }) {
   const { name, location, meta } = venue;
-  console.log("vvv", venue);
   return (
     <>
       <Grid gutter={{ base: 60, md: 60, sm: 20 }}>

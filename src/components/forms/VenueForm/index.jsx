@@ -298,16 +298,18 @@ function VenueForm() {
                     <Controller
                       name={`media[${index}].url`}
                       control={control}
-                      render={({ field }) => (
+                      rules={{ required: "URL is required" }} // Add required rule with a message
+                      render={({ field, fieldState: { error } }) => (
                         <Input.Wrapper label={`Picture URL #${index + 1}`}>
                           <Input
                             leftSection={<IconPhoto size={20} />}
+                            placeholder="Enter media URL"
                             {...field}
                           />
+                          {error && <Text>{error.message}</Text>}
                         </Input.Wrapper>
                       )}
                     />
-
                     <Button
                       variant="outline"
                       color="red"
@@ -336,7 +338,7 @@ function VenueForm() {
                   />
                 </Grid.Col>
                 <Grid.Col>
-                  {index === fields.length - 1 && fields.length < 10 && (
+                  {index === fields.length - 1 && fields.length < 6 && (
                     <Grid.Col span={12}>
                       <Button onClick={() => append({ url: "", alt: "" })}>
                         Add media
