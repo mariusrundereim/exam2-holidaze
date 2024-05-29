@@ -12,6 +12,7 @@ import venueFilterMiddleware from "./middleware/venueFilterMiddleware";
 import venueFilteringMiddleware from "./middleware/venueFilterMiddleware";
 import profileFilteringMiddleware from "./middleware/profileFilterMiddleware";
 import profilesSlice from "./profiles/profilesSlice";
+import secretWordMiddleware from "./middleware/secretWordMiddleware";
 const persistConfig = {
   key: "root",
   storage,

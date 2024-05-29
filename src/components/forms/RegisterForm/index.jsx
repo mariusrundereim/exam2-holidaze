@@ -47,7 +47,7 @@ function RegisterForm({ onSuccess }) {
       venueManager: checked,
     };
 
-    console.log("Processed data for submission:", processedData);
+    // console.log("Processed data for submission:", processedData);
     try {
       await dispatch(register(processedData)).unwrap();
       onSuccess();
