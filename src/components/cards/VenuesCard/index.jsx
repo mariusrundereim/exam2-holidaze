@@ -1,4 +1,4 @@
-import { Card, Image, Title, Text, Group, Grid } from "@mantine/core";
+import { Card, Image, Title, Text, Group, Grid, Chip } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { formattedDate } from "../../../utils/format/dateFormat";
 import formatCurrency from "../../../utils/format/currencyFormat";

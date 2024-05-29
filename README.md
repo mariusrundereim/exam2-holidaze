@@ -1,5 +1,7 @@
 # Holidaze Exam
 
+![Holidaze Cover](/src/assets/holidaze-cover.png)
+
 ## Brief
 
 A newly launched accommodation booking site called Holidaze has approached you to develop a brand new front end for their application. While they have a list of required features, the design and user experience has not been specified. Working with the official API documentation, plan, design and build a modern front end accommodation booking application.
