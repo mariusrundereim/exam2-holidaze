@@ -1,6 +1,6 @@
 # Holidaze Exam
 
-![Tux, the Linux mascot](/assets/images/tux.png)
+![Holidaze Cover](/src/assets/holidaze-cover.png)
 
 ## Brief
 
