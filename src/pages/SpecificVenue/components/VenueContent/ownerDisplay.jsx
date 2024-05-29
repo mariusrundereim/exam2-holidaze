@@ -1,23 +1,19 @@
-import {
-  Avatar,
-  Flex,
-  Title,
-  Text,
-  Paper,
-  Grid,
-  Card,
-  Badge,
-  Stack,
-} from "@mantine/core";
+import { Avatar, Title, Text, Grid, Group } from "@mantine/core";
 function OwnerDisplay({ venue }) {
   const { name, avatar } = venue.owner;
   return (
     <>
-      <Card withBorder>
-        <Avatar src={avatar.url} alt={avatar.alt} />
-        <Text fw={600}>{name}</Text>
-        <Badge>Owner</Badge>
-      </Card>
+      <Grid>
+        <Grid.Col>
+          <Title order={4} mb={10}>
+            Venue owner
+          </Title>
+          <Group>
+            <Avatar src={avatar.url} alt={avatar.alt} />
+            <Text>{name}</Text>
+          </Group>
+        </Grid.Col>
+      </Grid>
     </>
   );
 }

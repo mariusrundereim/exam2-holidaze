@@ -15,13 +15,13 @@ function Home() {
     <>
       <Grid>
         <Grid.Col>
-          <VenuesNationalDay />
+          <VenuesByFamilyCity />
         </Grid.Col>
         <Grid.Col my={40}>
           <VenuesWithPets />
         </Grid.Col>
         <Grid.Col my={40}>
-          <VenuesByFamilyCity />
+          <VenuesNationalDay />
         </Grid.Col>
         <Grid.Col>
           <VenuesBySmallPrice />

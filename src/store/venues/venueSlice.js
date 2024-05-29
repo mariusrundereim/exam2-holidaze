@@ -235,12 +235,12 @@ const venueSlice = createSlice({
     },
     clearFilters: (state) => {
       state.filters = {
-        price: 1000,
+        price: [0, 20000],
         maxGuests: 99,
-        wifi: false,
-        pets: false,
-        breakfast: false,
-        parking: false,
+        wifi: { checked: false, value: true },
+        pets: { checked: false, value: true },
+        breakfast: { checked: false, value: true },
+        parking: { checked: false, value: true },
       };
     },
     clearSelectedVenue(state) {
@@ -265,6 +265,7 @@ const venueSlice = createSlice({
       })
       .addCase(fetchVenueById.pending, (state) => {
         state.loading = "loading";
+        state.error = null;
       })
       .addCase(fetchVenueById.fulfilled, (state, action) => {
         state.selectedVenue = action.payload.data;

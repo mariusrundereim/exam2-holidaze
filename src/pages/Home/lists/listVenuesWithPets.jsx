@@ -18,8 +18,8 @@ function VenuesWithPets() {
   return (
     <Grid>
       <Grid.Col>
-        <Title order={3}>You and your lovely pets</Title>
-        <Text>Venues accepting your pets</Text>
+        <Title order={3}>Pet-Friendly Places</Title>
+        <Text>Welcoming venues for you and your pets</Text>
       </Grid.Col>
 
       {venuesPets.map((venue) => (

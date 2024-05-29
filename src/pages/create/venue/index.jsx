@@ -1,10 +1,15 @@
 import VenueForm from "../../../components/forms/VenueForm";
+import { Container, Title } from "@mantine/core";
 
 function CreateVenue() {
   return (
     <>
-      <h2>Create a venue</h2>
-      <VenueForm />
+      <Container>
+        <Title order={3} mb={20}>
+          Create venue
+        </Title>
+        <VenueForm />
+      </Container>
     </>
   );
 }
