@@ -33,6 +33,7 @@ function NavLinksBar() {
               onClick={handleLogout}
               leftSection={<IconLogout size={24} />}
               className={classes.logoutButton}
+              fullWidth
             >
               Logout
             </Button>
