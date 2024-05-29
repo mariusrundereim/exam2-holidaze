@@ -15,6 +15,10 @@ const profilesInitialState = {
     "SveinTore24",
     "AinoLaine", // Finnish user
     "HannePedersen", // Danish user
+    "JesperKristensen", // Danish user
+    "JosefineBeck", // Swedish user
+    "ludvigmarius",
+    "eivingmarius",
   ],
   loading: false,
   error: null,
