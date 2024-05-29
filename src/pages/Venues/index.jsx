@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { fetchVenues } from "../../store/venues/venueSlice";
-import { Grid } from "@mantine/core";
+import { Grid, Center } from "@mantine/core";
 import ListVenues from "./listVenues";
 import SearchVenues from "./searchVenues";
 import VenueSkeleton from "../../components/ui/skeleton";
@@ -34,8 +34,8 @@ function VenuesListPage() {
 
   return (
     <>
-      <Grid>
-        <Grid.Col>
+      <Grid justify="center">
+        <Grid.Col span={6}>
           <SearchVenues />
         </Grid.Col>
       </Grid>

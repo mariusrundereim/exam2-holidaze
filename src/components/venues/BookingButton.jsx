@@ -14,6 +14,7 @@ import useNotification from "../ui/Notification";
 function BookingButton({ venueId }) {
   const navigate = useNavigate();
   const loggedIn = useSelector((state) => isLoggedIn(state));
+  const venueManager = useSelector((state) => state.profile.venueManager);
   const { showNotification, NotificationComponent } = useNotification();
 
   const handleClick = () => {
@@ -25,7 +26,9 @@ function BookingButton({ venueId }) {
   };
   return (
     <>
-      <Button onClick={handleClick}>Book this Venue</Button>
+      <Button onClick={handleClick} disabled={venueManager}>
+        Book this Venue
+      </Button>
       <NotificationComponent />
     </>
   );
