@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Grid, Title, Text } from "@mantine/core";
+import { Grid, Title, Text, Chip, Group } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
 import VenueSkeleton from "../../../components/ui/skeleton";
 
@@ -11,7 +11,13 @@ const filterVenues = (venues) => {
 
     const isWithinGuestRange = maxGuests >= 4 && maxGuests <= 8;
     const hasRequiredAmenities = wifi && parking && breakfast;
-    const isInPreferredCity = ["Oslo", "Bergen", "Stavanger"].includes(city);
+    const isInPreferredCity = [
+      "Oslo",
+      "Bergen",
+      "Stavanger",
+      "Kristiansand",
+      "Trondheim",
+    ].includes(city);
 
     return isWithinGuestRange && hasRequiredAmenities && isInPreferredCity;
   });
@@ -31,6 +37,19 @@ function VenuesByFamilyCity() {
         <Grid.Col>
           <Title order={3}>Family trip to a Norwegian city</Title>
           <Text>Take a weekend trip to a big city in Norway</Text>
+        </Grid.Col>
+        <Grid.Col>
+          <Group gap="xs">
+            <Chip defaultChecked size="xs" radius="sm">
+              4-8 guests
+            </Chip>
+            <Chip defaultChecked size="xs" radius="sm">
+              Wifi, Parking, Breakfast
+            </Chip>
+            <Chip defaultChecked size="xs" radius="sm">
+              Oslo, Bergen, Kristiansand, Trondheim
+            </Chip>
+          </Group>
         </Grid.Col>
 
         {filteredVenues.map((venue) => (
