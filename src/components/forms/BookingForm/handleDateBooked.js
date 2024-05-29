@@ -11,13 +11,13 @@ export const handleDateBooked = (date, bookedDates) => {
     isBefore(date, today) ||
     bookedDates.some(({ dateFrom, dateTo }) => {
       if (!isValid(dateFrom) || !isValid(dateTo)) {
-        console.error("Invalid dateFrom or dateTo");
+        // console.error("Invalid dateFrom or dateTo");
         return false;
       }
       let start = dateFrom;
       let end = dateTo;
       if (isAfter(dateFrom, dateTo)) {
-        console.warn("dateFrom is after dateTo, swapping dates");
+        // console.warn("dateFrom is after dateTo, swapping dates");
         start = dateTo;
         end = dateFrom;
       }

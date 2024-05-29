@@ -22,45 +22,41 @@ const venuesInitialState = {
   searchQuery: "",
 };
 
-export const fetchVenues = createAsyncThunk(
-  "venues/fetchVenues",
-  async (_, { rejectWithValue }) => {
-    const fetchPage = async (page) => {
-      const response = await fetch(
-        `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
-        { headers: getAuthHeaders() }
-      );
+export const fetchVenues = createAsyncThunk("venues/fetchVenues", async () => {
+  const fetchPage = async (page) => {
+    const response = await fetch(
+      `${BASE_URL}/venues?page=${page}&sort=created&sortOrder=desc&_owner=true&_bookings=true`,
+      { headers: getAuthHeaders() }
+    );
 
-      if (!response.ok) {
-        throw new Error("Server responded with an error");
-      }
-
-      return await response.json();
-    };
-
-    try {
-      let allVenues = [];
-      let page = 1;
-      let isLastPage = false;
-      let lastMeta = {};
-
-      while (!isLastPage) {
-        const data = await fetchPage(page);
-        if (data.data) {
-          allVenues = [...allVenues, ...data.data];
-          lastMeta = data.meta;
-        }
-        isLastPage = data.meta.isLastPage;
-        page += 1;
-      }
-
-      return { data: allVenues, meta: lastMeta };
-    } catch (error) {
-      console.error("Error fetching venues:", error);
-      return rejectWithValue(error.message);
+    if (!response.ok) {
+      throw new Error("Server responded with an error");
     }
+
+    return await response.json();
+  };
+
+  try {
+    let allVenues = [];
+    let page = 1;
+    let isLastPage = false;
+    let lastMeta = {};
+
+    while (!isLastPage) {
+      const data = await fetchPage(page);
+      if (data.data) {
+        allVenues = [...allVenues, ...data.data];
+        lastMeta = data.meta;
+      }
+      isLastPage = data.meta.isLastPage;
+      page += 1;
+    }
+
+    return { data: allVenues, meta: lastMeta };
+  } catch (error) {
+    console.error("Error fetching venues:", error);
   }
-);
+});
 
 export const fetchVenueById = createAsyncThunk(
   "venues/fetchVenueById",
