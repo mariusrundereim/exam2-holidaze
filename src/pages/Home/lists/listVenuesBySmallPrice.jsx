@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Grid, Title, Text } from "@mantine/core";
+import { Grid, Title, Text, Chip, Group } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
 import VenueSkeleton from "../../../components/ui/skeleton";
 
@@ -21,6 +21,11 @@ function VenuesBySmallPrice() {
         <Grid.Col>
           <Title order={3}>Small budget friendly</Title>
           <Text>Stay on a good venue with small budget.</Text>
+        </Grid.Col>
+        <Grid.Col>
+          <Chip defaultChecked size="xs" radius="sm">
+            Below 300 NOK
+          </Chip>
         </Grid.Col>
 
         {venuesByPrice.map((venue) => (

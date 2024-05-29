@@ -12,7 +12,6 @@ function DescriptionVenue({ venue }) {
           <Text>{description}</Text>
         </Grid.Col>
       </Grid>
-      <p>Descc</p>
     </>
   );
 }

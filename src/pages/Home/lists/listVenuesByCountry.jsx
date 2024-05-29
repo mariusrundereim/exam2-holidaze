@@ -1,4 +1,4 @@
-import { Grid, Title, Text } from "@mantine/core";
+import { Grid, Title, Text, Chip, Group } from "@mantine/core";
 import VenuesCard from "../../../components/cards/VenuesCard";
 import { useSelector } from "react-redux";
 import VenueSkeleton from "../../../components/ui/skeleton";
@@ -34,6 +34,22 @@ function VenuesNationalDay() {
         <Grid.Col>
           <Title order={3}>Celebrate the upcoming national day!</Title>
           <Text>Take a vacation in {nextCountry}</Text>
+        </Grid.Col>
+        <Grid.Col>
+          <Group gap="xs">
+            <Chip defaultChecked size="xs" radius="sm">
+              Norway
+            </Chip>
+            <Chip defaultChecked size="xs" radius="sm">
+              Sweden
+            </Chip>
+            <Chip defaultChecked size="xs" radius="sm">
+              Denmark
+            </Chip>
+            <Chip defaultChecked size="xs" radius="sm">
+              Finland
+            </Chip>
+          </Group>
         </Grid.Col>
 
         {venuesForNextNationalDay.map((venue) => (
