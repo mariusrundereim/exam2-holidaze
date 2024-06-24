@@ -89,4 +89,8 @@ npm run dev --open
 
 Check out the application on Netlify
 
-[Holidaze](https://holidaze-exam2.netlify.app/)
+[Netlify](https://holidaze-exam2.netlify.app/)
+
+Watch Figma file
+
+[Figma](https://www.figma.com/design/0767b34ttNQBcZs8xm7IPl/Exam-2---Holidaze?node-id=3-33&t=IPxXAAR1RgDoSjKD-1)
