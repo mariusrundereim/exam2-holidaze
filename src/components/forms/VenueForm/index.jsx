@@ -313,19 +313,7 @@ function VenueForm() {
             <Grid gutter={40}>
               {/* Step 2 - Location */}
               <Grid.Col span={{ base: 12, sm: 6 }}>
-                <Stack>
-                  <SelectCityAndCountry control={control} setValue={setValue} />
-                  <Controller
-                    name="location.address"
-                    control={control}
-                    rules={{ required: false }}
-                    render={({ field }) => (
-                      <Input.Wrapper label="Address">
-                        <Input {...field} placeholder="Address" />
-                      </Input.Wrapper>
-                    )}
-                  />
-                </Stack>
+                <SelectCityAndCountry control={control} setValue={setValue} />
               </Grid.Col>
             </Grid>
           </Stepper.Step>
@@ -343,7 +331,7 @@ function VenueForm() {
                         <Controller
                           name={`media[${index}].url`}
                           control={control}
-                          rules={{ required: "URL is required" }} // Add required rule with a message
+                          rules={{ required: "URL is required" }}
                           render={({ field, fieldState: { error } }) => (
                             <Input.Wrapper label={`Picture URL #${index + 1}`}>
                               <Input
