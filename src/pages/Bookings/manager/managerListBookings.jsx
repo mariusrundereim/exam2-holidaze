@@ -1,4 +1,4 @@
-import { Grid, Title, Text, Card, Container, Button } from "@mantine/core";
+import { Grid, Title, Text, Card, Container } from "@mantine/core";
 import VenueManagerBookingCard from "../../../components/cards/VenueManagerBookingCard";
 function VenueManagerBookings({ bookings }) {
   return (
@@ -15,7 +15,8 @@ function VenueManagerBookings({ bookings }) {
                 <Text>
                   {venue.location.address} - {venue.location.city}
                 </Text>
-
+              </Card>
+              <Card withBorder>
                 {venue.bookings.length > 0 ? (
                   <Grid mt="md">
                     {venue.bookings.map((booking) => (

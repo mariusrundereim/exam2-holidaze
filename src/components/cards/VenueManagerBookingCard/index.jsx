@@ -20,7 +20,7 @@ function VenueManagerBookingCard({ booking }) {
 
   return (
     <>
-      <Card shadow="sm" p="lg" withBorder>
+      <Card p="lg" withBorder>
         <Card.Section p={10}>
           <Grid>
             <Grid.Col>
