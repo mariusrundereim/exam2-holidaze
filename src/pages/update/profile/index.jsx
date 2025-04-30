@@ -1,10 +1,12 @@
 import ProfileUpdateForm from "../../../components/forms/ProfileUpdateForm";
-
+import { Container } from "@mantine/core";
 function ProfileInfoUpdate() {
   return (
     <>
-      <h2>Settings</h2>
-      <ProfileUpdateForm />
+      <Container>
+        <h2>Settings</h2>
+        <ProfileUpdateForm />
+      </Container>
     </>
   );
 }

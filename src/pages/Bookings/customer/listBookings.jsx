@@ -1,4 +1,4 @@
-import { Grid, Title, Text, Loader, Center } from "@mantine/core";
+import { Grid, Title, Text, Loader, Center, Container } from "@mantine/core";
 import CustomerBookingCard from "../../../components/cards/CustomerBookingCard";
 import { useSelector } from "react-redux";
 
@@ -15,21 +15,23 @@ function CustomerListBookings({ bookings }) {
 
   return (
     <>
-      <Title order={3} mb={20}>
-        Your Upcoming bookings
-      </Title>
+      <Container>
+        <Title order={3} mb={20}>
+          Your Upcoming bookings
+        </Title>
 
-      {bookings.length === 0 ? (
-        <Text>You have no upcoming bookings.</Text>
-      ) : (
-        <Grid>
-          {bookings.map((booking) => (
-            <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={booking.id}>
-              <CustomerBookingCard venue={booking} />
-            </Grid.Col>
-          ))}
-        </Grid>
-      )}
+        {bookings.length === 0 ? (
+          <Text>You have no upcoming bookings.</Text>
+        ) : (
+          <Grid>
+            {bookings.map((booking) => (
+              <Grid.Col span={{ base: 12, md: 6, lg: 6 }} key={booking.id}>
+                <CustomerBookingCard venue={booking} />
+              </Grid.Col>
+            ))}
+          </Grid>
+        )}
+      </Container>
     </>
   );
 }
