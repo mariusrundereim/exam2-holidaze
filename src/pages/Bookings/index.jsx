@@ -12,6 +12,7 @@ function BookingPage() {
   const venueManager = useSelector((state) => state.profile.venueManager);
   const yourBookings = useSelector((state) => state.profile.bookings);
   const venueBookings = useSelector((state) => state.venues.myCreatedVenues);
+  const bookingLoading = useSelector((state) => state.booking.loading);
 
   useEffect(() => {
     if (profileName) {
@@ -21,7 +22,7 @@ function BookingPage() {
         dispatch(getBookingsByProfile(profileName));
       }
     }
-  }, [profileName, venueManager, dispatch]);
+  }, [profileName, venueManager, dispatch, bookingLoading]);
 
   if (venueManager) {
     return <VenueManagerBookings bookings={venueBookings} />;
@@ -30,24 +31,3 @@ function BookingPage() {
 }
 
 export default BookingPage;
-
-// import { useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getBookingsByProfile } from "../../store/profile/profileSlice";
-// import ListBookings from "./listBookings";
-
-// function BookingPage() {
-//   const dispatch = useDispatch();
-
-//   const profileName = useSelector((state) => state.profile.name);
-//   const yourBookings = useSelector((state) => state.profile.bookings);
-
-//   useEffect(() => {
-//     if (profileName) {
-//       dispatch(getBookingsByProfile(profileName));
-//     }
-//   }, [profileName, dispatch]);
-//   return <ListBookings bookings={yourBookings} />;
-// }
-
-// export default BookingPage;
